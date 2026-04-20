@@ -1,0 +1,104 @@
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}
+
+.main_section {
+  margin: 20px;
+}
+
+.grid_container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 140px;
+  gap: 20px;
+}
+
+.first_row_item_wrapper {
+  grid-column: span 3;
+  background-color: #1f2a40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.first_row_item_container {
+  width: 100%;
+  margin: 0 30px;
+}
+
+.first_row_item_content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  font-size: 18px;
+}
+
+.first_row_item_content .about {
+  color: #70d89d;
+}
+
+.agent_performance_table {
+  grid-column: span 8;
+  grid-row: span 2;
+  background-color: #1f2a40;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.agent_performance_table h6 {
+  margin: 10px;
+  color: #70d89d;
+  text-align: center;
+}
+
+.agent_performance_table::-webkit-scrollbar {
+  display: none;
+}
+
+.agent_performance_table .table td,
+.agent_performance_table .table th {
+  background-color: #1f2a40;
+  color: #ffffff;
+  border-bottom: 1px solid #141b2d;
+}
+
+.agent_performance_table .table td,
+.agent_performance_table .table th {
+  border-bottom: 1px solid #141b2d;
+}
+
+.agent_performance_pie_chart {
+  grid-column: span 4;
+  grid-row: span 2;
+  background-color: #1f2a40;
+  overflow: auto;
+}
+
+.agent_performance_bar_chart {
+  grid-column: span 6;
+  grid-row: span 2;
+  background-color: #1f2a40;
+}
+
+.agent_performance_line_chart {
+  grid-column: span 6;
+  grid-row: span 2;
+  background-color: #1f2a40;
+}
+
+.bar_chart,
+.pie_chart,
+.line_chart {
+  width: 100% !important;
+  height: 100% !important;
+  color: #ffffff;
+}

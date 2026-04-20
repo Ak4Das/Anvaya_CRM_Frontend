@@ -1,0 +1,164 @@
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}
+
+.main_section {
+  margin: 20px;
+}
+
+.heading {
+  margin-bottom: 30px;
+}
+
+.heading .text1 {
+  font-size: 32px;
+  line-height: 1.2;
+  color: #e0e0e0;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+}
+
+.heading .text2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.334;
+  color: #70d8bd;
+}
+
+.table_wrapper {
+  margin: 40px 0 0 0;
+  height: 75vh;
+}
+
+.table_container {
+  position: relative;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.43;
+  outline: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  background-color: #1f2a40;
+}
+
+.table td,
+.table th {
+  background-color: transparent;
+  color: #ffffff;
+  border-bottom: 1px solid #293752;
+}
+
+.table th,
+.table td {
+  padding: 15px;
+}
+
+.table thead tr {
+  background-color: #3e4396;
+}
+
+.col {
+  position: relative;
+}
+
+.col i {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  text-align: center;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.col i:hover {
+  background-color: #141b2d;
+  border-radius: 50%;
+}
+
+.filter {
+  width: 400px;
+  background-color: #2d3647;
+  padding: 25px;
+  position: absolute;
+  z-index: 1;
+  border-radius: 10px;
+  top: 10px;
+  left: 10px;
+}
+
+.filter .form_label {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.filter .input {
+  background-color: #141b2d !important;
+  color: #ffffff;
+}
+
+.close {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.close:hover {
+  background-color: #141b2d;
+}
+
+.vertical_three_dot_icon {
+  position: relative;
+}
+
+.filter_btn_container {
+  width: 110px;
+  background-color: #141b2d;
+  position: absolute;
+  top:40px;
+  left:0px;
+  z-index: 1;
+  font-size: 12px;
+  padding: 5px;
+  font-style: normal;
+}
+
+.button {
+  width: 100%;
+  font-size: 12px !important;
+  color:#ffffff;
+  padding: 12px 12px;
+}
+
+.button:hover {
+  background-color: #1F2A40;
+}
+
+.filter_btn_container_email {
+  top:40px;
+  left:-90px;
+}
