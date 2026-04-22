@@ -2,7 +2,7 @@ import styles from "../style_modules/page_modules/Team.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useState } from "react"
-import agents from "../data.js"
+import agents from "../agentData.js"
 
 export default function TeamContactInfo() {
   const [idBtnClicked, setIdBtnClick] = useState(false)

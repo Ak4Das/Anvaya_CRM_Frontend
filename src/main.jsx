@@ -10,6 +10,8 @@ import Team from "./pages/Team.jsx"
 import TeamContactInfo from "./pages/TeamContactInfo.jsx"
 import AddAgent from "./pages/AddAgent.jsx"
 import SalesInfo from "./pages/SalesInfo.jsx"
+import Leads from "./pages/Leads.jsx"
+import AddLead from "./pages/AddLead.jsx"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -17,6 +19,8 @@ const router = createBrowserRouter([
   { path: "/teamContact", element: <TeamContactInfo /> },
   { path: "/addAgent", element: <AddAgent /> },
   { path: "/sales", element: <SalesInfo /> },
+  { path: "/leads", element: <Leads /> },
+  { path: "/addLead", element: <AddLead /> },
 ])
 
 createRoot(document.getElementById("root")).render(

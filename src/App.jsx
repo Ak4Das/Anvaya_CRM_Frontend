@@ -8,7 +8,7 @@ import { useTheme } from "styled-components"
 import SideBar from "./components/SideBar.jsx"
 import NavBar from "./components/NavBar.jsx"
 import { barChart, lineChart, pieChart } from "./chart.js"
-import agents from "./data.js"
+import agents from "./agentData.js"
 import { sortAgentsArrayByProperty } from "./functions.js"
 
 const sortAgentsByPerformanceScore = sortAgentsArrayByProperty(

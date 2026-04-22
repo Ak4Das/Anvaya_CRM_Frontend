@@ -2,20 +2,19 @@ import styles from "../style_modules/page_modules/Team.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
-import agents from "../agentData.js"
+import leadsData from "../leadData.js"
 import { Link } from "react-router-dom"
 
-export default function Team() {
+export default function Leads() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
   const [nameBtnClicked, setNameBtnClick] = useState(false)
-  const [roleBtnClicked, setRollBtnClick] = useState(false)
-  const [statusBtnClicked, setStatusBtnClicked] = useState(false)
-  const [joinedDateBtnClicked, setJoinedDateBtnClicked] = useState(false)
-  const [departmentBtnClicked, setDepartmentBtnClick] = useState(false)
-  const [managerBtnClicked, setManagerBtnClick] = useState(false)
-  const [locationBtnClicked, setLocationBtnClick] = useState(false)
-  const [performanceScoreBtnClicked, setPerformanceScoreBtnClick] =
-    useState(false)
+  const [sourceBtnClicked, setSourceBtnClick] = useState(false)
+  const [salesAgentBtnClicked, setSalesAgentBtnClick] = useState(false)
+  const [statusBtnClicked, setStatusBtnClick] = useState(false)
+  const [tagsBtnClicked, setTagsBtnClick] = useState(false)
+  const [priorityBtnClicked, setPriorityBtnClick] = useState(false)
+  const [timeToCloseBtnClicked, setTimeToCloseBtnClick] = useState(false)
+  const [closedAtBtnClicked, setClosedAtBtnClick] = useState(false)
   const [openFilterInput, setOpenFilterInput] = useState("")
 
   return (
@@ -27,10 +26,15 @@ export default function Team() {
           <section className={`${styles.main_section}`}>
             <div className={`${styles.heading_container}`}>
               <div className={`${styles.heading}`}>
-                <h2 className={`${styles.text1}`}>Team</h2>
-                <h5 className={`${styles.text2}`}>The Team Members</h5>
+                <h2 className={`${styles.text1}`}>Leads</h2>
+                <h5 className={`${styles.text2}`}>The Potential Customers</h5>
               </div>
-              <Link to="/addAgent" className={`btn btn-outline-success ${styles.add_people_btn}`}>Add New Agent</Link>
+              <Link
+                to="/addLead"
+                className={`btn btn-outline-success ${styles.add_people_btn}`}
+              >
+                Add New Lead
+              </Link>
             </div>
             <div className={`${styles.table_wrapper}`}>
               <div className={`${styles.table_container}`}>
@@ -63,13 +67,13 @@ export default function Team() {
                           onClick={() => {
                             setIdBtnClick(idBtnClicked ? false : true)
                             setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
                           {idBtnClicked && (
@@ -94,13 +98,13 @@ export default function Team() {
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(nameBtnClicked ? false : true)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
                           {nameBtnClicked && (
@@ -125,22 +129,22 @@ export default function Team() {
                         </i>
                       </th>
                       <th className={`${styles.col}`} scope="col">
-                        <span>Role</span>
+                        <span>Source</span>
                         <i
                           className="bi bi-three-dots-vertical"
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
-                            setRollBtnClick(roleBtnClicked ? false : true)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
+                            setSourceBtnClick(sourceBtnClicked ? false : true)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
-                          {roleBtnClicked && (
+                          {sourceBtnClicked && (
                             <div className={`${styles.filter_btn_container}`}>
                               <div className={`btn ${styles.button}`}>
                                 Unsort
@@ -153,7 +157,46 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${styles.button}`}
-                                onClick={() => setOpenFilterInput("Role")}
+                                onClick={() => setOpenFilterInput("Source")}
+                              >
+                                Filter
+                              </div>
+                            </div>
+                          )}
+                        </i>
+                      </th>
+                      <th className={`${styles.col}`} scope="col">
+                        <span>Sales Agent</span>
+                        <i
+                          className="bi bi-three-dots-vertical"
+                          onClick={() => {
+                            setIdBtnClick(false)
+                            setNameBtnClick(false)
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(
+                              salesAgentBtnClicked ? false : true,
+                            )
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
+                          }}
+                        >
+                          {salesAgentBtnClicked && (
+                            <div className={`${styles.filter_btn_container}`}>
+                              <div className={`btn ${styles.button}`}>
+                                Unsort
+                              </div>
+                              <div className={`btn ${styles.button}`}>
+                                Sort by ASC
+                              </div>
+                              <div className={`btn ${styles.button}`}>
+                                Sort by DESC
+                              </div>
+                              <div
+                                className={`btn ${styles.button}`}
+                                onClick={() => setOpenFilterInput("Sales Agent")}
                               >
                                 Filter
                               </div>
@@ -168,13 +211,13 @@ export default function Team() {
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(statusBtnClicked ? false : true)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(statusBtnClicked ? false : true)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
                           {statusBtnClicked && (
@@ -190,47 +233,8 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${styles.button}`}
-                                onClick={() => setOpenFilterInput("Status")}
-                              >
-                                Filter
-                              </div>
-                            </div>
-                          )}
-                        </i>
-                      </th>
-                      <th className={`${styles.col}`} scope="col">
-                        <span>Joined Date</span>
-                        <i
-                          className="bi bi-three-dots-vertical"
-                          onClick={() => {
-                            setIdBtnClick(false)
-                            setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(
-                              joinedDateBtnClicked ? false : true,
-                            )
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
-                          }}
-                        >
-                          {joinedDateBtnClicked && (
-                            <div className={`${styles.filter_btn_container}`}>
-                              <div className={`btn ${styles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${styles.button}`}>
-                                Sort by ASC
-                              </div>
-                              <div className={`btn ${styles.button}`}>
-                                Sort by DESC
-                              </div>
-                              <div
-                                className={`btn ${styles.button}`}
                                 onClick={() =>
-                                  setOpenFilterInput("Joined Date")
+                                  setOpenFilterInput("Status")
                                 }
                               >
                                 Filter
@@ -240,24 +244,22 @@ export default function Team() {
                         </i>
                       </th>
                       <th className={`${styles.col}`} scope="col">
-                        <span>Department</span>
+                        <span>Tags</span>
                         <i
                           className="bi bi-three-dots-vertical"
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(
-                              departmentBtnClicked ? false : true,
-                            )
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(tagsBtnClicked ? false : true)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
-                          {departmentBtnClicked && (
+                          {tagsBtnClicked && (
                             <div
                               className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
                             >
@@ -272,7 +274,7 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${styles.button}`}
-                                onClick={() => setOpenFilterInput("Department")}
+                                onClick={() => setOpenFilterInput("Tags")}
                               >
                                 Filter
                               </div>
@@ -281,22 +283,24 @@ export default function Team() {
                         </i>
                       </th>
                       <th className={`${styles.col}`} scope="col">
-                        <span>Manager</span>
+                        <span>Priority</span>
                         <i
                           className="bi bi-three-dots-vertical"
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(managerBtnClicked ? false : true)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(false)
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(
+                              priorityBtnClicked ? false : true,
+                            )
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
-                          {managerBtnClicked && (
+                          {priorityBtnClicked && (
                             <div
                               className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
                             >
@@ -314,24 +318,24 @@ export default function Team() {
                         </i>
                       </th>
                       <th className={`${styles.col}`} scope="col">
-                        <span>Location</span>
+                        <span>Time To Close</span>
                         <i
                           className="bi bi-three-dots-vertical"
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(
-                              locationBtnClicked ? false : true,
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(
+                              timeToCloseBtnClicked ? false : true,
                             )
-                            setPerformanceScoreBtnClick(false)
+                            setClosedAtBtnClick(false)
                           }}
                         >
-                          {locationBtnClicked && (
+                          {timeToCloseBtnClicked && (
                             <div
                               className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
                             >
@@ -346,7 +350,7 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${styles.button}`}
-                                onClick={() => setOpenFilterInput("Location")}
+                                onClick={() => setOpenFilterInput("Time To Close")}
                               >
                                 Filter
                               </div>
@@ -355,24 +359,24 @@ export default function Team() {
                         </i>
                       </th>
                       <th className={`${styles.col}`} scope="col">
-                        <span>Performance Score</span>
+                        <span>Closed At</span>
                         <i
                           className="bi bi-three-dots-vertical"
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
-                            setRollBtnClick(false)
-                            setStatusBtnClicked(false)
-                            setJoinedDateBtnClicked(false)
-                            setDepartmentBtnClick(false)
-                            setManagerBtnClick(false)
-                            setLocationBtnClick(false)
-                            setPerformanceScoreBtnClick(
-                              performanceScoreBtnClicked ? false : true,
+                            setSourceBtnClick(false)
+                            setSalesAgentBtnClick(false)
+                            setStatusBtnClick(false)
+                            setTagsBtnClick(false)
+                            setPriorityBtnClick(false)
+                            setTimeToCloseBtnClick(false)
+                            setClosedAtBtnClick(
+                              closedAtBtnClicked ? false : true,
                             )
                           }}
                         >
-                          {performanceScoreBtnClicked && (
+                          {closedAtBtnClicked && (
                             <div
                               className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
                             >
@@ -384,6 +388,12 @@ export default function Team() {
                               </div>
                               <div className={`btn ${styles.button}`}>
                                 Sort by DESC
+                              </div>
+                              <div
+                                className={`btn ${styles.button}`}
+                                onClick={() => setOpenFilterInput("Closed At")}
+                              >
+                                Filter
                               </div>
                             </div>
                           )}
@@ -395,23 +405,20 @@ export default function Team() {
                     </tr>
                   </thead>
                   <tbody>
-                    {agents.map((agent) => {
+                    {leadsData.map((lead) => {
                       return (
-                        <tr key={agent.id}>
-                          <th scope="row">{agent.id}</th>
-                          <td>{agent.name}</td>
-                          <td>{agent.role}</td>
-                          <td style={{ color: "#70d89d" }}>{agent.status}</td>
-                          <td>{agent.joinedDate}</td>
-                          <td>{agent.department}</td>
-                          <td>{agent.manager}</td>
-                          <td>{agent.location}</td>
-                          <td>
-                            <span style={{ color: "#70d89d" }}>
-                              {agent.performanceScore.toFixed(1)}
-                            </span>{" "}
-                            out of 10
+                        <tr key={lead.id}>
+                          <th scope="row">{lead.id}</th>
+                          <td>{lead.name}</td>
+                          <td>{lead.source}</td>
+                          <td style={{ color: "#70d89d" }}>
+                            {lead.salesAgent}
                           </td>
+                          <td>{lead.status}</td>
+                          <td>{lead.tags}</td>
+                          <td>{lead.priority}</td>
+                          <td>{lead.timeToClose ? `${lead.timeToClose} days` : "_"}</td>
+                          <td>{lead.closedAt ? lead.closedAt : "_"}</td>
                           <td>
                             <button className="btn btn-success btn-sm">
                               View Profile

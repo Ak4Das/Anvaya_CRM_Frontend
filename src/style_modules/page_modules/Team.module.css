@@ -175,11 +175,11 @@
   align-items: center;
 }
 
-.heading_container .add_agent_btn {
+.heading_container .add_people_btn {
   border: 1px solid #70d89d;
   color: #70d89d;
 }
 
-.heading_container .add_agent_btn:hover {
+.heading_container .add_people_btn:hover {
   color: #141B2D;
 }
