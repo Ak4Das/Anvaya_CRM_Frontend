@@ -1,4 +1,4 @@
-function sortArrayOfStringsInAscendingOrder(arr) {
+export function sortArrayOfStringsInAscendingOrder(arr) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstCharacterOfI = arr[i][0].toLowerCase()
@@ -14,7 +14,7 @@ function sortArrayOfStringsInAscendingOrder(arr) {
   return arr
 }
 
-function sortArrayOfStringsInDescendingOrder(arr) {
+export function sortArrayOfStringsInDescendingOrder(arr) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstCharacterOfI = arr[i][0].toLowerCase()
@@ -30,7 +30,7 @@ function sortArrayOfStringsInDescendingOrder(arr) {
   return arr
 }
 
-function sortArrayOfNumbersInAscendingOrder(arr) {
+export function sortArrayOfNumbersInAscendingOrder(arr) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[i] > arr[j]) {
@@ -44,7 +44,7 @@ function sortArrayOfNumbersInAscendingOrder(arr) {
   return arr
 }
 
-function sortArrayOfNumbersInDescendingOrder(arr) {
+export function sortArrayOfNumbersInDescendingOrder(arr) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[i] < arr[j]) {
@@ -58,7 +58,7 @@ function sortArrayOfNumbersInDescendingOrder(arr) {
   return arr
 }
 
-function sortArrayOfPhoneNumbersInAscendingOrder(arr) {
+export function sortArrayOfPhoneNumbersInAscendingOrder(arr) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstNumber = Number(
@@ -78,7 +78,7 @@ function sortArrayOfPhoneNumbersInAscendingOrder(arr) {
   return arr
 }
 
-function sortArrayOfPhoneNumbersInDescendingOrder(arr) {
+export function sortArrayOfPhoneNumbersInDescendingOrder(arr) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstNumber = Number(
@@ -96,4 +96,19 @@ function sortArrayOfPhoneNumbersInDescendingOrder(arr) {
     i++
   }
   return arr
+}
+
+export function sortAgentsArrayByProperty(arr, prop) {
+  const newArr = [...arr]
+  for (let i = 0; i < newArr.length; ) {
+    for (let j = i + 1; j < newArr.length; j++) {
+      if (newArr[i][prop] < newArr[j][prop]) {
+        const a = newArr[i]
+        newArr[i] = newArr[j]
+        newArr[j] = a
+      }
+    }
+    i++
+  }
+  return newArr
 }
