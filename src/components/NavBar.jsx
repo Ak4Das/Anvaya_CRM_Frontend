@@ -4,7 +4,7 @@ export default function navBar() {
     <>
       <div className={`${styles.navbar}`}>
         <div className={`${styles.name_container}`}>
-          <h2 className={`${styles.name}`}>DASHBOARD</h2>
+          <h2 className={`${styles.name}`}>Anvaya CRM</h2>
           <h5 className={`${styles.name_description}`}>
             Agent Performance Monitor
           </h5>

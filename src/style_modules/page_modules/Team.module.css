@@ -168,3 +168,18 @@
   top:40px;
   left:-90px;
 }
+
+.heading_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading_container .add_agent_btn {
+  border: 1px solid #70d89d;
+  color: #70d89d;
+}
+
+.heading_container .add_agent_btn:hover {
+  color: #141B2D;
+}

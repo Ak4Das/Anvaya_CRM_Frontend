@@ -4,7 +4,8 @@
   width: 270px;
   min-width: 270px;
   text-align: left;
-  position: relative;
+  position: sticky;
+  top:0;
   z-index: 1009;
 }
 

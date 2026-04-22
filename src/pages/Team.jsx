@@ -3,6 +3,7 @@ import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import agents from "../data.js"
+import { Link } from "react-router-dom"
 
 export default function Team() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -24,9 +25,12 @@ export default function Team() {
         <main className={`${styles.content}`}>
           <NavBar />
           <section className={`${styles.main_section}`}>
-            <div className={`${styles.heading}`}>
-              <h2 className={`${styles.text1}`}>Team</h2>
-              <h5 className={`${styles.text2}`}>The Team Members</h5>
+            <div className={`${styles.heading_container}`}>
+              <div className={`${styles.heading}`}>
+                <h2 className={`${styles.text1}`}>Team</h2>
+                <h5 className={`${styles.text2}`}>The Team Members</h5>
+              </div>
+              <Link to="/addAgent" className={`btn btn-outline-success ${styles.add_agent_btn}`}>Add New Agent</Link>
             </div>
             <div className={`${styles.table_wrapper}`}>
               <div className={`${styles.table_container}`}>

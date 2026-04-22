@@ -1,0 +1,94 @@
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}
+
+.main_section {
+  margin: 20px;
+}
+
+.heading {
+  margin-bottom: 30px;
+}
+
+.heading .text1 {
+  font-size: 32px;
+  line-height: 1.2;
+  color: #e0e0e0;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+}
+
+.heading .text2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.334;
+  color: #70d8bd;
+}
+
+.input_wrapper {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 25px;
+  border: 1px solid #141b2d;
+  width: 100%;
+  border-bottom: 1px solid #70d8bd;
+  background-color: #293040;
+}
+
+label {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  margin-left: 3px;
+}
+
+.input_clicked {
+  top: 5px;
+  left: 5px;
+  font-size: 12px;
+}
+
+input {
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  padding-inline: 10px;
+  display: block;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.profile_image_input {
+  margin-top: 30px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #293040 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.show_validation_error {
+  font-size: 12px;
+  position: absolute;
+}

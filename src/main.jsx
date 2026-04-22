@@ -8,11 +8,15 @@ import theme from "./themeProvider.js"
 import App from "./App.jsx"
 import Team from "./pages/Team.jsx"
 import TeamContactInfo from "./pages/TeamContactInfo.jsx"
+import AddAgent from "./pages/AddAgent.jsx"
+import SalesInfo from "./pages/SalesInfo.jsx"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/team", element: <Team /> },
   { path: "/teamContact", element: <TeamContactInfo /> },
+  { path: "/addAgent", element: <AddAgent /> },
+  { path: "/sales", element: <SalesInfo /> },
 ])
 
 createRoot(document.getElementById("root")).render(
