@@ -3,7 +3,7 @@ import SideBar from "../components/SideBar"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { useFormik } from "formik"
-import { addAgentSchema } from "../schema/AddAgent.schema.jsx"
+import { addAgentSchema } from "../schema/AddAgent.schema.js"
 
 export default function AddAgent() {
   const [nameInputClicked, setNameInputClick] = useState(false)
