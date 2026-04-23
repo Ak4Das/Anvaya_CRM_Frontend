@@ -1,19 +1,3 @@
-.app {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  position: relative;
-}
-
-.content {
-  height: 100%;
-  width: 100%;
-}
-
-.main_section {
-  margin: 20px;
-}
-
 .heading {
   margin-bottom: 30px;
 }
@@ -46,5 +30,5 @@
 }
 
 .heading_container .add_people_btn:hover {
-  color: #141B2D;
+  color: #141b2d;
 }

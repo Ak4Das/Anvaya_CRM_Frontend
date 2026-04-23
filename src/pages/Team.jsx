@@ -21,11 +21,11 @@ export default function Team() {
 
   return (
     <div>
-      <div className={`${styles.app}`}>
+      <div className={`app`}>
         <SideBar />
-        <main className={`${styles.content}`}>
+        <main className={`content`}>
           <NavBar />
-          <section className={`${styles.main_section}`}>
+          <section className={`main_section`}>
             <div className={`${styles.heading_container}`}>
               <div className={`${styles.heading}`}>
                 <h2 className={`${styles.text1}`}>Team</h2>

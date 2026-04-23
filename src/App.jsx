@@ -27,11 +27,11 @@ function App() {
 
   return (
     <>
-      <div className={`${styles.app}`}>
+      <div className={`app`}>
         <SideBar />
-        <main className={`${styles.content}`}>
+        <main className={`content`}>
           <NavBar />
-          <section className={`${styles.main_section}`}>
+          <section className={`main_section`}>
             <div className={`${styles.grid_container}`}>
               <div className={`${styles.first_row_item_wrapper}`}>
                 <div className={`${styles.first_row_item_container}`}>

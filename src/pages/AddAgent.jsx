@@ -72,11 +72,11 @@ export default function AddAgent() {
   }, [])
 
   return (
-    <div className={`${styles.app}`}>
+    <div className={`app`}>
       <SideBar />
-      <main className={`${styles.content}`}>
+      <main className={`content`}>
         <NavBar />
-        <section className={`${styles.main_section}`}>
+        <section className={`main_section`}>
           <div className={`${styles.heading}`}>
             <h2 className={`${styles.text1}`}>Agent Form</h2>
             <h5 className={`${styles.text2}`}>Add New Team Member</h5>

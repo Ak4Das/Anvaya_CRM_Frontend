@@ -26,11 +26,11 @@ export default function SalesAgent() {
   )
 
   return (
-    <div className={`${styles.app}`}>
+    <div className={`app`}>
       <SideBar />
-      <main className={`${styles.content}`}>
+      <main className={`content`}>
         <NavBar />
-        <section className={`${styles.main_section}`}>
+        <section className={`main_section`}>
           <section className={`${styles.child_section_one}`}>
             <div className={`${styles.profile_image}`}></div>
             <p>

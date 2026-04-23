@@ -11,3 +11,19 @@ body {
   background-color: #141b2d;
   font-family: sans-serif;
 }
+
+.app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}
+
+.main_section {
+  margin: 20px;
+}
