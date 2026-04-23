@@ -1,4 +1,5 @@
 import styles from "../style_modules/page_modules/Team.module.css"
+import tableStyles from "../style_modules/component_modules/Table.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useState } from "react"
@@ -36,34 +37,34 @@ export default function Leads() {
                 Add New Lead
               </Link>
             </div>
-            <div className={`${styles.table_wrapper}`}>
-              <div className={`${styles.table_container}`}>
+            <div className={`${tableStyles.table_wrapper}`}>
+              <div className={`${tableStyles.table_container}`}>
                 {openFilterInput && (
-                  <div className={`${styles.filter}`}>
+                  <div className={`${tableStyles.filter}`}>
                     <label
-                      className={`form-label ${styles.form_label}`}
+                      className={`form-label ${tableStyles.form_label}`}
                       htmlFor="input"
                     >
                       {openFilterInput}
                     </label>
                     <input
                       id="input"
-                      className={`form-control ${styles.input}`}
+                      className={`form-control ${tableStyles.input}`}
                       type="text"
                     />
                     <i
-                      className={`bi bi-x-lg ${styles.close}`}
+                      className={`bi bi-x-lg ${tableStyles.close}`}
                       onClick={() => setOpenFilterInput("")}
                     ></i>
                   </div>
                 )}
-                <table className={`table ${styles.table}`}>
+                <table className={`table ${tableStyles.table}`}>
                   <thead>
                     <tr>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>ID</span>
                         <i
-                          className={`bi bi-three-dots-vertical ${styles.vertical_three_dot_icon}`}
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(idBtnClicked ? false : true)
                             setNameBtnClick(false)
@@ -77,21 +78,21 @@ export default function Leads() {
                           }}
                         >
                           {idBtnClicked && (
-                            <div className={`${styles.filter_btn_container}`}>
-                              <div className={`btn ${styles.button}`}>
+                            <div className={`${tableStyles.filter_btn_container}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                             </div>
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Name</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -108,18 +109,18 @@ export default function Leads() {
                           }}
                         >
                           {nameBtnClicked && (
-                            <div className={`${styles.filter_btn_container}`}>
-                              <div className={`btn ${styles.button}`}>
+                            <div className={`${tableStyles.filter_btn_container}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() => setOpenFilterInput("Name")}
                               >
                                 Filter
@@ -128,7 +129,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Source</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -145,18 +146,18 @@ export default function Leads() {
                           }}
                         >
                           {sourceBtnClicked && (
-                            <div className={`${styles.filter_btn_container}`}>
-                              <div className={`btn ${styles.button}`}>
+                            <div className={`${tableStyles.filter_btn_container}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() => setOpenFilterInput("Source")}
                               >
                                 Filter
@@ -165,7 +166,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Sales Agent</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -184,18 +185,18 @@ export default function Leads() {
                           }}
                         >
                           {salesAgentBtnClicked && (
-                            <div className={`${styles.filter_btn_container}`}>
-                              <div className={`btn ${styles.button}`}>
+                            <div className={`${tableStyles.filter_btn_container}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() => setOpenFilterInput("Sales Agent")}
                               >
                                 Filter
@@ -204,7 +205,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Status</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -221,18 +222,18 @@ export default function Leads() {
                           }}
                         >
                           {statusBtnClicked && (
-                            <div className={`${styles.filter_btn_container}`}>
-                              <div className={`btn ${styles.button}`}>
+                            <div className={`${tableStyles.filter_btn_container}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() =>
                                   setOpenFilterInput("Status")
                                 }
@@ -243,7 +244,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Tags</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -261,19 +262,19 @@ export default function Leads() {
                         >
                           {tagsBtnClicked && (
                             <div
-                              className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
+                              className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() => setOpenFilterInput("Tags")}
                               >
                                 Filter
@@ -282,7 +283,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Priority</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -302,22 +303,22 @@ export default function Leads() {
                         >
                           {priorityBtnClicked && (
                             <div
-                              className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
+                              className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                             </div>
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Time To Close</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -337,19 +338,19 @@ export default function Leads() {
                         >
                           {timeToCloseBtnClicked && (
                             <div
-                              className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
+                              className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() => setOpenFilterInput("Time To Close")}
                               >
                                 Filter
@@ -358,7 +359,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>Closed At</span>
                         <i
                           className="bi bi-three-dots-vertical"
@@ -378,19 +379,19 @@ export default function Leads() {
                         >
                           {closedAtBtnClicked && (
                             <div
-                              className={`${styles.filter_btn_container} ${styles.filter_btn_container_email}`}
+                              className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Unsort
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${styles.button}`}>
+                              <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
                               </div>
                               <div
-                                className={`btn ${styles.button}`}
+                                className={`btn ${tableStyles.button}`}
                                 onClick={() => setOpenFilterInput("Closed At")}
                               >
                                 Filter
@@ -399,7 +400,7 @@ export default function Leads() {
                           )}
                         </i>
                       </th>
-                      <th className={`${styles.col}`} scope="col">
+                      <th className={`${tableStyles.col}`} scope="col">
                         <span>View Profile</span>
                       </th>
                     </tr>
