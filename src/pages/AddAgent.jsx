@@ -1,4 +1,5 @@
 import styles from "../style_modules/page_modules/AddAgent.module.css"
+import formStyles from "../style_modules/component_modules/Form.module.css"
 import SideBar from "../components/SideBar"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
@@ -81,10 +82,10 @@ export default function AddAgent() {
             <h5 className={`${styles.text2}`}>Add New Team Member</h5>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="name"
-                className={`${nameInputClicked && styles.input_clicked}`}
+                className={`${nameInputClicked && formStyles.input_clicked}`}
               >
                 Name
               </label>
@@ -102,15 +103,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.name && touched.name ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.name}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="age"
-                className={`${ageInputClicked && styles.input_clicked}`}
+                className={`${ageInputClicked && formStyles.input_clicked}`}
               >
                 Age
               </label>
@@ -128,15 +129,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.age && touched.age ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.age}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="country"
-                className={`${countryInputClicked && styles.input_clicked}`}
+                className={`${countryInputClicked && formStyles.input_clicked}`}
               >
                 Country
               </label>
@@ -154,15 +155,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.country && touched.country ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.country}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="phone"
-                className={`${phoneNumberInputClicked && styles.input_clicked}`}
+                className={`${phoneNumberInputClicked && formStyles.input_clicked}`}
               >
                 Phone Number
               </label>
@@ -180,15 +181,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.phone && touched.phone ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.phone}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="email"
-                className={`${emailInputClicked && styles.input_clicked}`}
+                className={`${emailInputClicked && formStyles.input_clicked}`}
               >
                 Email
               </label>
@@ -206,15 +207,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.email && touched.email ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.email}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="address"
-                className={`${addressInputClicked && styles.input_clicked}`}
+                className={`${addressInputClicked && formStyles.input_clicked}`}
               >
                 Address
               </label>
@@ -232,15 +233,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.address && touched.address ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.address}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="profile Image"
-                className={`${styles.input_clicked}`}
+                className={`${formStyles.input_clicked}`}
               >
                 Profile Image
               </label>
@@ -255,15 +256,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.profileImage && touched.profileImage ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.profileImage}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="password"
-                className={`${passwordInputClicked && styles.input_clicked}`}
+                className={`${passwordInputClicked && formStyles.input_clicked}`}
               >
                 Password
               </label>
@@ -281,15 +282,15 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.password && touched.password ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.password}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="confirmPassword"
-                className={`${confirmPasswordInputClicked && styles.input_clicked}`}
+                className={`${confirmPasswordInputClicked && formStyles.input_clicked}`}
               >
                 Confirm Password
               </label>
@@ -307,7 +308,7 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.confirmPassword && touched.confirmPassword ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span className={`text-danger ${formStyles.show_validation_error}`}>
                   {errors.confirmPassword}
                 </span>
               ) : null}

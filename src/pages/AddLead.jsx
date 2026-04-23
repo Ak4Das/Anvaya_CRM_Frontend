@@ -1,4 +1,5 @@
 import styles from "../style_modules/page_modules/AddAgent.module.css"
+import formStyles from "../style_modules/component_modules/Form.module.css"
 import SideBar from "../components/SideBar"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
@@ -94,10 +95,10 @@ export default function AddLead() {
             <h5 className={`${styles.text2}`}>Add New Lead</h5>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="name"
-                className={`${nameInputClicked && styles.input_clicked}`}
+                className={`${nameInputClicked && formStyles.input_clicked}`}
               >
                 Name
               </label>
@@ -115,18 +116,20 @@ export default function AddLead() {
                 onBlur={handleBlur}
               />
               {errors.name && touched.name ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.name}
                 </span>
               ) : null}
             </div>
             <div
-              className={`${styles.input_wrapper}`}
+              className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
               <label
                 htmlFor="source"
-                className={`${sourceInputClicked && styles.input_clicked}`}
+                className={`${sourceInputClicked && formStyles.input_clicked}`}
               >
                 Source
               </label>
@@ -150,18 +153,20 @@ export default function AddLead() {
                 onBlur={() => setFieldTouched("source", true)}
               />
               {errors.source && touched.source ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.source}
                 </span>
               ) : null}
             </div>
             <div
-              className={`${styles.input_wrapper}`}
+              className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
               <label
                 htmlFor="salesAgent"
-                className={`${salesAgentInputClicked && styles.input_clicked}`}
+                className={`${salesAgentInputClicked && formStyles.input_clicked}`}
               >
                 Sales Agent
               </label>
@@ -185,18 +190,20 @@ export default function AddLead() {
                 onBlur={() => setFieldTouched("salesAgent", true)}
               />
               {errors.salesAgent && touched.salesAgent ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.salesAgent}
                 </span>
               ) : null}
             </div>
             <div
-              className={`${styles.input_wrapper}`}
+              className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
               <label
                 htmlFor="status"
-                className={`${statusInputClicked && styles.input_clicked}`}
+                className={`${statusInputClicked && formStyles.input_clicked}`}
               >
                 Status
               </label>
@@ -220,18 +227,20 @@ export default function AddLead() {
                 onBlur={() => setFieldTouched("status", true)}
               />
               {errors.status && touched.status ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.status}
                 </span>
               ) : null}
             </div>
             <div
-              className={`${styles.input_wrapper}`}
+              className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
               <label
                 htmlFor="tags"
-                className={`${tagsInputClicked && styles.input_clicked}`}
+                className={`${tagsInputClicked && formStyles.input_clicked}`}
               >
                 Tags
               </label>
@@ -254,15 +263,17 @@ export default function AddLead() {
                 onBlur={() => setFieldTouched("tags", true)}
               />
               {errors.tags && touched.tags ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.tags}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="timeToClose"
-                className={`${timeToCloseInputClicked && styles.input_clicked}`}
+                className={`${timeToCloseInputClicked && formStyles.input_clicked}`}
               >
                 Time To Close
               </label>
@@ -280,18 +291,20 @@ export default function AddLead() {
                 onBlur={handleBlur}
               />
               {errors.timeToClose && touched.timeToClose ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.timeToClose}
                 </span>
               ) : null}
             </div>
             <div
-              className={`${styles.input_wrapper}`}
+              className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
               <label
                 htmlFor="priority"
-                className={`${priorityInputClicked && styles.input_clicked}`}
+                className={`${priorityInputClicked && formStyles.input_clicked}`}
               >
                 Priority
               </label>
@@ -316,15 +329,17 @@ export default function AddLead() {
                 onBlur={() => setFieldTouched("priority", true)}
               />
               {errors.priority && touched.priority ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.priority}
                 </span>
               ) : null}
             </div>
-            <div className={`${styles.input_wrapper}`}>
+            <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="phone"
-                className={`${phoneInputClicked && styles.input_clicked}`}
+                className={`${phoneInputClicked && formStyles.input_clicked}`}
               >
                 Phone Number
               </label>
@@ -342,7 +357,9 @@ export default function AddLead() {
                 onBlur={handleBlur}
               />
               {errors.phone && touched.phone ? (
-                <span className={`text-danger ${styles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.phone}
                 </span>
               ) : null}
