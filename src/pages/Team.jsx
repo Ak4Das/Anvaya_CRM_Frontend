@@ -3,8 +3,8 @@ import tableStyles from "../style_modules/component_modules/Table.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
-import agents from "../agentData.js"
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 export default function Team() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -17,7 +17,224 @@ export default function Team() {
   const [locationBtnClicked, setLocationBtnClick] = useState(false)
   const [performanceScoreBtnClicked, setPerformanceScoreBtnClick] =
     useState(false)
+  const [salesAgents, setSalesAgents] = useState([])
+  const [managers, setManagers] = useState([])
+  const [performanceScores, setPerformanceScores] = useState([])
+
   const [openFilterInput, setOpenFilterInput] = useState("")
+  const [properties, setProperties] = useState({})
+
+  function capitalizeFirstLetter(string) {
+    const String = string.trim()
+    const array = String.split(" ")
+    const updatedArray = array.map((word) => {
+      const result = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      return result
+    })
+    return updatedArray.join(" ")
+  }
+
+  async function getIdByManagerName(name) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/managers/name/${name}`,
+      )
+      const arrayOfId = response.data.map((agent) => agent._id)
+      return arrayOfId
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function handleClick() {
+    const inputField = document.querySelector("#input")
+    const inputValue = inputField.value
+    if (inputValue) {
+      const updatedInputValue = capitalizeFirstLetter(inputValue)
+      const updatedProperties = {
+        ...properties,
+      }
+
+      if (openFilterInput === "manager") {
+        const arrayOfAgentsId = await getIdByManagerName(updatedInputValue)
+        updatedProperties.manager = { $in: arrayOfAgentsId }
+      } else {
+        updatedProperties[openFilterInput] = updatedInputValue
+      }
+
+      const updatedPropertiesString = JSON.stringify(updatedProperties)
+
+      const response = await filterAgentsByProperties(updatedPropertiesString)
+
+      setSalesAgents(response.data)
+      setProperties(updatedProperties)
+    } else {
+      delete properties[openFilterInput]
+
+      const propertiesString = JSON.stringify(properties)
+
+      const response = await filterAgentsByProperties(propertiesString)
+      setSalesAgents(response.data)
+      setProperties(properties)
+    }
+  }
+
+  async function getAgentData() {
+    try {
+      const response = await axios.get("http://localhost:3000/agents")
+      setSalesAgents(response.data)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function getManagerData() {
+    try {
+      const response = await axios.get("http://localhost:3000/managers")
+      setManagers(response.data)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function filterAgentsByProperties(filtersString) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/agents/prop?filters=${filtersString}`,
+      )
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async function removePropertyFilter(property) {
+    delete properties[property]
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterAgentsByProperties(propertiesString)
+    setSalesAgents(response.data)
+    setProperties(properties)
+  }
+
+  async function clearAllFilters() {
+    Object.keys(properties).forEach((key) => delete properties[key])
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterAgentsByProperties(propertiesString)
+    setSalesAgents(response.data)
+    setProperties(properties)
+  }
+
+  async function findOverallPerformanceScore(id) {
+    // Lost leads
+    const filtersToFindLostLeadsInOneYear = { salesAgent: id, status: "Lost" }
+    const findLostFilterString = JSON.stringify(filtersToFindLostLeadsInOneYear)
+    const lostLeadsInOneYear = await axios.get(
+      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findLostFilterString}`,
+    )
+
+    // Closed leads
+    const filtersToFindClosedLeadsInOneYear = {
+      salesAgent: id,
+      status: "Closed",
+    }
+    const findClosedFilterString = JSON.stringify(
+      filtersToFindClosedLeadsInOneYear,
+    )
+    const closedLeadsInOneYear = await axios.get(
+      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findClosedFilterString}`,
+    )
+
+    // New leads
+    const filtersToFindNewLeadsInOneYear = { salesAgent: id, status: "New" }
+    const findNewFilterString = JSON.stringify(filtersToFindNewLeadsInOneYear)
+    const NewLeadsInOneYear = await axios.get(
+      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findNewFilterString}`,
+    )
+
+    // Contacted leads
+    const filtersToFindContactedLeadsInOneYear = {
+      salesAgent: id,
+      status: "Contacted",
+    }
+    const findContactedFilterString = JSON.stringify(
+      filtersToFindContactedLeadsInOneYear,
+    )
+    const ContactedLeadsInOneYear = await axios.get(
+      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findContactedFilterString}`,
+    )
+
+    // Qualified leads
+    const filtersToFindQualifiedLeadsInOneYear = {
+      salesAgent: id,
+      status: "Qualified",
+    }
+    const findQualifiedFilterString = JSON.stringify(
+      filtersToFindQualifiedLeadsInOneYear,
+    )
+    const QualifiedLeadsInOneYear = await axios.get(
+      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findQualifiedFilterString}`,
+    )
+
+    // Proposal sent leads
+    const filtersToFindProposalSentLeadsInOneYear = {
+      salesAgent: id,
+      status: "Proposal Sent",
+    }
+    const findProposalSentFilterString = JSON.stringify(
+      filtersToFindProposalSentLeadsInOneYear,
+    )
+    const ProposalSentLeadsInOneYear = await axios.get(
+      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findProposalSentFilterString}`,
+    )
+
+    const denominator =
+      NewLeadsInOneYear.data.length +
+      ContactedLeadsInOneYear.data.length +
+      QualifiedLeadsInOneYear.data.length +
+      ProposalSentLeadsInOneYear.data.length +
+      lostLeadsInOneYear.data.length +
+      closedLeadsInOneYear.data.length
+
+    const numerator = closedLeadsInOneYear.data.length
+
+    return (numerator / denominator) * 10
+  }
+
+  async function getPerformanceScores() {
+    try {
+      const performanceScores = await Promise.all(
+        salesAgents.map(async (agent) => {
+          const performanceScore = await findOverallPerformanceScore(agent._id)
+          return {
+            id: agent._id,
+            performanceScore: performanceScore.toFixed(1),
+          }
+        }),
+      )
+      setPerformanceScores(performanceScores)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    getAgentData()
+    getManagerData()
+  }, [])
+
+  useEffect(() => {
+    salesAgents.length && getPerformanceScores()
+  }, [salesAgents])
+
+  function getPerformanceScoreByAgentId(id) {
+    const obj = performanceScores.find((obj) => obj.id === id)
+    return obj && obj.performanceScore
+  }
+
+  function getManagerNameById(id) {
+    const manager = managers.find((manager) => manager._id === id)
+    return manager && manager.name
+  }
 
   return (
     <div>
@@ -31,12 +248,22 @@ export default function Team() {
                 <h2 className={`${styles.text1}`}>Team</h2>
                 <h5 className={`${styles.text2}`}>The Team Members</h5>
               </div>
-              <Link
-                to="/addAgent"
-                className={`btn btn-outline-success ${styles.add_people_btn}`}
-              >
-                Add New Agent
-              </Link>
+              <div className="d-flex gap-3">
+                {Object.keys(properties).length !== 0 && (
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={clearAllFilters}
+                  >
+                    Clear All Filters
+                  </button>
+                )}
+                <Link
+                  to="/addAgent"
+                  className={`btn btn-outline-success ${styles.add_people_btn}`}
+                >
+                  Add New Agent
+                </Link>
+              </div>
             </div>
             <div className={`${tableStyles.table_wrapper}`}>
               <div className={`${tableStyles.table_container}`}>
@@ -53,6 +280,12 @@ export default function Team() {
                       className={`form-control ${tableStyles.input}`}
                       type="text"
                     />
+                    <button
+                      className="btn btn-success btn-sm mt-3"
+                      onClick={handleClick}
+                    >
+                      Apply
+                    </button>
                     <i
                       className={`bi bi-x-lg ${tableStyles.close}`}
                       onClick={() => setOpenFilterInput("")}
@@ -126,9 +359,15 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${tableStyles.button}`}
-                                onClick={() => setOpenFilterInput("Name")}
+                                onClick={() => setOpenFilterInput("name")}
                               >
                                 Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() => removePropertyFilter("name")}
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -165,9 +404,15 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${tableStyles.button}`}
-                                onClick={() => setOpenFilterInput("Role")}
+                                onClick={() => setOpenFilterInput("role")}
                               >
                                 Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() => removePropertyFilter("role")}
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -204,9 +449,15 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${tableStyles.button}`}
-                                onClick={() => setOpenFilterInput("Status")}
+                                onClick={() => setOpenFilterInput("status")}
                               >
                                 Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() => removePropertyFilter("status")}
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -245,11 +496,17 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${tableStyles.button}`}
-                                onClick={() =>
-                                  setOpenFilterInput("Joined Date")
-                                }
+                                onClick={() => setOpenFilterInput("joinedDate")}
                               >
                                 Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() =>
+                                  removePropertyFilter("joinedDate")
+                                }
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -288,9 +545,17 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${tableStyles.button}`}
-                                onClick={() => setOpenFilterInput("Department")}
+                                onClick={() => setOpenFilterInput("department")}
                               >
                                 Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() =>
+                                  removePropertyFilter("department")
+                                }
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -324,6 +589,18 @@ export default function Team() {
                               </div>
                               <div className={`btn ${tableStyles.button}`}>
                                 Sort by DESC
+                              </div>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => setOpenFilterInput("manager")}
+                              >
+                                Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() => removePropertyFilter("manager")}
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -362,9 +639,15 @@ export default function Team() {
                               </div>
                               <div
                                 className={`btn ${tableStyles.button}`}
-                                onClick={() => setOpenFilterInput("Location")}
+                                onClick={() => setOpenFilterInput("location")}
                               >
                                 Filter
+                              </div>
+                              <div
+                                className={`btn text-danger ${tableStyles.button}`}
+                                onClick={() => removePropertyFilter("location")}
+                              >
+                                Remove Filter
                               </div>
                             </div>
                           )}
@@ -411,34 +694,36 @@ export default function Team() {
                     </tr>
                   </thead>
                   <tbody>
-                    {agents.map((agent) => {
-                      return (
-                        <tr key={agent.id}>
-                          <th scope="row">{agent.id}</th>
-                          <td>{agent.name}</td>
-                          <td>{agent.role}</td>
-                          <td style={{ color: "#70d89d" }}>{agent.status}</td>
-                          <td>{agent.joinedDate}</td>
-                          <td>{agent.department}</td>
-                          <td>{agent.manager}</td>
-                          <td>{agent.location}</td>
-                          <td>
-                            <span style={{ color: "#70d89d" }}>
-                              {agent.performanceScore.toFixed(1)}
-                            </span>{" "}
-                            out of 10
-                          </td>
-                          <td>
-                            <Link
-                              to={`/salesAgent/${agent.id}`}
-                              className="btn btn-success btn-sm"
-                            >
-                              View Profile
-                            </Link>
-                          </td>
-                        </tr>
-                      )
-                    })}
+                    {salesAgents &&
+                      salesAgents.map((agent) => {
+                        return (
+                          <tr key={agent.agentCode}>
+                            <th scope="row">{agent.agentCode}</th>
+                            <td>{agent.name}</td>
+                            <td>{agent.role}</td>
+                            <td style={{ color: "#70d89d" }}>{agent.status}</td>
+                            <td>{agent.joinedDate}</td>
+                            <td>{agent.department}</td>
+                            <td>{getManagerNameById(agent.manager)}</td>
+                            <td>{agent.location}</td>
+                            <td>
+                              <span style={{ color: "#70d89d" }}>
+                                {performanceScores.length &&
+                                  getPerformanceScoreByAgentId(agent._id)}
+                              </span>{" "}
+                              out of 10
+                            </td>
+                            <td>
+                              <Link
+                                to={`/salesAgent/${agent.id}`}
+                                className="btn btn-success btn-sm"
+                              >
+                                View Profile
+                              </Link>
+                            </td>
+                          </tr>
+                        )
+                      })}
                   </tbody>
                 </table>
               </div>
