@@ -6,6 +6,16 @@ import { useEffect, useState } from "react"
 import { sortArrayByProperty } from "../functions.js"
 import { Link } from "react-router-dom"
 import axios from "axios"
+import {
+  sortArrayOfCodeNumbersInAscendingOrder,
+  sortArrayOfCodeNumbersInDescendingOrder,
+  sortArrayOfNumbersInAscendingOrder,
+  sortArrayOfNumbersInDescendingOrder,
+  sortArrayOfPhoneNumbersInAscendingOrder,
+  sortArrayOfPhoneNumbersInDescendingOrder,
+  sortArrayOfStringsInAscendingOrder,
+  sortArrayOfStringsInDescendingOrder,
+} from "../functions.js"
 
 export default function SalesInfo() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -16,6 +26,7 @@ export default function SalesInfo() {
   const [rankBtnClicked, setRankBtnClicked] = useState(false)
   const [salesAgents, setSalesAgents] = useState([])
   const [salesData, setSalesData] = useState([])
+  const [sortApplied, applySort] = useState(false)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
@@ -145,12 +156,81 @@ export default function SalesInfo() {
       updatedArray,
       "totalSalesDoneInBtw30Days",
     )
-    setSalesAgents(SortBySalesDoneInBtw30Days)
+    const assignRankToEachSalesAgents = SortBySalesDoneInBtw30Days.map(
+      (agent, index) => {
+        agent.rank = index + 1
+        return agent
+      },
+    )
+    setSalesAgents(assignRankToEachSalesAgents)
   }
 
   useEffect(() => {
     salesData.length && getUpdatedAgentsArray(salesAgents)
   }, [salesData])
+
+  function sortAgentsDataInAscOrderByProp(prop) {
+    if (prop === "agentCode") {
+      const updatedAgentsData = sortArrayOfCodeNumbersInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "totalSalesDoneInBtw30Days" || prop === "rank") {
+      const updatedAgentsData = sortArrayOfNumbersInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "phoneNumber") {
+      const updatedAgentsData = sortArrayOfPhoneNumbersInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else {
+      const updatedAgentsData = sortArrayOfStringsInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    }
+  }
+
+  function sortAgentsDataInDescOrderByProp(prop) {
+    if (prop === "agentCode") {
+      const updatedAgentsData = sortArrayOfCodeNumbersInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "totalSalesDoneInBtw30Days" || prop === "rank") {
+      const updatedAgentsData = sortArrayOfNumbersInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "phoneNumber") {
+      const updatedAgentsData = sortArrayOfPhoneNumbersInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else {
+      const updatedAgentsData = sortArrayOfStringsInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    }
+  }
+
+  async function unsortAgentsData() {
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterAgentsByProperties(propertiesString)
+    getUpdatedAgentsArray(response.data)
+    applySort(false)
+  }
 
   return (
     <div>
@@ -164,14 +244,24 @@ export default function SalesInfo() {
                 <h2 className={`${styles.text1}`}>Sales</h2>
                 <h5 className={`${styles.text2}`}>Sales In This Month</h5>
               </div>
-              {Object.keys(properties).length !== 0 && (
-                <button
-                  className="btn btn-outline-danger"
-                  onClick={clearAllFilters}
-                >
-                  Clear All Filters
-                </button>
-              )}
+              <div className="d-flex gap-3">
+                {sortApplied && (
+                  <div
+                    className="btn btn-outline-danger"
+                    onClick={unsortAgentsData}
+                  >
+                    Unsort
+                  </div>
+                )}
+                {Object.keys(properties).length !== 0 && (
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={clearAllFilters}
+                  >
+                    Clear All Filters
+                  </button>
+                )}
+              </div>
             </div>
             <div className={`${tableStyles.table_wrapper}`}>
               <div className={`${tableStyles.table_container}`}>
@@ -204,7 +294,7 @@ export default function SalesInfo() {
                   <thead>
                     <tr>
                       <th className={`${tableStyles.col}`} scope="col">
-                        <span>ID</span>
+                        <span>Code</span>
                         <i
                           className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
@@ -220,13 +310,22 @@ export default function SalesInfo() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("agentCode")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("agentCode")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
@@ -250,13 +349,22 @@ export default function SalesInfo() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("name")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("name")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -292,13 +400,22 @@ export default function SalesInfo() {
                             <div
                               className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_end}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("email")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("email")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -336,13 +453,22 @@ export default function SalesInfo() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("phoneNumber")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("phoneNumber")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -384,13 +510,26 @@ export default function SalesInfo() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp(
+                                    "totalSalesDoneInBtw30Days",
+                                  )
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp(
+                                    "totalSalesDoneInBtw30Days",
+                                  )
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
@@ -414,13 +553,22 @@ export default function SalesInfo() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("rank")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("rank")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
@@ -434,7 +582,7 @@ export default function SalesInfo() {
                   </thead>
                   <tbody>
                     {salesAgents &&
-                      salesAgents.map((agent, index) => {
+                      salesAgents.map((agent) => {
                         return (
                           <tr key={agent.agentCode}>
                             <th scope="row">{agent.agentCode}</th>
@@ -444,7 +592,7 @@ export default function SalesInfo() {
                             <td style={{ color: "#70d89d" }}>
                               ${agent.totalSalesDoneInBtw30Days}
                             </td>
-                            <td>{index + 1}</td>
+                            <td>{agent.rank}</td>
                             <td>
                               <Link
                                 to={`/salesAgent/${agent.id}`}
