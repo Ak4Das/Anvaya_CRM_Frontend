@@ -1,8 +1,8 @@
-export function sortArrayOfStringsInAscendingOrder(arr) {
+export function sortArrayOfStringsInAscendingOrder(arr, prop) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
-      const firstCharacterOfI = arr[i][0].toLowerCase()
-      const firstCharacterOfJ = arr[j][0].toLowerCase()
+      const firstCharacterOfI = arr[i][prop][0].toLowerCase()
+      const firstCharacterOfJ = arr[j][prop][0].toLowerCase()
       if (firstCharacterOfI > firstCharacterOfJ) {
         const a = arr[i]
         arr[i] = arr[j]
@@ -14,11 +14,11 @@ export function sortArrayOfStringsInAscendingOrder(arr) {
   return arr
 }
 
-export function sortArrayOfStringsInDescendingOrder(arr) {
+export function sortArrayOfStringsInDescendingOrder(arr, prop) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
-      const firstCharacterOfI = arr[i][0].toLowerCase()
-      const firstCharacterOfJ = arr[j][0].toLowerCase()
+      const firstCharacterOfI = arr[i][prop][0].toLowerCase()
+      const firstCharacterOfJ = arr[j][prop][0].toLowerCase()
       if (firstCharacterOfI < firstCharacterOfJ) {
         const a = arr[i]
         arr[i] = arr[j]
@@ -30,10 +30,12 @@ export function sortArrayOfStringsInDescendingOrder(arr) {
   return arr
 }
 
-export function sortArrayOfNumbersInAscendingOrder(arr) {
+export function sortArrayOfCodeNumbersInAscendingOrder(arr, prop) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] > arr[j]) {
+      const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
+      const numberOfJ = Number(arr[j][prop].replace(/.*-/, ""))
+      if (numberOfI > numberOfJ) {
         const a = arr[i]
         arr[i] = arr[j]
         arr[j] = a
@@ -44,10 +46,12 @@ export function sortArrayOfNumbersInAscendingOrder(arr) {
   return arr
 }
 
-export function sortArrayOfNumbersInDescendingOrder(arr) {
+export function sortArrayOfCodeNumbersInDescendingOrder(arr, prop) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] < arr[j]) {
+      const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
+      const numberOfJ = Number(arr[j][prop].replace(/.*-/, ""))
+      if (numberOfI < numberOfJ) {
         const a = arr[i]
         arr[i] = arr[j]
         arr[j] = a
@@ -58,15 +62,49 @@ export function sortArrayOfNumbersInDescendingOrder(arr) {
   return arr
 }
 
-export function sortArrayOfPhoneNumbersInAscendingOrder(arr) {
+export function sortArrayOfNumbersInAscendingOrder(arr, prop) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
-      const firstNumber = Number(
-        arr[i].replace(/\(.*?\) /g, "").replace(/-/g, ""),
-      )
-      const secondNumber = Number(
-        arr[j].replace(/\(.*?\) /g, "").replace(/-/g, ""),
-      )
+      if (arr[i][prop] > arr[j][prop]) {
+        const a = arr[i]
+        arr[i] = arr[j]
+        arr[j] = a
+      }
+    }
+    i++
+  }
+  return arr
+}
+
+export function sortArrayOfNumbersInDescendingOrder(arr, prop) {
+  for (let i = 0; i < arr.length; ) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i][prop] < arr[j][prop]) {
+        const a = arr[i]
+        arr[i] = arr[j]
+        arr[j] = a
+      }
+    }
+    i++
+  }
+  return arr
+}
+
+export function sortDateInAscOrder(arr, prop) {
+  arr.sort((a, b) => new Date(a[prop] || 0) - new Date(b[prop] || 0))
+  return arr
+}
+
+export function sortDateInDescOrder(arr, prop) {
+  arr.sort((a, b) => new Date(b[prop] || 0) - new Date(a[prop] || 0))
+  return arr
+}
+
+export function sortArrayOfPhoneNumbersInAscendingOrder(arr, prop) {
+  for (let i = 0; i < arr.length; ) {
+    for (let j = i + 1; j < arr.length; j++) {
+      const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
+      const secondNumber = Number(arr[j][prop].replace(/^\(\+\d+\)/, ""))
       if (firstNumber > secondNumber) {
         const a = arr[i]
         arr[i] = arr[j]
@@ -78,15 +116,11 @@ export function sortArrayOfPhoneNumbersInAscendingOrder(arr) {
   return arr
 }
 
-export function sortArrayOfPhoneNumbersInDescendingOrder(arr) {
+export function sortArrayOfPhoneNumbersInDescendingOrder(arr, prop) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
-      const firstNumber = Number(
-        arr[i].replace(/\(.*?\) /g, "").replace(/-/g, ""),
-      )
-      const secondNumber = Number(
-        arr[j].replace(/\(.*?\) /g, "").replace(/-/g, ""),
-      )
+      const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
+      const secondNumber = Number(arr[j][prop].replace(/^\(\+\d+\)/, ""))
       if (firstNumber < secondNumber) {
         const a = arr[i]
         arr[i] = arr[j]
