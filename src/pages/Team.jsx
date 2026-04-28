@@ -5,6 +5,16 @@ import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
+import {
+  sortArrayOfCodeNumbersInAscendingOrder,
+  sortArrayOfCodeNumbersInDescendingOrder,
+  sortArrayOfNumbersInAscendingOrder,
+  sortArrayOfNumbersInDescendingOrder,
+  sortArrayOfStringsInAscendingOrder,
+  sortArrayOfStringsInDescendingOrder,
+  sortDateInAscOrder,
+  sortDateInDescOrder,
+} from "../functions.js"
 
 export default function Team() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -20,6 +30,7 @@ export default function Team() {
   const [salesAgents, setSalesAgents] = useState([])
   const [managers, setManagers] = useState([])
   const [performanceScores, setPerformanceScores] = useState([])
+  const [sortApplied, applySort] = useState(false)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
@@ -100,7 +111,7 @@ export default function Team() {
   async function filterAgentsByProperties(filtersString) {
     try {
       const response = await axios.get(
-        `http://localhost:3000/agents/prop?filters=${filtersString}`,
+        `http://localhost:3000/agents/prop?filters=${encodeURIComponent(JSON.stringify(filtersString))}`,
       )
       return response
     } catch (error) {
@@ -205,6 +216,7 @@ export default function Team() {
       const performanceScores = await Promise.all(
         salesAgents.map(async (agent) => {
           const performanceScore = await findOverallPerformanceScore(agent._id)
+          agent.performanceScore = Number(performanceScore.toFixed(1))
           return {
             id: agent._id,
             performanceScore: performanceScore.toFixed(1),
@@ -224,7 +236,10 @@ export default function Team() {
 
   useEffect(() => {
     salesAgents.length && getPerformanceScores()
-  }, [salesAgents])
+    if (salesAgents.length && managers.length) {
+      addPropertiesInAgentsData(salesAgents)
+    }
+  }, [salesAgents, managers])
 
   function getPerformanceScoreByAgentId(id) {
     const obj = performanceScores.find((obj) => obj.id === id)
@@ -234,6 +249,70 @@ export default function Team() {
   function getManagerNameById(id) {
     const manager = managers.find((manager) => manager._id === id)
     return manager && manager.name
+  }
+
+  function addPropertiesInAgentsData(salesAgents) {
+    salesAgents.forEach((agent) => {
+      const manager = managers.find((manager) => manager._id === agent.manager)
+      agent.managerName = manager.name
+    })
+  }
+
+  function sortAgentsDataInAscOrderByProp(prop) {
+    if (prop === "agentCode") {
+      const updatedAgentsData = sortArrayOfCodeNumbersInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "performanceScore") {
+      const updatedAgentsData = sortArrayOfNumbersInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "joinedDate") {
+      const updatedAgentsData = sortDateInAscOrder(salesAgents, prop)
+      setSalesAgents(updatedAgentsData)
+    } else {
+      const updatedAgentsData = sortArrayOfStringsInAscendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    }
+  }
+
+  function sortAgentsDataInDescOrderByProp(prop) {
+    if (prop === "agentCode") {
+      const updatedAgentsData = sortArrayOfCodeNumbersInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "performanceScore") {
+      const updatedAgentsData = sortArrayOfNumbersInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    } else if (prop === "joinedDate") {
+      const updatedAgentsData = sortDateInDescOrder(salesAgents, prop)
+      setSalesAgents(updatedAgentsData)
+    } else {
+      const updatedAgentsData = sortArrayOfStringsInDescendingOrder(
+        salesAgents,
+        prop,
+      )
+      setSalesAgents(updatedAgentsData)
+    }
+  }
+
+  async function unsortAgentsData() {
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterAgentsByProperties(propertiesString)
+    setSalesAgents(response.data)
+    applySort(false)
   }
 
   return (
@@ -249,6 +328,14 @@ export default function Team() {
                 <h5 className={`${styles.text2}`}>The Team Members</h5>
               </div>
               <div className="d-flex gap-3">
+                {sortApplied && (
+                  <div
+                    className="btn btn-outline-danger"
+                    onClick={unsortAgentsData}
+                  >
+                    Unsort
+                  </div>
+                )}
                 {Object.keys(properties).length !== 0 && (
                   <button
                     className="btn btn-outline-danger"
@@ -296,7 +383,7 @@ export default function Team() {
                   <thead>
                     <tr>
                       <th className={`${tableStyles.col}`} scope="col">
-                        <span>ID</span>
+                        <span>Code</span>
                         <i
                           className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
@@ -315,13 +402,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("agentCode")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("agentCode")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
@@ -348,13 +444,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("name")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("name")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -393,13 +498,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("role")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("role")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -438,13 +552,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("status")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("status")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -485,13 +608,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("joinedDate")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("joinedDate")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -534,13 +666,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("department")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("department")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -581,13 +722,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("manager")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("manager")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -628,13 +778,22 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp("location")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp("location")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -675,13 +834,26 @@ export default function Team() {
                             <div
                               className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_end}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInAscOrderByProp(
+                                    "performanceScore",
+                                  )
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortAgentsDataInDescOrderByProp(
+                                    "performanceScore",
+                                  )
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
