@@ -5,10 +5,11 @@ import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { useFormik } from "formik"
 import { addAgentSchema } from "../schema/AddAgent.schema.js"
+import { toast } from "react-toastify"
+import axios from "axios"
 
 export default function AddAgent() {
   const [nameInputClicked, setNameInputClick] = useState(false)
-  const [ageInputClicked, setAgeInputClick] = useState(false)
   const [countryInputClicked, setCountryInputClick] = useState(false)
   const [phoneNumberInputClicked, setPhoneNumberInputClick] = useState(false)
   const [emailInputClicked, setEmailInputClick] = useState(false)
@@ -19,21 +20,58 @@ export default function AddAgent() {
 
   const initialValues = {
     name: "",
-    age: "",
+    dateOfBirth: "",
     country: "",
-    phone: "",
+    phoneNumber: "",
     email: "",
     address: "",
-    profileImage: "",
+    profileImg: "",
     password: "",
     confirmPassword: "",
+  }
+
+  function generateAgentId() {
+    const prefix = "AG"
+    const time = Date.now().toString().slice(-4)
+    const random = Math.floor(100000 + Math.random() * 900000)
+
+    return `${prefix}-${time}${random}`
+  }
+
+  function getCurrentDate() {
+    const currentDate = new Date().toISOString().split("T")[0]
+    return currentDate
+  }
+
+  async function createAgent(body) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/agents/addAgent",
+        body,
+      )
+
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  function normalizePhoneNumber(phoneNumber) {
+    const normalizedPhoneNumber = phoneNumber.replace(/^\(\+\d+\)/, "")
+    return normalizedPhoneNumber
   }
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: addAgentSchema,
-    onSubmit: (values, action) => {
-      console.log(values)
+    onSubmit: async (values, action) => {
+      values.agentCode = generateAgentId()
+      values.joinedDate = getCurrentDate()
+      values.phoneNumberNormalized = normalizePhoneNumber(values.phoneNumber)
+      const response = await createAgent(values)
+      if (response && Object.keys(response).length) {
+        toast("Agent Created Successfully👍")
+      }
       action.resetForm()
     },
   })
@@ -46,13 +84,10 @@ export default function AddAgent() {
       const name = document.querySelector("[name = 'name']")
       !name.value && setNameInputClick(false)
 
-      const age = document.querySelector("[name = 'age']")
-      !age.value && setAgeInputClick(false)
-
       const country = document.querySelector("[name = 'country']")
       !country.value && setCountryInputClick(false)
 
-      const phoneNumber = document.querySelector("[name = 'phone']")
+      const phoneNumber = document.querySelector("[name = 'phoneNumber']")
       !phoneNumber.value && setPhoneNumberInputClick(false)
 
       const email = document.querySelector("[name = 'email']")
@@ -103,34 +138,37 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.name && touched.name ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.name}
                 </span>
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
               <label
-                htmlFor="age"
-                className={`${ageInputClicked && formStyles.input_clicked}`}
+                htmlFor="dateOfBirth"
+                className={`${formStyles.input_clicked}`}
               >
-                Age
+                Date Of Birth
               </label>
               <input
-                type="number"
+                type="date"
                 autoComplete="off"
-                name="age"
-                id="age"
+                name="dateOfBirth"
+                id="dateOfBirth"
                 onClick={(e) => {
                   e.stopPropagation()
-                  setAgeInputClick(true)
                 }}
-                value={values.age}
+                value={values.dateOfBirth}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.age && touched.age ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
-                  {errors.age}
+              {errors.dateOfBirth && touched.dateOfBirth ? (
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
+                  {errors.dateOfBirth}
                 </span>
               ) : null}
             </div>
@@ -155,14 +193,16 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.country && touched.country ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.country}
                 </span>
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
               <label
-                htmlFor="phone"
+                htmlFor="phoneNumber"
                 className={`${phoneNumberInputClicked && formStyles.input_clicked}`}
               >
                 Phone Number
@@ -170,19 +210,21 @@ export default function AddAgent() {
               <input
                 type="text"
                 autoComplete="off"
-                name="phone"
-                id="phone"
+                name="phoneNumber"
+                id="phoneNumber"
                 onClick={(e) => {
                   e.stopPropagation()
                   setPhoneNumberInputClick(true)
                 }}
-                value={values.phone}
+                value={values.phoneNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.phone && touched.phone ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
-                  {errors.phone}
+              {errors.phoneNumber && touched.phoneNumber ? (
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
+                  {errors.phoneNumber}
                 </span>
               ) : null}
             </div>
@@ -207,7 +249,9 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.email && touched.email ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.email}
                 </span>
               ) : null}
@@ -233,7 +277,9 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.address && touched.address ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.address}
                 </span>
               ) : null}
@@ -249,15 +295,17 @@ export default function AddAgent() {
                 className={`${styles.profile_image_input}`}
                 type="file"
                 autoComplete="off"
-                name="profileImage"
+                name="profileImg"
                 id="profile Image"
-                value={values.profileImage}
+                value={values.profileImg}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {errors.profileImage && touched.profileImage ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
-                  {errors.profileImage}
+              {errors.profileImg && touched.profileImg ? (
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
+                  {errors.profileImg}
                 </span>
               ) : null}
             </div>
@@ -282,7 +330,9 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.password && touched.password ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.password}
                 </span>
               ) : null}
@@ -308,7 +358,9 @@ export default function AddAgent() {
                 onBlur={handleBlur}
               />
               {errors.confirmPassword && touched.confirmPassword ? (
-                <span className={`text-danger ${formStyles.show_validation_error}`}>
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
                   {errors.confirmPassword}
                 </span>
               ) : null}

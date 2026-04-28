@@ -51,7 +51,7 @@ export default function AddLead() {
     return currentDate
   }
 
-  async function createUser(body) {
+  async function createLead(body) {
     try {
       const response = await axios.post(
         "http://localhost:3000/leads/addLead",
@@ -70,7 +70,7 @@ export default function AddLead() {
     onSubmit: async (values, action) => {
       values.leadCode = generateLeadId()
       values.createdAt = getCurrentDate()
-      const response = await createUser(values)
+      const response = await createLead(values)
       if (response && Object.keys(response).length) {
         toast("Lead Created Successfully👍")
       }
