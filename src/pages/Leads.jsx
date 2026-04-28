@@ -5,6 +5,16 @@ import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
+import {
+  sortArrayOfCodeNumbersInAscendingOrder,
+  sortArrayOfCodeNumbersInDescendingOrder,
+  sortArrayOfNumbersInAscendingOrder,
+  sortArrayOfNumbersInDescendingOrder,
+  sortArrayOfStringsInAscendingOrder,
+  sortArrayOfStringsInDescendingOrder,
+  sortDateInAscOrder,
+  sortDateInDescOrder,
+} from "../functions.js"
 
 export default function Leads() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -18,6 +28,7 @@ export default function Leads() {
   const [closedAtBtnClicked, setClosedAtBtnClick] = useState(false)
   const [leadsData, setLeadsData] = useState([])
   const [salesAgents, setSalesAgents] = useState([])
+  const [sortApplied, applySort] = useState(false)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
@@ -133,6 +144,76 @@ export default function Leads() {
     setProperties(properties)
   }
 
+  function sortLeadsDataInAscOrderByProp(prop) {
+    if (prop === "leadCode") {
+      const updatedLeadsData = sortArrayOfCodeNumbersInAscendingOrder(
+        leadsData,
+        prop,
+      )
+      setLeadsData(updatedLeadsData)
+    } else if (prop === "timeToClose") {
+      const updatedLeadsData = sortArrayOfNumbersInAscendingOrder(
+        leadsData,
+        prop,
+      )
+      setLeadsData(updatedLeadsData)
+    } else if (prop === "closedAt") {
+      const updatedLeadsData = sortDateInAscOrder(leadsData, prop)
+      setLeadsData(updatedLeadsData)
+    } else {
+      const updatedLeadsData = sortArrayOfStringsInAscendingOrder(
+        leadsData,
+        prop,
+      )
+      setLeadsData(updatedLeadsData)
+    }
+  }
+
+  function addPropertiesInLeadsData(leadsData) {
+    leadsData.forEach((lead) => {
+      const agent = salesAgents.find((agent) => agent._id === lead.salesAgent)
+      lead.agentName = agent.name
+    })
+  }
+
+  useEffect(() => {
+    if (leadsData.length && salesAgents.length) {
+      addPropertiesInLeadsData(leadsData)
+    }
+  }, [leadsData, salesAgents])
+
+  function sortLeadsDataInDescOrderByProp(prop) {
+    if (prop === "leadCode") {
+      const updatedLeadsData = sortArrayOfCodeNumbersInDescendingOrder(
+        leadsData,
+        prop,
+      )
+      setLeadsData(updatedLeadsData)
+    } else if (prop === "timeToClose") {
+      const updatedLeadsData = sortArrayOfNumbersInDescendingOrder(
+        leadsData,
+        prop,
+      )
+      setLeadsData(updatedLeadsData)
+    } else if (prop === "closedAt") {
+      const updatedLeadsData = sortDateInDescOrder(leadsData, prop)
+      setLeadsData(updatedLeadsData)
+    } else {
+      const updatedLeadsData = sortArrayOfStringsInDescendingOrder(
+        leadsData,
+        prop,
+      )
+      setLeadsData(updatedLeadsData)
+    }
+  }
+
+  async function unsortLeadsData() {
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterLeadsByProperties(propertiesString)
+    setLeadsData(response.data)
+    applySort(false)
+  }
+
   return (
     <div>
       <div className={`app`}>
@@ -146,6 +227,14 @@ export default function Leads() {
                 <h5 className={`${styles.text2}`}>The Potential Customers</h5>
               </div>
               <div className="d-flex gap-3">
+                {sortApplied && (
+                  <div
+                    className="btn btn-outline-danger"
+                    onClick={unsortLeadsData}
+                  >
+                    Unsort
+                  </div>
+                )}
                 {Object.keys(properties).length !== 0 && (
                   <button
                     className="btn btn-outline-danger"
@@ -193,7 +282,7 @@ export default function Leads() {
                   <thead>
                     <tr>
                       <th className={`${tableStyles.col}`} scope="col">
-                        <span>ID</span>
+                        <span>Code</span>
                         <i
                           className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
@@ -212,13 +301,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("leadCode")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("leadCode")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
@@ -245,13 +343,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("name")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("name")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -290,13 +397,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("source")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("source")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -337,13 +453,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("agentName")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("agentName")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -384,13 +509,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("status")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("status")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -429,13 +563,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("tags")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("tags")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -476,13 +619,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("priority")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("priority")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
@@ -523,13 +675,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("timeToClose")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("timeToClose")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                             </div>
@@ -558,13 +719,22 @@ export default function Leads() {
                             <div
                               className={`${tableStyles.filter_btn_container} ${tableStyles.filter_btn_container_email}`}
                             >
-                              <div className={`btn ${tableStyles.button}`}>
-                                Unsort
-                              </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInAscOrderByProp("closedAt")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by ASC
                               </div>
-                              <div className={`btn ${tableStyles.button}`}>
+                              <div
+                                className={`btn ${tableStyles.button}`}
+                                onClick={() => {
+                                  sortLeadsDataInDescOrderByProp("closedAt")
+                                  applySort(true)
+                                }}
+                              >
                                 Sort by DESC
                               </div>
                               <div
