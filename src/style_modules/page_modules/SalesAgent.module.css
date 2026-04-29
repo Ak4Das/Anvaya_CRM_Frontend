@@ -31,4 +31,19 @@
   height: 100px;
   background-color: aqua;
   border-radius: 50%;
+  font-size: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile_image span {
+  color: #3e4396;
+}
+
+.heading_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
