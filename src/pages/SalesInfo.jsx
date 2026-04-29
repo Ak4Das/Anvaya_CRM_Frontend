@@ -7,14 +7,14 @@ import { sortArrayByProperty } from "../functions.js"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import {
-  sortArrayOfCodeNumbersInAscendingOrder,
-  sortArrayOfCodeNumbersInDescendingOrder,
-  sortArrayOfNumbersInAscendingOrder,
-  sortArrayOfNumbersInDescendingOrder,
-  sortArrayOfPhoneNumbersInAscendingOrder,
-  sortArrayOfPhoneNumbersInDescendingOrder,
-  sortArrayOfStringsInAscendingOrder,
-  sortArrayOfStringsInDescendingOrder,
+  sortCodeNumbersInAscendingOrder,
+  sortCodeNumbersInDescendingOrder,
+  sortNumbersInAscendingOrder,
+  sortNumbersInDescendingOrder,
+  sortPhoneNumbersInAscendingOrder,
+  sortPhoneNumbersInDescendingOrder,
+  sortStringsInAscendingOrder,
+  sortStringsInDescendingOrder,
 } from "../functions.js"
 
 export default function SalesInfo() {
@@ -171,25 +171,25 @@ export default function SalesInfo() {
 
   function sortAgentsDataInAscOrderByProp(prop) {
     if (prop === "agentCode") {
-      const updatedAgentsData = sortArrayOfCodeNumbersInAscendingOrder(
+      const updatedAgentsData = sortCodeNumbersInAscendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "totalSalesDoneInBtw30Days" || prop === "rank") {
-      const updatedAgentsData = sortArrayOfNumbersInAscendingOrder(
+      const updatedAgentsData = sortNumbersInAscendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "phoneNumber") {
-      const updatedAgentsData = sortArrayOfPhoneNumbersInAscendingOrder(
+      const updatedAgentsData = sortPhoneNumbersInAscendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else {
-      const updatedAgentsData = sortArrayOfStringsInAscendingOrder(
+      const updatedAgentsData = sortStringsInAscendingOrder(
         salesAgents,
         prop,
       )
@@ -199,25 +199,25 @@ export default function SalesInfo() {
 
   function sortAgentsDataInDescOrderByProp(prop) {
     if (prop === "agentCode") {
-      const updatedAgentsData = sortArrayOfCodeNumbersInDescendingOrder(
+      const updatedAgentsData = sortCodeNumbersInDescendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "totalSalesDoneInBtw30Days" || prop === "rank") {
-      const updatedAgentsData = sortArrayOfNumbersInDescendingOrder(
+      const updatedAgentsData = sortNumbersInDescendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "phoneNumber") {
-      const updatedAgentsData = sortArrayOfPhoneNumbersInDescendingOrder(
+      const updatedAgentsData = sortPhoneNumbersInDescendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else {
-      const updatedAgentsData = sortArrayOfStringsInDescendingOrder(
+      const updatedAgentsData = sortStringsInDescendingOrder(
         salesAgents,
         prop,
       )

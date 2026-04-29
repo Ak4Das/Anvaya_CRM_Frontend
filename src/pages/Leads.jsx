@@ -6,14 +6,14 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import {
-  sortArrayOfCodeNumbersInAscendingOrder,
-  sortArrayOfCodeNumbersInDescendingOrder,
-  sortArrayOfNumbersInAscendingOrder,
-  sortArrayOfNumbersInDescendingOrder,
-  sortArrayOfStringsInAscendingOrder,
-  sortArrayOfStringsInDescendingOrder,
-  sortDateInAscOrder,
-  sortDateInDescOrder,
+  sortCodeNumbersInAscendingOrder,
+  sortCodeNumbersInDescendingOrder,
+  sortNumbersInAscendingOrder,
+  sortNumbersInDescendingOrder,
+  sortStringsInAscendingOrder,
+  sortStringsInDescendingOrder,
+  sortDateInAscendingOrder,
+  sortDateInDescendingOrder,
 } from "../functions.js"
 
 export default function Leads() {
@@ -146,22 +146,22 @@ export default function Leads() {
 
   function sortLeadsDataInAscOrderByProp(prop) {
     if (prop === "leadCode") {
-      const updatedLeadsData = sortArrayOfCodeNumbersInAscendingOrder(
+      const updatedLeadsData = sortCodeNumbersInAscendingOrder(
         leadsData,
         prop,
       )
       setLeadsData(updatedLeadsData)
     } else if (prop === "timeToClose") {
-      const updatedLeadsData = sortArrayOfNumbersInAscendingOrder(
+      const updatedLeadsData = sortNumbersInAscendingOrder(
         leadsData,
         prop,
       )
       setLeadsData(updatedLeadsData)
     } else if (prop === "closedAt") {
-      const updatedLeadsData = sortDateInAscOrder(leadsData, prop)
+      const updatedLeadsData = sortDateInAscendingOrder(leadsData, prop)
       setLeadsData(updatedLeadsData)
     } else {
-      const updatedLeadsData = sortArrayOfStringsInAscendingOrder(
+      const updatedLeadsData = sortStringsInAscendingOrder(
         leadsData,
         prop,
       )
@@ -184,22 +184,22 @@ export default function Leads() {
 
   function sortLeadsDataInDescOrderByProp(prop) {
     if (prop === "leadCode") {
-      const updatedLeadsData = sortArrayOfCodeNumbersInDescendingOrder(
+      const updatedLeadsData = sortCodeNumbersInDescendingOrder(
         leadsData,
         prop,
       )
       setLeadsData(updatedLeadsData)
     } else if (prop === "timeToClose") {
-      const updatedLeadsData = sortArrayOfNumbersInDescendingOrder(
+      const updatedLeadsData = sortNumbersInDescendingOrder(
         leadsData,
         prop,
       )
       setLeadsData(updatedLeadsData)
     } else if (prop === "closedAt") {
-      const updatedLeadsData = sortDateInDescOrder(leadsData, prop)
+      const updatedLeadsData = sortDateInDescendingOrder(leadsData, prop)
       setLeadsData(updatedLeadsData)
     } else {
-      const updatedLeadsData = sortArrayOfStringsInDescendingOrder(
+      const updatedLeadsData = sortStringsInDescendingOrder(
         leadsData,
         prop,
       )

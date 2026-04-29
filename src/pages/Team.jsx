@@ -6,14 +6,14 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import {
-  sortArrayOfCodeNumbersInAscendingOrder,
-  sortArrayOfCodeNumbersInDescendingOrder,
-  sortArrayOfNumbersInAscendingOrder,
-  sortArrayOfNumbersInDescendingOrder,
-  sortArrayOfStringsInAscendingOrder,
-  sortArrayOfStringsInDescendingOrder,
-  sortDateInAscOrder,
-  sortDateInDescOrder,
+  sortCodeNumbersInAscendingOrder,
+  sortCodeNumbersInDescendingOrder,
+  sortNumbersInAscendingOrder,
+  sortNumbersInDescendingOrder,
+  sortStringsInAscendingOrder,
+  sortStringsInDescendingOrder,
+  sortDateInAscendingOrder,
+  sortDateInDescendingOrder,
 } from "../functions.js"
 
 export default function Team() {
@@ -260,22 +260,22 @@ export default function Team() {
 
   function sortAgentsDataInAscOrderByProp(prop) {
     if (prop === "agentCode") {
-      const updatedAgentsData = sortArrayOfCodeNumbersInAscendingOrder(
+      const updatedAgentsData = sortCodeNumbersInAscendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "performanceScore") {
-      const updatedAgentsData = sortArrayOfNumbersInAscendingOrder(
+      const updatedAgentsData = sortNumbersInAscendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "joinedDate") {
-      const updatedAgentsData = sortDateInAscOrder(salesAgents, prop)
+      const updatedAgentsData = sortDateInAscendingOrder(salesAgents, prop)
       setSalesAgents(updatedAgentsData)
     } else {
-      const updatedAgentsData = sortArrayOfStringsInAscendingOrder(
+      const updatedAgentsData = sortStringsInAscendingOrder(
         salesAgents,
         prop,
       )
@@ -285,22 +285,22 @@ export default function Team() {
 
   function sortAgentsDataInDescOrderByProp(prop) {
     if (prop === "agentCode") {
-      const updatedAgentsData = sortArrayOfCodeNumbersInDescendingOrder(
+      const updatedAgentsData = sortCodeNumbersInDescendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "performanceScore") {
-      const updatedAgentsData = sortArrayOfNumbersInDescendingOrder(
+      const updatedAgentsData = sortNumbersInDescendingOrder(
         salesAgents,
         prop,
       )
       setSalesAgents(updatedAgentsData)
     } else if (prop === "joinedDate") {
-      const updatedAgentsData = sortDateInDescOrder(salesAgents, prop)
+      const updatedAgentsData = sortDateInDescendingOrder(salesAgents, prop)
       setSalesAgents(updatedAgentsData)
     } else {
-      const updatedAgentsData = sortArrayOfStringsInDescendingOrder(
+      const updatedAgentsData = sortStringsInDescendingOrder(
         salesAgents,
         prop,
       )
