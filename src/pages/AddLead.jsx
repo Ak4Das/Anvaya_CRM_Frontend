@@ -16,6 +16,8 @@ import {
 import { customStyles } from "../reactSelectCustomStyles.js"
 import axios from "axios"
 import { toast } from "react-toastify"
+import { createLead, getAllAgentsData } from "../service/requestToServer.js"
+import { getCurrentDate } from "../functions.js"
 
 export default function AddLead() {
   const [nameInputClicked, setNameInputClick] = useState(false)
@@ -29,17 +31,8 @@ export default function AddLead() {
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
 
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
   useEffect(() => {
-    getAgentData()
+    getAllAgentsData(setSalesAgents)
   }, [])
 
   useEffect(() => {
@@ -64,24 +57,6 @@ export default function AddLead() {
     const random = Math.floor(100000 + Math.random() * 900000)
 
     return `${prefix}-${time}${random}`
-  }
-
-  function getCurrentDate() {
-    const currentDate = new Date().toISOString().split("T")[0]
-    return currentDate
-  }
-
-  async function createLead(body) {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/leads/addLead",
-        body,
-      )
-
-      return response.data
-    } catch (error) {
-      throw error
-    }
   }
 
   const formik = useFormik({

@@ -379,3 +379,13 @@ export function leadsHandleByAgentAccordingToStatus(obj) {
     lostLeads: numberOfLostLeadHandledByTheAgent,
   }
 }
+
+export function getCurrentDate() {
+  const currentDate = new Date().toISOString().split("T")[0]
+  return currentDate
+}
+
+export function normalizePhoneNumber(phoneNumber) {
+  const normalizedPhoneNumber = phoneNumber.replace(/^\(\+\d+\)/, "")
+  return normalizedPhoneNumber
+}

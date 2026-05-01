@@ -7,6 +7,8 @@ import { useFormik } from "formik"
 import { addAgentSchema } from "../schema/AddAgent.schema.js"
 import { toast } from "react-toastify"
 import axios from "axios"
+import { createAgent } from "../service/requestToServer.js"
+import { getCurrentDate, normalizePhoneNumber } from "../functions.js"
 
 export default function AddAgent() {
   const [nameInputClicked, setNameInputClick] = useState(false)
@@ -36,29 +38,6 @@ export default function AddAgent() {
     const random = Math.floor(100000 + Math.random() * 900000)
 
     return `${prefix}-${time}${random}`
-  }
-
-  function getCurrentDate() {
-    const currentDate = new Date().toISOString().split("T")[0]
-    return currentDate
-  }
-
-  async function createAgent(body) {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/agents/addAgent",
-        body,
-      )
-
-      return response.data
-    } catch (error) {
-      throw error
-    }
-  }
-
-  function normalizePhoneNumber(phoneNumber) {
-    const normalizedPhoneNumber = phoneNumber.replace(/^\(\+\d+\)/, "")
-    return normalizedPhoneNumber
   }
 
   const formik = useFormik({

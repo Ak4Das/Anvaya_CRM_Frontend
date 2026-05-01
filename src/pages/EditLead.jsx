@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom"
 import {
   filterLeadsByProperties,
   updateLeadById,
+  getAllAgentsData,
 } from "../service/requestToServer.js"
 
 export default function EditLead() {
@@ -28,18 +29,9 @@ export default function EditLead() {
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
 
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
   useEffect(() => {
     async function fetch() {
-      await getAgentData()
+      await getAllAgentsData(setSalesAgents)
       const filtersString = JSON.stringify({ _id: id })
       const response = await filterLeadsByProperties(filtersString)
       if (response.data.length) {

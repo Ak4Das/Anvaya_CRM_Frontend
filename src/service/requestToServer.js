@@ -203,6 +203,32 @@ export async function getSalesData(obj) {
   }
 }
 
+export async function createAgent(body) {
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/agents/addAgent",
+      body,
+    )
+
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function createLead(body) {
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/leads/addLead",
+      body,
+    )
+
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function updateLeadById(obj) {
   const { id, body } = obj
   try {
