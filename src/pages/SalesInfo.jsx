@@ -3,19 +3,23 @@ import tableStyles from "../style_modules/component_modules/Table.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
-import { sortArrayByProperty } from "../functions.js"
 import { Link } from "react-router-dom"
-import axios from "axios"
 import {
-  sortCodeNumbersInAscendingOrder,
-  sortCodeNumbersInDescendingOrder,
-  sortNumbersInAscendingOrder,
-  sortNumbersInDescendingOrder,
-  sortPhoneNumbersInAscendingOrder,
-  sortPhoneNumbersInDescendingOrder,
-  sortStringsInAscendingOrder,
-  sortStringsInDescendingOrder,
+  sortArrayByProperty,
+  handleClickOnApplyBtnForFilter as clickHandler,
+  removePropertyFilterHandler,
+  clearAllFiltersHandler,
+  getTotalSalesAmountOfAgent,
+  sortDataInAscendingOrderByProperty,
+  sortDataInDescendingOrderByProperty,
+  unsortData,
 } from "../functions.js"
+
+import {
+  filterAgentsByProperties,
+  getAllAgentsData,
+  getSalesData,
+} from "../service/requestToServer.js"
 
 export default function SalesInfo() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -25,130 +29,48 @@ export default function SalesInfo() {
   const [totalSaleBtnClicked, setTotalSaleBtnClick] = useState(false)
   const [rankBtnClicked, setRankBtnClicked] = useState(false)
   const [salesAgents, setSalesAgents] = useState([])
+  const [updatedSalesAgents, setUpdatedSalesAgents] = useState([])
   const [salesData, setSalesData] = useState([])
   const [sortApplied, applySort] = useState(false)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
 
-  const sortAgentsByTotalSales = sortArrayByProperty(
-    salesData,
-    "purchaseAmount",
-  )
-
-  function capitalizeFirstLetter(string) {
-    const String = string.trim()
-    const array = String.split(" ")
-    const updatedArray = array.map((word) => {
-      const result = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      return result
-    })
-    return updatedArray.join(" ")
-  }
-
   async function handleClick() {
-    const inputField = document.querySelector("#input")
-    const inputValue = inputField.value
-    if (inputValue) {
-      let updatedInputValue
-      if (openFilterInput === "phoneNumber") {
-        updatedInputValue = inputValue
-      } else {
-        updatedInputValue = capitalizeFirstLetter(inputValue)
-      }
-
-      const updatedProperties = {
-        ...properties,
-      }
-
-      if (openFilterInput === "phoneNumber") {
-        updatedProperties[openFilterInput] = { $regex: updatedInputValue }
-      } else {
-        updatedProperties[openFilterInput] = updatedInputValue
-      }
-
-      const updatedPropertiesString = JSON.stringify(updatedProperties)
-
-      const response = await filterAgentsByProperties(updatedPropertiesString)
-
-      getUpdatedAgentsArray(response.data)
-      setProperties(updatedProperties)
-    } else {
-      delete properties[openFilterInput]
-
-      const propertiesString = JSON.stringify(properties)
-
-      const response = await filterAgentsByProperties(propertiesString)
-      getUpdatedAgentsArray(response.data)
-      setProperties(properties)
-    }
-  }
-
-  async function filterAgentsByProperties(filtersString) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/agents/prop?filters=${encodeURIComponent(JSON.stringify(filtersString))}`,
-      )
-      return response
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getSalesDataInThisMonth() {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/sales/prop?minDay=0&maxDay=30",
-      )
-      setSalesData(response.data)
-    } catch (error) {
-      throw error
-    }
+    clickHandler({
+      openFilterInput,
+      properties,
+      filterByProperties: filterAgentsByProperties,
+      setProperties,
+      setFunction: getUpdatedAgentsArray,
+    })
   }
 
   async function removePropertyFilter(property) {
-    delete properties[property]
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterAgentsByProperties(propertiesString)
-    getUpdatedAgentsArray(response.data)
-    setProperties(properties)
+    removePropertyFilterHandler({
+      properties,
+      property,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: getUpdatedAgentsArray,
+      setProperties,
+    })
   }
 
   async function clearAllFilters() {
-    Object.keys(properties).forEach((key) => delete properties[key])
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterAgentsByProperties(propertiesString)
-    getUpdatedAgentsArray(response.data)
-    setProperties(properties)
-  }
-
-  useEffect(() => {
-    getAgentData()
-    getSalesDataInThisMonth()
-  }, [])
-
-  function getTotalSalesAmountOfAAgent(id) {
-    const arrayOfSalesDoneByAgent = salesData.filter(
-      (sales) => sales.salesAgent === id,
-    )
-    const totalSales = arrayOfSalesDoneByAgent.reduce((acc, curr) => {
-      return acc + curr.purchaseAmount
-    }, 0)
-    return totalSales
+    clearAllFiltersHandler({
+      properties,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: getUpdatedAgentsArray,
+      setProperties,
+    })
   }
 
   function getUpdatedAgentsArray(salesAgents) {
     const updatedArray = salesAgents.map((agent) => {
-      const totalSaleDoneByTheAgent = getTotalSalesAmountOfAAgent(agent._id)
+      const totalSaleDoneByTheAgent = getTotalSalesAmountOfAgent({
+        agentId: agent._id,
+        salesData,
+      })
       agent.totalSalesDoneInBtw30Days = totalSaleDoneByTheAgent
       return agent
     })
@@ -162,75 +84,45 @@ export default function SalesInfo() {
         return agent
       },
     )
-    setSalesAgents(assignRankToEachSalesAgents)
+    setUpdatedSalesAgents(assignRankToEachSalesAgents)
   }
 
-  useEffect(() => {
-    salesData.length && getUpdatedAgentsArray(salesAgents)
-  }, [salesData])
-
   function sortAgentsDataInAscOrderByProp(prop) {
-    if (prop === "agentCode") {
-      const updatedAgentsData = sortCodeNumbersInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "totalSalesDoneInBtw30Days" || prop === "rank") {
-      const updatedAgentsData = sortNumbersInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "phoneNumber") {
-      const updatedAgentsData = sortPhoneNumbersInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else {
-      const updatedAgentsData = sortStringsInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    }
+    sortDataInAscendingOrderByProperty({
+      data: salesAgents,
+      prop,
+      setFunction: setUpdatedSalesAgents,
+    })
   }
 
   function sortAgentsDataInDescOrderByProp(prop) {
-    if (prop === "agentCode") {
-      const updatedAgentsData = sortCodeNumbersInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "totalSalesDoneInBtw30Days" || prop === "rank") {
-      const updatedAgentsData = sortNumbersInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "phoneNumber") {
-      const updatedAgentsData = sortPhoneNumbersInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else {
-      const updatedAgentsData = sortStringsInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    }
+    sortDataInDescendingOrderByProperty({
+      data: salesAgents,
+      prop,
+      setFunction: setUpdatedSalesAgents,
+    })
   }
 
   async function unsortAgentsData() {
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterAgentsByProperties(propertiesString)
-    getUpdatedAgentsArray(response.data)
-    applySort(false)
+    unsortData({
+      properties,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: getUpdatedAgentsArray,
+      applySort,
+    })
   }
+
+  useEffect(() => {
+    async function fetch() {
+      await getAllAgentsData(setSalesAgents)
+      await getSalesData({ setFunction: setSalesData, endDay: 30 })
+    }
+    fetch()
+  }, [])
+
+  useEffect(() => {
+    salesAgents.length && getUpdatedAgentsArray(salesAgents)
+  }, [salesData])
 
   return (
     <div>
@@ -581,8 +473,8 @@ export default function SalesInfo() {
                     </tr>
                   </thead>
                   <tbody>
-                    {salesAgents &&
-                      salesAgents.map((agent) => {
+                    {updatedSalesAgents &&
+                      updatedSalesAgents.map((agent) => {
                         return (
                           <tr key={agent.agentCode}>
                             <th scope="row">{agent.agentCode}</th>

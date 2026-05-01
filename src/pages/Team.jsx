@@ -4,17 +4,23 @@ import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import axios from "axios"
 import {
-  sortCodeNumbersInAscendingOrder,
-  sortCodeNumbersInDescendingOrder,
-  sortNumbersInAscendingOrder,
-  sortNumbersInDescendingOrder,
-  sortStringsInAscendingOrder,
-  sortStringsInDescendingOrder,
-  sortDateInAscendingOrder,
-  sortDateInDescendingOrder,
+  handleClickOnApplyBtnForFilter as clickHandler,
+  capitalizeFirstLetter,
+  removePropertyFilterHandler,
+  clearAllFiltersHandler,
+  sortDataInAscendingOrderByProperty,
+  sortDataInDescendingOrderByProperty,
+  unsortData,
 } from "../functions.js"
+import {
+  getIdByManagerName,
+  getAllAgentsData,
+  getAllManagersData,
+  filterAgentsByProperties,
+  findOverallPerformanceScoreOfAgent,
+  getOverallPerformanceScores,
+} from "../service/requestToServer.js"
 
 export default function Team() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -29,220 +35,44 @@ export default function Team() {
     useState(false)
   const [salesAgents, setSalesAgents] = useState([])
   const [managers, setManagers] = useState([])
-  const [performanceScores, setPerformanceScores] = useState([])
+  const [overallPerformanceScores, setOverallPerformanceScores] = useState([])
   const [sortApplied, applySort] = useState(false)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
 
-  function capitalizeFirstLetter(string) {
-    const String = string.trim()
-    const array = String.split(" ")
-    const updatedArray = array.map((word) => {
-      const result = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      return result
-    })
-    return updatedArray.join(" ")
-  }
-
-  async function getIdByManagerName(name) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/managers/name/${name}`,
-      )
-      const arrayOfId = response.data.map((agent) => agent._id)
-      return arrayOfId
-    } catch (error) {
-      throw error
-    }
-  }
-
   async function handleClick() {
-    const inputField = document.querySelector("#input")
-    const inputValue = inputField.value
-    if (inputValue) {
-      const updatedInputValue = capitalizeFirstLetter(inputValue)
-      const updatedProperties = {
-        ...properties,
-      }
-
-      if (openFilterInput === "manager") {
-        const arrayOfAgentsId = await getIdByManagerName(updatedInputValue)
-        updatedProperties.manager = { $in: arrayOfAgentsId }
-      } else {
-        updatedProperties[openFilterInput] = updatedInputValue
-      }
-
-      const updatedPropertiesString = JSON.stringify(updatedProperties)
-
-      const response = await filterAgentsByProperties(updatedPropertiesString)
-
-      setSalesAgents(response.data)
-      setProperties(updatedProperties)
-    } else {
-      delete properties[openFilterInput]
-
-      const propertiesString = JSON.stringify(properties)
-
-      const response = await filterAgentsByProperties(propertiesString)
-      setSalesAgents(response.data)
-      setProperties(properties)
-    }
-  }
-
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getManagerData() {
-    try {
-      const response = await axios.get("http://localhost:3000/managers")
-      setManagers(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function filterAgentsByProperties(filtersString) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/agents/prop?filters=${encodeURIComponent(JSON.stringify(filtersString))}`,
-      )
-      return response
-    } catch (error) {
-      throw error
-    }
+    clickHandler({
+      openFilterInput,
+      properties,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: setSalesAgents,
+      setProperties,
+      getIdByManagerName,
+    })
   }
 
   async function removePropertyFilter(property) {
-    delete properties[property]
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterAgentsByProperties(propertiesString)
-    setSalesAgents(response.data)
-    setProperties(properties)
+    removePropertyFilterHandler({
+      properties,
+      property,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: setSalesAgents,
+      setProperties,
+    })
   }
 
   async function clearAllFilters() {
-    Object.keys(properties).forEach((key) => delete properties[key])
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterAgentsByProperties(propertiesString)
-    setSalesAgents(response.data)
-    setProperties(properties)
+    clearAllFiltersHandler({
+      properties,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: setSalesAgents,
+      setProperties,
+    })
   }
-
-  async function findOverallPerformanceScore(id) {
-    // Lost leads
-    const filtersToFindLostLeadsInOneYear = { salesAgent: id, status: "Lost" }
-    const findLostFilterString = JSON.stringify(filtersToFindLostLeadsInOneYear)
-    const lostLeadsInOneYear = await axios.get(
-      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findLostFilterString}`,
-    )
-
-    // Closed leads
-    const filtersToFindClosedLeadsInOneYear = {
-      salesAgent: id,
-      status: "Closed",
-    }
-    const findClosedFilterString = JSON.stringify(
-      filtersToFindClosedLeadsInOneYear,
-    )
-    const closedLeadsInOneYear = await axios.get(
-      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findClosedFilterString}`,
-    )
-
-    // New leads
-    const filtersToFindNewLeadsInOneYear = { salesAgent: id, status: "New" }
-    const findNewFilterString = JSON.stringify(filtersToFindNewLeadsInOneYear)
-    const NewLeadsInOneYear = await axios.get(
-      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findNewFilterString}`,
-    )
-
-    // Contacted leads
-    const filtersToFindContactedLeadsInOneYear = {
-      salesAgent: id,
-      status: "Contacted",
-    }
-    const findContactedFilterString = JSON.stringify(
-      filtersToFindContactedLeadsInOneYear,
-    )
-    const ContactedLeadsInOneYear = await axios.get(
-      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findContactedFilterString}`,
-    )
-
-    // Qualified leads
-    const filtersToFindQualifiedLeadsInOneYear = {
-      salesAgent: id,
-      status: "Qualified",
-    }
-    const findQualifiedFilterString = JSON.stringify(
-      filtersToFindQualifiedLeadsInOneYear,
-    )
-    const QualifiedLeadsInOneYear = await axios.get(
-      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findQualifiedFilterString}`,
-    )
-
-    // Proposal sent leads
-    const filtersToFindProposalSentLeadsInOneYear = {
-      salesAgent: id,
-      status: "Proposal Sent",
-    }
-    const findProposalSentFilterString = JSON.stringify(
-      filtersToFindProposalSentLeadsInOneYear,
-    )
-    const ProposalSentLeadsInOneYear = await axios.get(
-      `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findProposalSentFilterString}`,
-    )
-
-    const denominator =
-      NewLeadsInOneYear.data.length +
-      ContactedLeadsInOneYear.data.length +
-      QualifiedLeadsInOneYear.data.length +
-      ProposalSentLeadsInOneYear.data.length +
-      lostLeadsInOneYear.data.length +
-      closedLeadsInOneYear.data.length
-
-    const numerator = closedLeadsInOneYear.data.length
-
-    return (numerator / denominator) * 10
-  }
-
-  async function getPerformanceScores() {
-    try {
-      const performanceScores = await Promise.all(
-        salesAgents.map(async (agent) => {
-          const performanceScore = await findOverallPerformanceScore(agent._id)
-          agent.performanceScore = Number(performanceScore.toFixed(1)) || 0
-          return {
-            id: agent._id,
-            performanceScore: Number(performanceScore.toFixed(1)) || 0,
-          }
-        }),
-      )
-      setPerformanceScores(performanceScores)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  useEffect(() => {
-    getAgentData()
-    getManagerData()
-  }, [])
-
-  useEffect(() => {
-    salesAgents.length && getPerformanceScores()
-    if (salesAgents.length && managers.length) {
-      addPropertiesInAgentsData(salesAgents)
-    }
-  }, [salesAgents, managers])
 
   function getPerformanceScoreByAgentId(id) {
-    const obj = performanceScores.find((obj) => obj.id === id)
+    const obj = overallPerformanceScores.find((obj) => obj.id === id)
     return obj && obj.performanceScore
   }
 
@@ -251,7 +81,7 @@ export default function Team() {
     return manager && manager.name
   }
 
-  function addPropertiesInAgentsData(salesAgents) {
+  function addManagerNameInAgentsData(salesAgents) {
     salesAgents.forEach((agent) => {
       const manager = managers.find((manager) => manager._id === agent.manager)
       agent.managerName = manager.name
@@ -259,61 +89,48 @@ export default function Team() {
   }
 
   function sortAgentsDataInAscOrderByProp(prop) {
-    if (prop === "agentCode") {
-      const updatedAgentsData = sortCodeNumbersInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "performanceScore") {
-      const updatedAgentsData = sortNumbersInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "joinedDate") {
-      const updatedAgentsData = sortDateInAscendingOrder(salesAgents, prop)
-      setSalesAgents(updatedAgentsData)
-    } else {
-      const updatedAgentsData = sortStringsInAscendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    }
+    sortDataInAscendingOrderByProperty({
+      data: salesAgents,
+      prop,
+      setFunction: setSalesAgents,
+    })
   }
 
   function sortAgentsDataInDescOrderByProp(prop) {
-    if (prop === "agentCode") {
-      const updatedAgentsData = sortCodeNumbersInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "performanceScore") {
-      const updatedAgentsData = sortNumbersInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    } else if (prop === "joinedDate") {
-      const updatedAgentsData = sortDateInDescendingOrder(salesAgents, prop)
-      setSalesAgents(updatedAgentsData)
-    } else {
-      const updatedAgentsData = sortStringsInDescendingOrder(
-        salesAgents,
-        prop,
-      )
-      setSalesAgents(updatedAgentsData)
-    }
+    sortDataInDescendingOrderByProperty({
+      data: salesAgents,
+      prop,
+      setFunction: setSalesAgents,
+    })
   }
 
   async function unsortAgentsData() {
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterAgentsByProperties(propertiesString)
-    setSalesAgents(response.data)
-    applySort(false)
+    unsortData({
+      properties,
+      filterByProperties: filterAgentsByProperties,
+      setFunction: setSalesAgents,
+      applySort,
+    })
   }
+
+  useEffect(() => {
+    async function fetch() {
+      await getAllAgentsData(setSalesAgents)
+      await getAllManagersData(setManagers)
+    }
+    fetch()
+  }, [])
+
+  useEffect(() => {
+    salesAgents.length &&
+      getOverallPerformanceScores({
+        salesAgents,
+        setFunction: setOverallPerformanceScores,
+      })
+    if (salesAgents.length && managers.length) {
+      addManagerNameInAgentsData(salesAgents)
+    }
+  }, [managers])
 
   return (
     <div>
@@ -880,7 +697,7 @@ export default function Team() {
                             <td>{agent.location}</td>
                             <td>
                               <span style={{ color: "#70d89d" }}>
-                                {performanceScores.length &&
+                                {overallPerformanceScores.length &&
                                   getPerformanceScoreByAgentId(agent._id)}
                               </span>{" "}
                               out of 10

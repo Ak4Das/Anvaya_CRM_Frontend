@@ -9,7 +9,10 @@ import SideBar from "./components/SideBar.jsx"
 import NavBar from "./components/NavBar.jsx"
 import { barChart, lineChart, pieChart } from "./chart.js"
 import { sortArrayByProperty } from "./functions.js"
-import axios from "axios"
+import {
+  getLeadDataByPropertyInATimeRange,
+  getAllAgentsData,
+} from "./service/requestToServer.js"
 
 function App() {
   const theme = useTheme()
@@ -22,36 +25,14 @@ function App() {
   const [sortAgentsByPerformanceScore, setSortAgentsByPerformanceScore] =
     useState([])
 
-  async function getLeadDataByProperty(properties, endDay, setFunction) {
-    try {
-      const propString = JSON.stringify(properties)
-      const response = await axios.get(
-        `http://localhost:3000/leads?minDay=0&maxDay=${endDay}&filters=${propString}`,
-      )
-      setFunction && setFunction(response.data)
-      return response.data
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgent(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
   async function updateSalesAgentsData() {
     const updatedData = await Promise.all(
       salesAgent.map(async (agent) => {
-        const assignedLead = await getLeadDataByProperty(
+        const assignedLead = await getLeadDataByPropertyInATimeRange(
           { salesAgent: agent._id },
           360,
         )
-        const closedLead = await getLeadDataByProperty(
+        const closedLead = await getLeadDataByPropertyInATimeRange(
           { salesAgent: agent._id, status: "Closed" },
           360,
         )
@@ -73,24 +54,32 @@ function App() {
 
   useEffect(() => {
     async function fetch() {
-      await getLeadDataByProperty({ status: "New" }, 30, setNewLeadsData)
-      await getLeadDataByProperty(
+      await getLeadDataByPropertyInATimeRange(
+        { status: "New" },
+        30,
+        setNewLeadsData,
+      )
+      await getLeadDataByPropertyInATimeRange(
         { status: "Contacted" },
         30,
         setContactedLeadsData,
       )
-      await getLeadDataByProperty(
+      await getLeadDataByPropertyInATimeRange(
         { status: "Qualified" },
         30,
         setQualifiedLeadsData,
       )
-      await getLeadDataByProperty(
+      await getLeadDataByPropertyInATimeRange(
         { status: "Proposal Sent" },
         30,
         setProposalSentLeadsData,
       )
-      await getLeadDataByProperty({ status: "Closed" }, 30, setClosedLeadsData)
-      await getAgentData()
+      await getLeadDataByPropertyInATimeRange(
+        { status: "Closed" },
+        30,
+        setClosedLeadsData,
+      )
+      await getAllAgentsData(setSalesAgent)
     }
     fetch()
     pieChart()

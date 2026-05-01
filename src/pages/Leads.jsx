@@ -4,17 +4,20 @@ import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import axios from "axios"
 import {
-  sortCodeNumbersInAscendingOrder,
-  sortCodeNumbersInDescendingOrder,
-  sortNumbersInAscendingOrder,
-  sortNumbersInDescendingOrder,
-  sortStringsInAscendingOrder,
-  sortStringsInDescendingOrder,
-  sortDateInAscendingOrder,
-  sortDateInDescendingOrder,
+  handleClickOnApplyBtnForFilter as clickHandler,
+  removePropertyFilterHandler,
+  clearAllFiltersHandler,
+  sortDataInAscendingOrderByProperty,
+  sortDataInDescendingOrderByProperty,
+  unsortData,
 } from "../functions.js"
+import {
+  getIdByAgentName,
+  getLeadsDataInATimeRange,
+  filterLeadsByProperties,
+  getAllAgentsData,
+} from "../service/requestToServer.js"
 
 export default function Leads() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -38,135 +41,42 @@ export default function Leads() {
     return agent.name
   }
 
-  function capitalizeFirstLetter(string) {
-    const String = string.trim()
-    const array = String.split(" ")
-    const updatedArray = array.map((word) => {
-      const result = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      return result
-    })
-    return updatedArray.join(" ")
-  }
-
-  async function getIdByAgentName(name) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/agents/name/${name}`,
-      )
-      const arrayOfId = response.data.map((agent) => agent._id)
-      return arrayOfId
-    } catch (error) {
-      throw error
-    }
-  }
-
   async function handleClick() {
-    const inputField = document.querySelector("#input")
-    const inputValue = inputField.value
-    if (inputValue) {
-      const updatedInputValue = capitalizeFirstLetter(inputValue)
-      const updatedProperties = {
-        ...properties,
-      }
-
-      if (openFilterInput === "salesAgent") {
-        const arrayOfAgentsId = await getIdByAgentName(updatedInputValue)
-        updatedProperties.salesAgent = { $in: arrayOfAgentsId }
-      } else {
-        updatedProperties[openFilterInput] = updatedInputValue
-      }
-
-      const updatedPropertiesString = JSON.stringify(updatedProperties)
-
-      const response = await filterLeadsByProperties(updatedPropertiesString)
-      setLeadsData(response.data)
-      setProperties(updatedProperties)
-    } else {
-      delete properties[openFilterInput]
-
-      const propertiesString = JSON.stringify(properties)
-
-      const response = await filterLeadsByProperties(propertiesString)
-      setLeadsData(response.data)
-      setProperties(properties)
-    }
+    clickHandler({
+      openFilterInput,
+      properties,
+      filterByProperties: filterLeadsByProperties,
+      setProperties,
+      getIdByAgentName,
+      setFunction: setLeadsData,
+    })
   }
-
-  async function getLeadData() {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/leads?minDay=0&maxDay=30",
-      )
-      setLeadsData(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function filterLeadsByProperties(filtersString) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/leads?minDay=0&maxDay=30&filters=${filtersString}`,
-      )
-      return response
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  useEffect(() => {
-    getLeadData()
-    getAgentData()
-  }, [])
 
   async function removePropertyFilter(property) {
-    delete properties[property]
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterLeadsByProperties(propertiesString)
-    setLeadsData(response.data)
-    setProperties(properties)
+    removePropertyFilterHandler({
+      properties,
+      property,
+      filterByProperties: filterLeadsByProperties,
+      setFunction: setLeadsData,
+      setProperties,
+    })
   }
 
   async function clearAllFilters() {
-    Object.keys(properties).forEach((key) => delete properties[key])
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterLeadsByProperties(propertiesString)
-    setLeadsData(response.data)
-    setProperties(properties)
+    clearAllFiltersHandler({
+      properties,
+      filterByProperties: filterLeadsByProperties,
+      setFunction: setLeadsData,
+      setProperties,
+    })
   }
 
   function sortLeadsDataInAscOrderByProp(prop) {
-    if (prop === "leadCode") {
-      const updatedLeadsData = sortCodeNumbersInAscendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "timeToClose") {
-      const updatedLeadsData = sortNumbersInAscendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "closedAt") {
-      const updatedLeadsData = sortDateInAscendingOrder(leadsData, prop)
-      setLeadsData(updatedLeadsData)
-    } else {
-      const updatedLeadsData = sortStringsInAscendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    }
+    sortDataInAscendingOrderByProperty({
+      data: leadsData,
+      prop,
+      setFunction: setLeadsData,
+    })
   }
 
   function addPropertiesInLeadsData(leadsData) {
@@ -176,43 +86,36 @@ export default function Leads() {
     })
   }
 
+  function sortLeadsDataInDescOrderByProp(prop) {
+    sortDataInDescendingOrderByProperty({
+      data: leadsData,
+      prop,
+      setFunction: setLeadsData,
+    })
+  }
+
+  async function unsortLeadsData() {
+    unsortData({
+      properties,
+      filterByProperties: filterLeadsByProperties,
+      setFunction: setLeadsData,
+      applySort,
+    })
+  }
+
+  useEffect(() => {
+    async function fetch() {
+      await getAllAgentsData(setSalesAgents)
+      await getLeadsDataInATimeRange({ setFunction: setLeadsData, endDay: 30 })
+    }
+    fetch()
+  }, [])
+
   useEffect(() => {
     if (leadsData.length && salesAgents.length) {
       addPropertiesInLeadsData(leadsData)
     }
-  }, [leadsData, salesAgents])
-
-  function sortLeadsDataInDescOrderByProp(prop) {
-    if (prop === "leadCode") {
-      const updatedLeadsData = sortCodeNumbersInDescendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "timeToClose") {
-      const updatedLeadsData = sortNumbersInDescendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "closedAt") {
-      const updatedLeadsData = sortDateInDescendingOrder(leadsData, prop)
-      setLeadsData(updatedLeadsData)
-    } else {
-      const updatedLeadsData = sortStringsInDescendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    }
-  }
-
-  async function unsortLeadsData() {
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterLeadsByProperties(propertiesString)
-    setLeadsData(response.data)
-    applySort(false)
-  }
+  }, [leadsData])
 
   return (
     <div>

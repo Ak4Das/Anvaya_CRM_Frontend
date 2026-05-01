@@ -2,20 +2,25 @@ import styles from "../style_modules/page_modules/SalesAgent.module.css"
 import tableStyles from "../style_modules/component_modules/Table.module.css"
 import SideBar from "../components/SideBar"
 import NavBar from "../components/NavBar.jsx"
-import agents from "../agentData.js"
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import axios from "axios"
 import {
-  sortCodeNumbersInAscendingOrder,
-  sortCodeNumbersInDescendingOrder,
-  sortNumbersInAscendingOrder,
-  sortNumbersInDescendingOrder,
-  sortStringsInAscendingOrder,
-  sortStringsInDescendingOrder,
-  sortDateInAscendingOrder,
-  sortDateInDescendingOrder,
+  handleClickOnApplyBtnForFilter as clickHandler,
+  removePropertyFilterHandler,
+  clearAllFiltersHandler,
+  sortDataInAscendingOrderByProperty,
+  sortDataInDescendingOrderByProperty,
+  unsortData,
+  getScoreOfAgent,
+  numberOfLeadsHandleByAgent,
+  leadsHandleByAgentAccordingToStatus,
 } from "../functions.js"
+import {
+  getIdByAgentName,
+  getLeadsDataInATimeRange,
+  filterLeadsByProperties,
+  getAllAgentsData,
+} from "../service/requestToServer.js"
 
 export default function SalesAgent() {
   const id = useParams().id
@@ -40,135 +45,42 @@ export default function SalesAgent() {
     return agent.name
   }
 
-  function capitalizeFirstLetter(string) {
-    const String = string.trim()
-    const array = String.split(" ")
-    const updatedArray = array.map((word) => {
-      const result = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      return result
-    })
-    return updatedArray.join(" ")
-  }
-
-  async function getIdByAgentName(name) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/agents/name/${name}`,
-      )
-      const arrayOfId = response.data.map((agent) => agent._id)
-      return arrayOfId
-    } catch (error) {
-      throw error
-    }
-  }
-
   async function handleClick() {
-    const inputField = document.querySelector("#input")
-    const inputValue = inputField.value
-    if (inputValue) {
-      const updatedInputValue = capitalizeFirstLetter(inputValue)
-      const updatedProperties = {
-        ...properties,
-      }
-
-      if (openFilterInput === "salesAgent") {
-        const arrayOfAgentsId = await getIdByAgentName(updatedInputValue)
-        updatedProperties.salesAgent = { $in: arrayOfAgentsId }
-      } else {
-        updatedProperties[openFilterInput] = updatedInputValue
-      }
-
-      const updatedPropertiesString = JSON.stringify(updatedProperties)
-
-      const response = await filterLeadsByProperties(updatedPropertiesString)
-      setLeadsData(response.data)
-      setProperties(updatedProperties)
-    } else {
-      delete properties[openFilterInput]
-
-      const propertiesString = JSON.stringify(properties)
-
-      const response = await filterLeadsByProperties(propertiesString)
-      setLeadsData(response.data)
-      setProperties(properties)
-    }
+    clickHandler({
+      openFilterInput,
+      properties,
+      filterByProperties: filterLeadsByProperties,
+      setProperties,
+      setFunction: setLeadsData,
+      getIdByAgentName,
+    })
   }
-
-  async function getLeadData() {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/leads?minDay=0&maxDay=30",
-      )
-      setLeadsData(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function filterLeadsByProperties(filtersString) {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/leads?minDay=0&maxDay=30&filters=${filtersString}`,
-      )
-      return response
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  useEffect(() => {
-    getLeadData()
-    getAgentData()
-  }, [])
 
   async function removePropertyFilter(property) {
-    delete properties[property]
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterLeadsByProperties(propertiesString)
-    setLeadsData(response.data)
-    setProperties(properties)
+    removePropertyFilterHandler({
+      properties,
+      property,
+      filterByProperties: filterLeadsByProperties,
+      setFunction: setLeadsData,
+      setProperties,
+    })
   }
 
   async function clearAllFilters() {
-    Object.keys(properties).forEach((key) => delete properties[key])
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterLeadsByProperties(propertiesString)
-    setLeadsData(response.data)
-    setProperties(properties)
+    clearAllFiltersHandler({
+      properties,
+      filterByProperties: filterLeadsByProperties,
+      setFunction: setLeadsData,
+      setProperties,
+    })
   }
 
   function sortLeadsDataInAscOrderByProp(prop) {
-    if (prop === "leadCode") {
-      const updatedLeadsData = sortCodeNumbersInAscendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "timeToClose") {
-      const updatedLeadsData = sortNumbersInAscendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "closedAt") {
-      const updatedLeadsData = sortDateInAscendingOrder(leadsData, prop)
-      setLeadsData(updatedLeadsData)
-    } else {
-      const updatedLeadsData = sortStringsInAscendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    }
+    sortDataInAscendingOrderByProperty({
+      data: leadsData,
+      prop,
+      setFunction: setLeadsData,
+    })
   }
 
   function addPropertiesInLeadsData(leadsData) {
@@ -178,79 +90,54 @@ export default function SalesAgent() {
     })
   }
 
-  useEffect(() => {
-    if (leadsData.length && salesAgents.length) {
-      addPropertiesInLeadsData(leadsData)
-    }
-  }, [leadsData, salesAgents])
-
   function sortLeadsDataInDescOrderByProp(prop) {
-    if (prop === "leadCode") {
-      const updatedLeadsData = sortCodeNumbersInDescendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "timeToClose") {
-      const updatedLeadsData = sortNumbersInDescendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    } else if (prop === "closedAt") {
-      const updatedLeadsData = sortDateInDescendingOrder(leadsData, prop)
-      setLeadsData(updatedLeadsData)
-    } else {
-      const updatedLeadsData = sortStringsInDescendingOrder(
-        leadsData,
-        prop,
-      )
-      setLeadsData(updatedLeadsData)
-    }
+    sortDataInDescendingOrderByProperty({
+      data: leadsData,
+      prop,
+      setFunction: setLeadsData,
+    })
   }
 
   async function unsortLeadsData() {
-    const propertiesString = JSON.stringify(properties)
-    const response = await filterLeadsByProperties(propertiesString)
-    setLeadsData(response.data)
-    applySort(false)
+    unsortData({
+      properties,
+      filterByProperties: filterLeadsByProperties,
+      setFunction: setLeadsData,
+      applySort,
+    })
   }
 
   const agent = salesAgents.length
     ? salesAgents.find((agent) => agent._id === id)
     : {}
 
-  const leadsHandledByAgent =
-    leadsData.length && Object.keys(agent).length
-      ? leadsData.filter((lead) => lead.salesAgent === id)
-      : []
+  const leadsHandledByAgent = numberOfLeadsHandleByAgent({
+    leadsData,
+    agentId: id,
+  })
 
-  const numberOfNewLeadHandleByTheAgent = leadsHandledByAgent.filter(
-    (lead) => lead.status === "New",
-  )
+  const {
+    newLeads,
+    contactedLeads,
+    qualifiedLeads,
+    proposalSentLeads,
+    closedLeads,
+    lostLeads,
+  } = leadsHandleByAgentAccordingToStatus({ leadsData, agentId: id })
 
-  const numberOfContactedLeadHandledByTheAgent = leadsHandledByAgent.filter(
-    (lead) => lead.status === "Contacted",
-  )
+  useEffect(() => {
+    async function fetch() {
+      await getAllAgentsData(setSalesAgents)
+      await getLeadsDataInATimeRange({ setFunction: setLeadsData, endDay: 30 })
+    }
+    fetch()
+  }, [])
 
-  const numberOfQualifiedLeadHandledByTheAgent = leadsHandledByAgent.filter(
-    (lead) => lead.status === "Qualified",
-  )
-
-  const numberOfProposalSentLeadHandledByTheAgent = leadsHandledByAgent.filter(
-    (lead) => lead.status === "Proposal Sent",
-  )
-
-  const numberOfClosedLeadHandledByTheAgent = leadsHandledByAgent.filter(
-    (lead) => lead.status === "Closed",
-  )
-
-  function getScore() {
-    const denominator = leadsHandledByAgent.length
-    const numerator = numberOfClosedLeadHandledByTheAgent.length
-    const score = (numerator / denominator) * 10
-    return Number(score.toFixed(1))
-  }
+  useEffect(() => {
+    if (leadsData.length && salesAgents.length) {
+      addPropertiesInLeadsData(leadsData)
+    }
+  }, [leadsData])
 
   return (
     <div className={`app`}>
@@ -296,14 +183,19 @@ export default function SalesAgent() {
                 </thead>
                 <tbody>
                   <tr>
-                    <th scope="row">
-                      {numberOfNewLeadHandleByTheAgent.length}
-                    </th>
-                    <td>{numberOfContactedLeadHandledByTheAgent.length}</td>
-                    <td>{numberOfQualifiedLeadHandledByTheAgent.length}</td>
-                    <td>{numberOfProposalSentLeadHandledByTheAgent.length}</td>
-                    <td>{numberOfClosedLeadHandledByTheAgent.length}</td>
-                    <td style={{ color: "#44C9BD" }}>{getScore() || 0} / 10</td>
+                    <th scope="row">{newLeads.length}</th>
+                    <td>{contactedLeads.length}</td>
+                    <td>{qualifiedLeads.length}</td>
+                    <td>{proposalSentLeads.length}</td>
+                    <td>{closedLeads.length}</td>
+                    <td style={{ color: "#44C9BD" }}>
+                      {getScoreOfAgent({
+                        salesAgents,
+                        leadsData,
+                        agentId: id,
+                      }) || 0}{" "}
+                      / 10
+                    </td>
                   </tr>
                 </tbody>
               </table>
