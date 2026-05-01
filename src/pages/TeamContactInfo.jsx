@@ -459,7 +459,7 @@ export default function TeamContactInfo() {
                             <td>{agent.phoneNumber}</td>
                             <td>
                               <Link
-                                to={`/salesAgent/${agent.id}`}
+                                to={`/salesAgent/${agent._id}`}
                                 className="btn btn-success btn-sm"
                               >
                                 View Profile
