@@ -17,9 +17,9 @@ import {
 } from "../functions.js"
 import {
   getIdByAgentName,
-  getLeadsDataInATimeRange,
   filterLeadsByProperties,
-  getAllAgentsData,
+  getLeadDataByPropertyInATimeRange,
+  filterAgentsByProperties,
 } from "../service/requestToServer.js"
 
 export default function SalesAgent() {
@@ -34,16 +34,12 @@ export default function SalesAgent() {
   const [closedAtBtnClicked, setClosedAtBtnClick] = useState(false)
 
   const [leadsData, setLeadsData] = useState([])
-  const [salesAgents, setSalesAgents] = useState([])
+  const [updatedLeadsData, setUpdatedLeadsData] = useState([])
+  const [agent, setAgent] = useState([])
   const [sortApplied, applySort] = useState(false)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
-
-  function getAgentNameById(id) {
-    const agent = salesAgents.find((agent) => agent._id === id)
-    return agent.name
-  }
 
   async function handleClick() {
     clickHandler({
@@ -85,9 +81,9 @@ export default function SalesAgent() {
 
   function addPropertiesInLeadsData(leadsData) {
     leadsData.forEach((lead) => {
-      const agent = salesAgents.find((agent) => agent._id === lead.salesAgent)
-      lead.agentName = agent.name
+      lead.agentName = agent[0].name
     })
+    setUpdatedLeadsData(leadsData)
   }
 
   function sortLeadsDataInDescOrderByProp(prop) {
@@ -107,15 +103,6 @@ export default function SalesAgent() {
     })
   }
 
-  const agent = salesAgents.length
-    ? salesAgents.find((agent) => agent._id === id)
-    : {}
-
-  const leadsHandledByAgent = numberOfLeadsHandleByAgent({
-    leadsData,
-    agentId: id,
-  })
-
   const {
     newLeads,
     contactedLeads,
@@ -127,14 +114,18 @@ export default function SalesAgent() {
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents)
-      await getLeadsDataInATimeRange({ setFunction: setLeadsData, endDay: 30 })
+      await filterAgentsByProperties({ _id: id }, setAgent)
+      await getLeadDataByPropertyInATimeRange(
+        { salesAgent: id },
+        30,
+        setLeadsData,
+      )
     }
     fetch()
   }, [])
 
   useEffect(() => {
-    if (leadsData.length && salesAgents.length) {
+    if (leadsData.length && agent.length) {
       addPropertiesInLeadsData(leadsData)
     }
   }, [leadsData])
@@ -149,20 +140,20 @@ export default function SalesAgent() {
             <div className={`${styles.profile_image}`}>
               <span>
                 {Object.keys(agent).length &&
-                  agent.name.split("")[0].toUpperCase()}
+                  agent[0].name.split("")[0].toUpperCase()}
               </span>
             </div>
             <p>
-              Name: <span>{agent?.name}</span>
+              Name: <span>{agent[0]?.name}</span>
             </p>
             <p>
-              Phone: <span>{agent?.phoneNumber}</span>
+              Phone: <span>{agent[0]?.phoneNumber}</span>
             </p>
             <p>
-              Email: <span>{agent?.email}</span>
+              Email: <span>{agent[0]?.email}</span>
             </p>
             {/* <p>
-              Overall Score: <span>{agent?.performanceScore} / 10</span>
+              Overall Score: <span>{agent[0]?.performanceScore} / 10</span>
             </p> */}
           </section>
           <section className={`${styles.child_section_two}`}>
@@ -190,7 +181,6 @@ export default function SalesAgent() {
                     <td>{closedLeads.length}</td>
                     <td style={{ color: "#44C9BD" }}>
                       {getScoreOfAgent({
-                        salesAgents,
                         leadsData,
                         agentId: id,
                       }) || 0}{" "}
@@ -672,15 +662,15 @@ export default function SalesAgent() {
                     </tr>
                   </thead>
                   <tbody>
-                    {leadsHandledByAgent &&
-                      leadsHandledByAgent.map((lead) => {
+                    {updatedLeadsData &&
+                      updatedLeadsData.map((lead) => {
                         return (
                           <tr key={lead.leadCode}>
                             <th scope="row">{lead.leadCode}</th>
                             <td>{lead.name}</td>
                             <td>{lead.source}</td>
                             <td style={{ color: "#70d89d" }}>
-                              {getAgentNameById(lead.salesAgent)}
+                              {lead.agentName}
                             </td>
                             <td>{lead.status}</td>
                             <td>{lead.tags}</td>
