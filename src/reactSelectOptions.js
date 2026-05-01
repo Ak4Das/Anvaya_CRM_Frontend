@@ -8,7 +8,7 @@ export const sourceOptions = [
   { value: "Our Customers", label: "Our Customers" },
   { value: "Television Ad", label: "Television Ad" },
   { value: "Google", label: "Google" },
-  { value: "Others", label: "Others" },
+  { value: "Other", label: "Other" },
 ]
 
 export function getAgentOptions(agents) {

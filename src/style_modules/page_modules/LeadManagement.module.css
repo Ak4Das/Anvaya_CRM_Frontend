@@ -93,3 +93,8 @@
   color: #111111;
   font-weight: 600;
 }
+
+.editLeadBtn {
+  border: 1px solid #70d8bd;
+  color: #70d8bd;
+}

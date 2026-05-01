@@ -202,3 +202,16 @@ export async function getSalesData(obj) {
     throw error
   }
 }
+
+export async function updateLeadById(obj) {
+  const { id, body } = obj
+  try {
+    const response = await axios.patch(
+      `http://localhost:3000/leads/update/${id}`,
+      body,
+    )
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}

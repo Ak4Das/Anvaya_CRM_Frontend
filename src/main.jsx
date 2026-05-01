@@ -15,6 +15,7 @@ import AddLead from "./pages/AddLead.jsx"
 import SalesAgent from "./pages/SalesAgent.jsx"
 import LeadManagement from "./pages/LeadManagement.jsx"
 import { ToastContainer } from 'react-toastify';
+import EditLead from "./pages/EditLead.jsx"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   { path: "/sales", element: <SalesInfo /> },
   { path: "/leads", element: <Leads /> },
   { path: "/addLead", element: <AddLead /> },
+  { path: "/editLead/:id", element: <EditLead /> },
   { path: "/salesAgent/:id", element: <SalesAgent /> },
   { path: "/lead/:id", element: <LeadManagement /> },
 ])

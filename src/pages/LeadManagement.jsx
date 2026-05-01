@@ -2,7 +2,7 @@ import styles from "../style_modules/page_modules/LeadManagement.module.css"
 import React, { useEffect, useState } from "react"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import axios from "axios"
 
 export default function LeadManagement() {
@@ -54,9 +54,12 @@ export default function LeadManagement() {
               <h2 className={`${styles.text1}`}>Manage Lead</h2>
               <h5 className={`${styles.text2}`}>Lead Management Screen</h5>
             </div>
-            <button className="btn btn-outline-success">
+            <Link
+              to={`/editLead/${id}`}
+              className={`btn btn-outline-success ${styles.editLeadBtn}`}
+            >
               Edit Lead Details
-            </button>
+            </Link>
           </div>
           <div className={`container ${styles.container}`}>
             <div className={`${styles.leadDetailsContainer}`}>

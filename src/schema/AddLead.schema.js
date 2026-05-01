@@ -18,7 +18,7 @@ export const addLeadSchema = yup.object({
     .string()
     .required("Phone number is required")
     .matches(
-      /^\(\+\d{1,3}\)\d{10}$/,
+      /^\(\+\d{1,3}\)\d+$/,
       "Phone number must be in format (+91)9785578985",
     ),
 })
