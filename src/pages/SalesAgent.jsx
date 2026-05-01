@@ -20,6 +20,7 @@ import {
   filterLeadsByProperties,
   getLeadDataByPropertyInATimeRange,
   filterAgentsByProperties,
+  getOverallPerformanceScores,
 } from "../service/requestToServer.js"
 
 export default function SalesAgent() {
@@ -37,6 +38,8 @@ export default function SalesAgent() {
   const [updatedLeadsData, setUpdatedLeadsData] = useState([])
   const [agent, setAgent] = useState([])
   const [sortApplied, applySort] = useState(false)
+  const [getOverallPerformanceScore, setOverallPerformanceScore] =
+    useState(null)
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
@@ -127,6 +130,10 @@ export default function SalesAgent() {
   useEffect(() => {
     if (leadsData.length && agent.length) {
       addPropertiesInLeadsData(leadsData)
+      getOverallPerformanceScores({
+        salesAgents: agent,
+        setFunction: setOverallPerformanceScore,
+      })
     }
   }, [leadsData])
 
@@ -152,9 +159,18 @@ export default function SalesAgent() {
             <p>
               Email: <span>{agent[0]?.email}</span>
             </p>
-            {/* <p>
-              Overall Score: <span>{agent[0]?.performanceScore} / 10</span>
-            </p> */}
+            {getOverallPerformanceScore && (
+              <p>
+                Overall Score:{" "}
+                <span>
+                  {
+                    getOverallPerformanceScore.find((ele) => ele.id === id)
+                      .performanceScore
+                  }
+                  {" "}/ 10
+                </span>
+              </p>
+            )}
           </section>
           <section className={`${styles.child_section_two}`}>
             <h6 className="mb-3" style={{ color: "#44C9BD" }}>
