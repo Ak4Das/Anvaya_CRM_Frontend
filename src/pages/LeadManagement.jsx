@@ -11,39 +11,24 @@ import { customStyles } from "../reactSelectCustomStyles.js"
 import { getAgentOptions } from "../reactSelectOptions.js"
 import Select from "react-select"
 import { toast } from "react-toastify"
-import { postAgentComment } from "../service/requestToServer.js"
+import {
+  filterLeadsByProperties,
+  getAllAgentsData,
+  postAgentComment,
+} from "../service/requestToServer.js"
 
 export default function LeadManagement() {
   const id = useParams().id
 
-  const [leadsData, setLeadsData] = useState([])
+  const [lead, setLead] = useState([])
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
 
-  async function getLeadData() {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/leads?minDay=0&maxDay=30",
-      )
-      setLeadsData(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
-  async function getAgentData() {
-    try {
-      const response = await axios.get("http://localhost:3000/agents")
-      setSalesAgents(response.data)
-    } catch (error) {
-      throw error
-    }
-  }
-
   useEffect(() => {
     async function fetch() {
-      await getLeadData()
-      await getAgentData()
+      const filtersString = JSON.stringify({ _id: id })
+      await filterLeadsByProperties(filtersString, setLead)
+      await getAllAgentsData(setSalesAgents)
     }
     fetch()
   }, [])
@@ -52,8 +37,6 @@ export default function LeadManagement() {
     const options = salesAgents.length ? getAgentOptions(salesAgents) : []
     options && setAgentOptions(options)
   }, [salesAgents])
-
-  const lead = leadsData.find((lead) => lead._id === id)
 
   function getAgentNameById(id) {
     const agent = salesAgents.find((agent) => agent._id === id)
@@ -110,22 +93,23 @@ export default function LeadManagement() {
             <div className={`${styles.leadDetailsContainer}`}>
               <h1>Lead Details</h1>
               <p>
-                Name: <span>{lead?.name}</span>
+                Name: <span>{lead[0]?.name}</span>
               </p>
               <p>
-                Sales Agent: <span>{getAgentNameById(lead?.salesAgent)}</span>
+                Sales Agent:{" "}
+                <span>{getAgentNameById(lead[0]?.salesAgent)}</span>
               </p>
               <p>
-                Source: <span>{lead?.source}</span>
+                Source: <span>{lead[0]?.source}</span>
               </p>
               <p>
-                Status: <span>{lead?.status}</span>
+                Status: <span>{lead[0]?.status}</span>
               </p>
               <p>
-                Priority: <span>{lead?.priority}</span>
+                Priority: <span>{lead[0]?.priority}</span>
               </p>
               <p>
-                Time To Close: <span>{lead?.timeToClose} days</span>
+                Time To Close: <span>{lead[0]?.timeToClose} days</span>
               </p>
             </div>
 

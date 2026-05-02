@@ -50,11 +50,12 @@ export async function filterAgentsByProperties(filtersString, setFunction) {
   }
 }
 
-export async function filterLeadsByProperties(filtersString) {
+export async function filterLeadsByProperties(filtersString, setFunction) {
   try {
     const response = await axios.get(
       `http://localhost:3000/leads?minDay=0&maxDay=30&filters=${filtersString}`,
     )
+    setFunction && setFunction(response.data)
     return response
   } catch (error) {
     throw error
