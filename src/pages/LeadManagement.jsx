@@ -1,15 +1,24 @@
 import styles from "../style_modules/page_modules/LeadManagement.module.css"
+import formStyles from "../style_modules/component_modules/Form.module.css"
 import React, { useEffect, useState } from "react"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { Link, useParams } from "react-router-dom"
 import axios from "axios"
+import { useFormik } from "formik"
+import { agentCommentSchema } from "../schema/AgentComment.schema.js"
+import { customStyles } from "../reactSelectCustomStyles.js"
+import { getAgentOptions } from "../reactSelectOptions.js"
+import Select from "react-select"
+import { toast } from "react-toastify"
+import { postAgentComment } from "../service/requestToServer.js"
 
 export default function LeadManagement() {
   const id = useParams().id
 
   const [leadsData, setLeadsData] = useState([])
   const [salesAgents, setSalesAgents] = useState([])
+  const [agentOptions, setAgentOptions] = useState([])
 
   async function getLeadData() {
     try {
@@ -32,9 +41,17 @@ export default function LeadManagement() {
   }
 
   useEffect(() => {
-    getLeadData()
-    getAgentData()
+    async function fetch() {
+      await getLeadData()
+      await getAgentData()
+    }
+    fetch()
   }, [])
+
+  useEffect(() => {
+    const options = salesAgents.length ? getAgentOptions(salesAgents) : []
+    options && setAgentOptions(options)
+  }, [salesAgents])
 
   const lead = leadsData.find((lead) => lead._id === id)
 
@@ -42,6 +59,34 @@ export default function LeadManagement() {
     const agent = salesAgents.find((agent) => agent._id === id)
     return agent?.name
   }
+
+  const initialValues = {
+    commentText: "",
+    author: "",
+  }
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: agentCommentSchema,
+    onSubmit: async (values, action) => {
+      const response = await postAgentComment({ leadId: id, body: values })
+      if (response) {
+        toast("Comment Posted Successfully👍")
+      }
+      action.resetForm()
+    },
+  })
+
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+    setFieldTouched,
+  } = formik
 
   return (
     <div className={`app`}>
@@ -99,12 +144,62 @@ export default function LeadManagement() {
               </section>
               <section className={`${styles.add_comment_section}`}>
                 <h3>Add New Comment</h3>
-                <textarea
-                  name="comment_box"
-                  className={`${styles.comment_box}`}
-                  rows="5"
-                ></textarea>
-                <button className="btn btn-success">Submit Comment</button>
+                <form onSubmit={handleSubmit}>
+                  <div className={`${formStyles.input_wrapper}`}>
+                    <label
+                      htmlFor="author"
+                      className={`${formStyles.input_clicked}`}
+                    >
+                      Author
+                    </label>
+                    <Select
+                      options={agentOptions}
+                      styles={customStyles}
+                      placeholder=""
+                      classNamePrefix="custom-select"
+                      name="author"
+                      id="author"
+                      value={
+                        (agentOptions &&
+                          agentOptions.find(
+                            (opt) => opt.value === values.author,
+                          )) ||
+                        null
+                      }
+                      onChange={(selected) => {
+                        setFieldValue("author", selected ? selected.value : "")
+                      }}
+                      onBlur={() => setFieldTouched("author", true)}
+                    />
+                    {errors.author && touched.author ? (
+                      <span
+                        className={`text-danger ${formStyles.show_validation_error}`}
+                      >
+                        {errors.author}
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className={`${formStyles.input_wrapper}`}>
+                    <textarea
+                      name="commentText"
+                      className={`${styles.comment_box}`}
+                      rows="5"
+                      value={values.commentText}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    ></textarea>
+                    {errors.commentText && touched.commentText ? (
+                      <span
+                        className={`text-danger ${formStyles.show_validation_error}`}
+                      >
+                        {errors.commentText}
+                      </span>
+                    ) : null}
+                  </div>
+                  <button type="submit" className="btn btn-success">
+                    Submit Comment
+                  </button>
+                </form>
               </section>
             </div>
           </div>

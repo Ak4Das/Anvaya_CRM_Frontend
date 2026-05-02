@@ -241,3 +241,16 @@ export async function updateLeadById(obj) {
     throw error
   }
 }
+
+export async function postAgentComment(obj) {
+  const { leadId, body } = obj
+  try {
+    const response = await axios.post(
+      `http://localhost:3000/agentComment/leads/${leadId}/comments`,
+      body,
+    )
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
