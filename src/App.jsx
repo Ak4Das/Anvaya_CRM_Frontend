@@ -8,10 +8,14 @@ import { useTheme } from "styled-components"
 import SideBar from "./components/SideBar.jsx"
 import NavBar from "./components/NavBar.jsx"
 import { barChart, lineChart, pieChart } from "./service/chart.js"
-import { sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber } from "./service/functions.js"
+import {
+  getScoreOfAgent,
+  sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber,
+} from "./service/functions.js"
 import {
   getLeadDataByPropertyInATimeRange,
   getAllAgentsData,
+  getLeadsDataInATimeRange,
 } from "./service/requestToServer.js"
 
 function App() {
@@ -24,6 +28,13 @@ function App() {
   const [salesAgent, setSalesAgent] = useState([])
   const [sortAgentsByPerformanceScore, setSortAgentsByPerformanceScore] =
     useState([])
+  const [getThirtyDaysPerformanceReport, setThirtyDaysPerformanceReport] =
+    useState([])
+  const [getSixMonthsPerformanceReport, setSixMonthsPerformanceReport] =
+    useState([])
+  const [getOneYearPerformanceReport, setOneYearPerformanceReport] = useState(
+    [],
+  )
 
   async function updateSalesAgentsData() {
     const updatedData = await Promise.all(
@@ -53,13 +64,22 @@ function App() {
     setSortAgentsByPerformanceScore(sortAgentsByPerformanceScore)
   }
 
-  // function getThirtyDaysPerformanceReportOfAgents(agents) {
-  //   const performanceReport = agents.map(async (agent) => {
-  //     const filterString = JSON.stringify({ salesAgent: agent._id })
-  //     const leadsHandleByAgent = await filterLeadsByProperties(filterString)
-  //     console.log(leadsHandleByAgent)
-  //   })
-  // }
+  async function getPerformanceReportOfAgentsInATimeRange(obj) {
+    const { endDay, setFunction } = obj
+    const leadsData = await getLeadsDataInATimeRange({
+      endDay,
+    })
+    const performanceReport = salesAgent.map((agent) => {
+      const obj = { leadsData, agentId: agent._id }
+      const performanceScore = getScoreOfAgent(obj)
+      return {
+        id: agent.agentCode,
+        name: agent.name.split(" ")[0],
+        score: performanceScore,
+      }
+    })
+    setFunction(performanceReport)
+  }
 
   useEffect(() => {
     async function fetch() {
@@ -91,14 +111,36 @@ function App() {
       await getAllAgentsData(setSalesAgent)
     }
     fetch()
-    pieChart()
-    barChart()
-    lineChart()
   }, [])
 
   useEffect(() => {
-    salesAgent.length && updateSalesAgentsData()
+    async function tasks() {
+      if (salesAgent.length) {
+        await updateSalesAgentsData()
+        await getPerformanceReportOfAgentsInATimeRange({
+          endDay: 30,
+          setFunction: setThirtyDaysPerformanceReport,
+        })
+        await getPerformanceReportOfAgentsInATimeRange({
+          endDay: 180,
+          setFunction: setSixMonthsPerformanceReport,
+        })
+        await getPerformanceReportOfAgentsInATimeRange({
+          endDay: 360,
+          setFunction: setOneYearPerformanceReport,
+        })
+      }
+    }
+    tasks()
   }, [salesAgent])
+
+  useEffect(() => {
+    if (getOneYearPerformanceReport.length) {
+      barChart(getThirtyDaysPerformanceReport)
+      lineChart(getSixMonthsPerformanceReport)
+      pieChart(getOneYearPerformanceReport)
+    }
+  }, [getOneYearPerformanceReport])
 
   return (
     <>

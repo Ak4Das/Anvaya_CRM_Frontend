@@ -1,43 +1,6 @@
 import Chart from "chart.js/auto"
-import agents from "../agentData"
 
-const thirtyDaysPerformanceReport = agents.map((agent) => {
-  return {
-    id: agent.id,
-    name: agent.name.split(" ")[0],
-    score: Number(((agent.closed / agent.newLead) * 10).toFixed(1)),
-  }
-})
-
-const sixMonthsPerformanceReport = agents.map((agent) => {
-  return {
-    id: agent.id,
-    name: agent.name.split(" ")[0],
-    score: Number(
-      ((agent.closedUnderSixMonths / agent.leadsUnderSixMonths) * 10).toFixed(
-        1,
-      ),
-    ),
-  }
-})
-
-const oneYearPerformanceReport = agents.map((agent) => {
-  return {
-    id: agent.id,
-    name: agent.name.split(" ")[0],
-    score: Number(
-      ((agent.closedUnderOneYear / agent.leadsUnderOneYear) * 10).toFixed(1),
-    ),
-  }
-})
-
-const oneYearPerformanceScoresArr = oneYearPerformanceReport.map((a) => a.score)
-
-const maxIndex = oneYearPerformanceScoresArr.indexOf(
-  Math.max(...oneYearPerformanceScoresArr),
-)
-
-async function barChart() {
+async function barChart(thirtyDaysPerformanceReport) {
   new Chart(document.getElementById("bar_chart"), {
     type: "bar",
     options: {
@@ -105,7 +68,7 @@ async function barChart() {
   })
 }
 
-async function lineChart() {
+async function lineChart(sixMonthsPerformanceReport) {
   new Chart(document.getElementById("line_chart"), {
     type: "line",
     options: {
@@ -170,7 +133,15 @@ async function lineChart() {
   })
 }
 
-async function pieChart() {
+async function pieChart(oneYearPerformanceReport) {
+  const oneYearPerformanceScoresArr = oneYearPerformanceReport.map(
+    (a) => a.score,
+  )
+
+  const maxIndex = oneYearPerformanceScoresArr.indexOf(
+    Math.max(...oneYearPerformanceScoresArr),
+  )
+
   new Chart(document.getElementById("pie_chart"), {
     type: "pie",
     options: {
@@ -238,7 +209,18 @@ async function pieChart() {
             "#E91E63",
             "#3F51B5",
           ],
-          ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          ids: [
+            "AG-0292582413",
+            "AG-6086212578",
+            "AG-8957270755",
+            "AG-4701339252",
+            "AG-6426045967",
+            "AG-0234367290",
+            "AG-3381478618",
+            "AG-8888710130",
+            "AG-1653318933",
+            "AG-7506422052",
+          ],
           offset: oneYearPerformanceReport.map((_, i) =>
             i === maxIndex ? 20 : 0,
           ),

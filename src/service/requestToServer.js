@@ -32,7 +32,8 @@ export async function getLeadsDataInATimeRange(obj) {
     const response = await axios.get(
       `http://localhost:3000/leads?minDay=0&maxDay=${endDay}`,
     )
-    setFunction(response.data)
+    setFunction && setFunction(response.data)
+    return response.data
   } catch (error) {
     throw error
   }
@@ -192,7 +193,8 @@ export async function getOverallPerformanceScores(obj) {
   }
 }
 
-export async function getSalesDataInATimeRange(obj) { //getSalesData
+export async function getSalesDataInATimeRange(obj) {
+  //getSalesData
   const { setFunction, endDay } = obj
   try {
     const response = await axios.get(
