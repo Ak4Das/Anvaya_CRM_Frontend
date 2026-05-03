@@ -8,7 +8,7 @@ import { useTheme } from "styled-components"
 import SideBar from "./components/SideBar.jsx"
 import NavBar from "./components/NavBar.jsx"
 import { barChart, lineChart, pieChart } from "./service/chart.js"
-import { sortArrayByProperty } from "./service/functions.js"
+import { sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber } from "./service/functions.js"
 import {
   getLeadDataByPropertyInATimeRange,
   getAllAgentsData,
@@ -45,12 +45,21 @@ function App() {
         return agent
       }),
     )
-    const sortAgentsByPerformanceScore = sortArrayByProperty(
-      updatedData,
-      "performanceScore",
-    )
+    const sortAgentsByPerformanceScore =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
+        updatedData,
+        "performanceScore",
+      )
     setSortAgentsByPerformanceScore(sortAgentsByPerformanceScore)
   }
+
+  // function getThirtyDaysPerformanceReportOfAgents(agents) {
+  //   const performanceReport = agents.map(async (agent) => {
+  //     const filterString = JSON.stringify({ salesAgent: agent._id })
+  //     const leadsHandleByAgent = await filterLeadsByProperties(filterString)
+  //     console.log(leadsHandleByAgent)
+  //   })
+  // }
 
   useEffect(() => {
     async function fetch() {

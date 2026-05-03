@@ -5,7 +5,6 @@ import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import {
-  sortArrayByProperty,
   handleClickOnApplyBtnForFilter as clickHandler,
   removePropertyFilterHandler,
   clearAllFiltersHandler,
@@ -13,12 +12,13 @@ import {
   sortDataInAscendingOrderByProperty,
   sortDataInDescendingOrderByProperty,
   unsortData,
+  sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber,
 } from "../service/functions.js"
 
 import {
   filterAgentsByProperties,
   getAllAgentsData,
-  getSalesData,
+  getSalesDataInATimeRange,
 } from "../service/requestToServer.js"
 
 export default function SalesInfo() {
@@ -74,10 +74,11 @@ export default function SalesInfo() {
       agent.totalSalesDoneInBtw30Days = totalSaleDoneByTheAgent
       return agent
     })
-    const SortBySalesDoneInBtw30Days = sortArrayByProperty(
-      updatedArray,
-      "totalSalesDoneInBtw30Days",
-    )
+    const SortBySalesDoneInBtw30Days =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
+        updatedArray,
+        "totalSalesDoneInBtw30Days",
+      )
     const assignRankToEachSalesAgents = SortBySalesDoneInBtw30Days.map(
       (agent, index) => {
         agent.rank = index + 1
@@ -115,7 +116,7 @@ export default function SalesInfo() {
   useEffect(() => {
     async function fetch() {
       await getAllAgentsData(setSalesAgents)
-      await getSalesData({ setFunction: setSalesData, endDay: 30 })
+      await getSalesDataInATimeRange({ setFunction: setSalesData, endDay: 30 })
     }
     fetch()
   }, [])

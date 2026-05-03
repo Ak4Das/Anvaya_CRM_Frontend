@@ -1,4 +1,7 @@
-export function sortStringsInAscendingOrder(arr, prop) {
+export function sortArrayOfObjectsInAscendingOrderByPropertyContainingString( //sortStringsInAscendingOrder
+  arr,
+  prop,
+) {
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstCharacterOfI = arr[i][prop][0].toLowerCase()
@@ -14,7 +17,11 @@ export function sortStringsInAscendingOrder(arr, prop) {
   return arr
 }
 
-export function sortStringsInDescendingOrder(arr, prop) {
+export function sortArrayOfObjectsInDescendingOrderByPropertyContainingString(
+  arr,
+  prop,
+) {
+  //sortStringsInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstCharacterOfI = arr[i][prop][0].toLowerCase()
@@ -30,7 +37,11 @@ export function sortStringsInDescendingOrder(arr, prop) {
   return arr
 }
 
-export function sortCodeNumbersInAscendingOrder(arr, prop) {
+export function sortArrayOfObjectsInAscendingOrderByPropertyContainingCodeNumber(
+  arr,
+  prop,
+) {
+  //sortCodeNumbersInAscendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
@@ -46,7 +57,11 @@ export function sortCodeNumbersInAscendingOrder(arr, prop) {
   return arr
 }
 
-export function sortCodeNumbersInDescendingOrder(arr, prop) {
+export function sortArrayOfObjectsInDescendingOrderByPropertyContainingCodeNumber(
+  arr,
+  prop,
+) {
+  //sortCodeNumbersInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
@@ -62,7 +77,11 @@ export function sortCodeNumbersInDescendingOrder(arr, prop) {
   return arr
 }
 
-export function sortNumbersInAscendingOrder(arr, prop) {
+export function sortArrayOfObjectsInAscendingOrderByPropertyContainingNumber(
+  arr,
+  prop,
+) {
+  //sortNumbersInAscendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[i][prop] > arr[j][prop]) {
@@ -76,7 +95,11 @@ export function sortNumbersInAscendingOrder(arr, prop) {
   return arr
 }
 
-export function sortNumbersInDescendingOrder(arr, prop) {
+export function sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
+  arr,
+  prop,
+) {
+  //sortNumbersInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[i][prop] < arr[j][prop]) {
@@ -90,17 +113,29 @@ export function sortNumbersInDescendingOrder(arr, prop) {
   return arr
 }
 
-export function sortDateInAscendingOrder(arr, prop) {
+export function sortArrayOfObjectsInAscendingOrderByPropertyContainingDate(
+  arr,
+  prop,
+) {
+  //sortDateInAscendingOrder
   arr.sort((a, b) => new Date(a[prop] || 0) - new Date(b[prop] || 0))
   return arr
 }
 
-export function sortDateInDescendingOrder(arr, prop) {
+export function sortArrayOfObjectsInDescendingOrderByPropertyContainingDate(
+  arr,
+  prop,
+) {
+  //sortDateInDescendingOrder
   arr.sort((a, b) => new Date(b[prop] || 0) - new Date(a[prop] || 0))
   return arr
 }
 
-export function sortPhoneNumbersInAscendingOrder(arr, prop) {
+export function sortArrayOfObjectsInAscendingOrderByPropertyContainingPhoneNumber(
+  arr,
+  prop,
+) {
+  //sortPhoneNumbersInAscendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
@@ -116,7 +151,11 @@ export function sortPhoneNumbersInAscendingOrder(arr, prop) {
   return arr
 }
 
-export function sortPhoneNumbersInDescendingOrder(arr, prop) {
+export function sortArrayOfObjectsInDescendingOrderByPropertyContainingPhoneNumber(
+  arr,
+  prop,
+) {
+  //sortPhoneNumbersInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
@@ -132,20 +171,20 @@ export function sortPhoneNumbersInDescendingOrder(arr, prop) {
   return arr
 }
 
-export function sortArrayByProperty(arr, prop) {
-  const newArr = [...arr]
-  for (let i = 0; i < newArr.length; ) {
-    for (let j = i + 1; j < newArr.length; j++) {
-      if (newArr[i][prop] < newArr[j][prop]) {
-        const a = newArr[i]
-        newArr[i] = newArr[j]
-        newArr[j] = a
-      }
-    }
-    i++
-  }
-  return newArr
-}
+// export function sortArrayByProperty(arr, prop) {
+//   const newArr = [...arr]
+//   for (let i = 0; i < newArr.length; ) {
+//     for (let j = i + 1; j < newArr.length; j++) {
+//       if (newArr[i][prop] < newArr[j][prop]) {
+//         const a = newArr[i]
+//         newArr[i] = newArr[j]
+//         newArr[j] = a
+//       }
+//     }
+//     i++
+//   }
+//   return newArr
+// }
 
 export function capitalizeFirstLetter(string) {
   const String = string.trim()
@@ -237,17 +276,26 @@ export async function clearAllFiltersHandler(obj) {
 export function sortDataInAscendingOrderByProperty(obj) {
   const { data, prop, setFunction } = obj
   if (prop === "agentCode" || prop === "leadCode") {
-    const updatedAgentsData = sortCodeNumbersInAscendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInAscendingOrderByPropertyContainingCodeNumber(
+        data,
+        prop,
+      )
     setFunction(updatedAgentsData)
   } else if (
     prop === "dateOfBirth" ||
     prop === "joinedDate" ||
     prop === "closedAt"
   ) {
-    const updatedAgentsData = sortDateInAscendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInAscendingOrderByPropertyContainingDate(data, prop)
     setFunction(updatedAgentsData)
   } else if (prop === "phoneNumber") {
-    const updatedAgentsData = sortPhoneNumbersInAscendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInAscendingOrderByPropertyContainingPhoneNumber(
+        data,
+        prop,
+      )
     setFunction(updatedAgentsData)
   } else if (
     prop === "performanceScore" ||
@@ -255,10 +303,12 @@ export function sortDataInAscendingOrderByProperty(obj) {
     prop === "rank" ||
     prop === "timeToClose"
   ) {
-    const updatedAgentsData = sortNumbersInAscendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInAscendingOrderByPropertyContainingNumber(data, prop)
     setFunction(updatedAgentsData)
   } else {
-    const updatedAgentsData = sortStringsInAscendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInAscendingOrderByPropertyContainingString(data, prop)
     setFunction(updatedAgentsData)
   }
 }
@@ -266,17 +316,26 @@ export function sortDataInAscendingOrderByProperty(obj) {
 export function sortDataInDescendingOrderByProperty(obj) {
   const { data, prop, setFunction } = obj
   if (prop === "agentCode" || prop === "leadCode") {
-    const updatedAgentsData = sortCodeNumbersInDescendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingCodeNumber(
+        data,
+        prop,
+      )
     setFunction(updatedAgentsData)
   } else if (
     prop === "dateOfBirth" ||
     prop === "joinedDate" ||
     prop === "closedAt"
   ) {
-    const updatedAgentsData = sortDateInDescendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingDate(data, prop)
     setFunction(updatedAgentsData)
   } else if (prop === "phoneNumber") {
-    const updatedAgentsData = sortPhoneNumbersInDescendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingPhoneNumber(
+        data,
+        prop,
+      )
     setFunction(updatedAgentsData)
   } else if (
     prop === "performanceScore" ||
@@ -284,10 +343,12 @@ export function sortDataInDescendingOrderByProperty(obj) {
     prop === "rank" ||
     prop === "timeToClose"
   ) {
-    const updatedAgentsData = sortNumbersInDescendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(data, prop)
     setFunction(updatedAgentsData)
   } else {
-    const updatedAgentsData = sortStringsInDescendingOrder(data, prop)
+    const updatedAgentsData =
+      sortArrayOfObjectsInDescendingOrderByPropertyContainingString(data, prop)
     setFunction(updatedAgentsData)
   }
 }
@@ -314,10 +375,7 @@ export function getTotalSalesAmountOfAgent(obj) {
 export function getScoreOfAgent(obj) {
   const { leadsData, agentId } = obj
 
-  const leadsHandledByAgent =
-    leadsData.length && agentId
-      ? leadsData.filter((lead) => lead.salesAgent === agentId)
-      : []
+  const leadsHandledByAgent = numberOfLeadsHandleByAgent(obj)
 
   const numberOfClosedLeadHandledByTheAgent = leadsHandledByAgent.filter(
     (lead) => lead.status === "Closed",

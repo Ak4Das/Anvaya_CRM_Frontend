@@ -192,7 +192,7 @@ export async function getOverallPerformanceScores(obj) {
   }
 }
 
-export async function getSalesData(obj) {
+export async function getSalesDataInATimeRange(obj) { //getSalesData
   const { setFunction, endDay } = obj
   try {
     const response = await axios.get(
