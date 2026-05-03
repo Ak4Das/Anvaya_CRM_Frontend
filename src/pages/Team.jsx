@@ -12,7 +12,7 @@ import {
   sortDataInAscendingOrderByProperty,
   sortDataInDescendingOrderByProperty,
   unsortData,
-} from "../functions.js"
+} from "../service/functions.js"
 import {
   getIdByManagerName,
   getAllAgentsData,

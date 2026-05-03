@@ -1,5 +1,5 @@
 import Chart from "chart.js/auto"
-import agents from "./agentData"
+import agents from "../agentData"
 
 const thirtyDaysPerformanceReport = agents.map((agent) => {
   return {

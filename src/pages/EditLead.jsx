@@ -12,8 +12,8 @@ import {
   statusOptions,
   tagsOptions,
   priorityOptions,
-} from "../reactSelectOptions.js"
-import { customStyles } from "../reactSelectCustomStyles.js"
+} from "../service/reactSelectOptions.js"
+import { customStyles } from "../service/reactSelectCustomStyles.js"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"

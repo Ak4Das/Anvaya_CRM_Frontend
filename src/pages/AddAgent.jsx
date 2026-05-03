@@ -8,7 +8,7 @@ import { addAgentSchema } from "../schema/AddAgent.schema.js"
 import { toast } from "react-toastify"
 import axios from "axios"
 import { createAgent } from "../service/requestToServer.js"
-import { getCurrentDate, normalizePhoneNumber } from "../functions.js"
+import { getCurrentDate, normalizePhoneNumber } from "../service/functions.js"
 
 export default function AddAgent() {
   const [nameInputClicked, setNameInputClick] = useState(false)

@@ -12,12 +12,12 @@ import {
   statusOptions,
   tagsOptions,
   priorityOptions,
-} from "../reactSelectOptions.js"
-import { customStyles } from "../reactSelectCustomStyles.js"
+} from "../service/reactSelectOptions.js"
+import { customStyles } from "../service/reactSelectCustomStyles.js"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { createLead, getAllAgentsData } from "../service/requestToServer.js"
-import { getCurrentDate } from "../functions.js"
+import { getCurrentDate } from "../service/functions.js"
 
 export default function AddLead() {
   const [nameInputClicked, setNameInputClick] = useState(false)

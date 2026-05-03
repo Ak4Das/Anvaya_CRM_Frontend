@@ -14,7 +14,7 @@ import {
   getScoreOfAgent,
   numberOfLeadsHandleByAgent,
   leadsHandleByAgentAccordingToStatus,
-} from "../functions.js"
+} from "../service/functions.js"
 import {
   getIdByAgentName,
   filterLeadsByProperties,

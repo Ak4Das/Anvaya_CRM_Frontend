@@ -7,8 +7,8 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 import { useTheme } from "styled-components"
 import SideBar from "./components/SideBar.jsx"
 import NavBar from "./components/NavBar.jsx"
-import { barChart, lineChart, pieChart } from "./chart.js"
-import { sortArrayByProperty } from "./functions.js"
+import { barChart, lineChart, pieChart } from "./service/chart.js"
+import { sortArrayByProperty } from "./service/functions.js"
 import {
   getLeadDataByPropertyInATimeRange,
   getAllAgentsData,
