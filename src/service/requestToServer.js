@@ -255,3 +255,15 @@ export async function postAgentComment(obj) {
     throw error
   }
 }
+
+export async function getAgentCommentsOnALead(obj) {
+  const { leadId, setFunction } = obj
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/agentComment/leads/${leadId}/comments`,
+    )
+    setFunction(response.data)
+  } catch (error) {
+    throw error
+  }
+}

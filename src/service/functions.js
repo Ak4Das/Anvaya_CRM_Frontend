@@ -389,3 +389,19 @@ export function normalizePhoneNumber(phoneNumber) {
   const normalizedPhoneNumber = phoneNumber.replace(/^\(\+\d+\)/, "")
   return normalizedPhoneNumber
 }
+
+export function getTimeFromIsoString(isoString) {
+  const date = new Date(isoString)
+
+  const time = date.toLocaleTimeString("en-GB", {
+    hour12: false,
+  })
+
+  return time
+}
+
+export function getDateFromIsoString(isoString) {
+  const date = isoString.split("T")[0]
+
+  return date
+}

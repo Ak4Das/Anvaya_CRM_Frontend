@@ -56,10 +56,11 @@
   border: 1px solid #293040;
   border-radius: 10px;
   margin-bottom: 25px;
+  position: relative;
 }
 
 .previous_comment .comment {
-  padding: 10px;
+  padding: 25px 10px 20px;
 }
 
 .previous_comment .timeAndDate {
@@ -96,4 +97,12 @@
 .editLeadBtn {
   border: 1px solid #70d8bd;
   color: #70d8bd;
+}
+
+.author {
+  color: #70d8bd;
+  font-size: 14px;
+  position: absolute;
+  right: 15px;
+  top: 5px;
 }

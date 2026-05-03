@@ -15,10 +15,17 @@ import {
   filterLeadsByProperties,
   getAllAgentsData,
   postAgentComment,
+  getAgentCommentsOnALead,
 } from "../service/requestToServer.js"
+import {
+  getDateFromIsoString,
+  getTimeFromIsoString,
+} from "../service/functions.js"
 
 export default function LeadManagement() {
   const id = useParams().id
+  const [authorInputClicked, setAuthorInputClicked] = useState(false)
+  const [comments, setComments] = useState([])
 
   const [lead, setLead] = useState([])
   const [salesAgents, setSalesAgents] = useState([])
@@ -29,6 +36,7 @@ export default function LeadManagement() {
       const filtersString = JSON.stringify({ _id: id })
       await filterLeadsByProperties(filtersString, setLead)
       await getAllAgentsData(setSalesAgents)
+      await getAgentCommentsOnALead({ leadId: id, setFunction: setComments })
     }
     fetch()
   }, [])
@@ -56,6 +64,7 @@ export default function LeadManagement() {
       if (response) {
         toast("Comment Posted Successfully👍")
       }
+      await getAgentCommentsOnALead({ leadId: id, setFunction: setComments })
       action.resetForm()
     },
   })
@@ -70,6 +79,18 @@ export default function LeadManagement() {
     setFieldValue,
     setFieldTouched,
   } = formik
+
+  function eventHandlerOnDocument() {
+    const author = document.querySelector("[name='author']")
+    !author.value && setAuthorInputClicked(false)
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", eventHandlerOnDocument)
+    return () => {
+      document.removeEventListener("click", eventHandlerOnDocument)
+    }
+  }, [])
 
   return (
     <div className={`app`}>
@@ -117,22 +138,34 @@ export default function LeadManagement() {
               <h1>Comment Section</h1>
               <section className={`${styles.previous_comments_section}`}>
                 <h3>Previous Comments</h3>
-                <div className={`${styles.previous_comment}`}>
-                  <div className={`${styles.comment}`}>
-                    Lorem ipsum dolor sit amet.
+                {comments.map((comment) => (
+                  <div
+                    className={`${styles.previous_comment}`}
+                    key={comment._id}
+                  >
+                    <div className={` ${styles.author}`}>
+                      {getAgentNameById(comment.author)}
+                    </div>
+                    <div className={`${styles.comment}`}>
+                      {comment.commentText}
+                    </div>
+                    <div className={`${styles.timeAndDate}`}>
+                      {getDateFromIsoString(comment.createdAt)} |{" "}
+                      {getTimeFromIsoString(comment.createdAt)}
+                    </div>
                   </div>
-                  <div className={`${styles.timeAndDate}`}>
-                    2026-08-25 | 1:00pm
-                  </div>
-                </div>
+                ))}
               </section>
               <section className={`${styles.add_comment_section}`}>
                 <h3>Add New Comment</h3>
                 <form onSubmit={handleSubmit}>
-                  <div className={`${formStyles.input_wrapper}`}>
+                  <div
+                    className={`${formStyles.input_wrapper}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <label
                       htmlFor="author"
-                      className={`${formStyles.input_clicked}`}
+                      className={`${authorInputClicked && formStyles.input_clicked}`}
                     >
                       Author
                     </label>
@@ -143,6 +176,9 @@ export default function LeadManagement() {
                       classNamePrefix="custom-select"
                       name="author"
                       id="author"
+                      onMenuOpen={() => {
+                        setAuthorInputClicked(true)
+                      }}
                       value={
                         (agentOptions &&
                           agentOptions.find(
