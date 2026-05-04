@@ -45,7 +45,7 @@ export async function filterAgentsByProperties(filtersString, setFunction) {
       `http://localhost:3000/agents/prop?filters=${encodeURIComponent(JSON.stringify(filtersString))}`,
     )
     setFunction && setFunction(response.data)
-    return response
+    return response.data
   } catch (error) {
     throw error
   }

@@ -1,6 +1,6 @@
 import styles from "../style_modules/page_modules/LeadManagement.module.css"
 import formStyles from "../style_modules/component_modules/Form.module.css"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { Link, useParams } from "react-router-dom"
@@ -30,6 +30,9 @@ export default function LeadManagement() {
   const [lead, setLead] = useState([])
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
+  const [isScrolling, setScrolling] = useState(false)
+
+  const previousCommentRef = useRef()
 
   useEffect(() => {
     async function fetch() {
@@ -87,8 +90,34 @@ export default function LeadManagement() {
 
   useEffect(() => {
     document.addEventListener("click", eventHandlerOnDocument)
+
+    const previousCommentsBox = document.querySelector(
+      ".previous_comments_section",
+    )
+
+    let lastScrollTop = 0
+
+    const scrollHandler = () => {
+      let currentScroll = previousCommentsBox.scrollTop
+
+      if (currentScroll > lastScrollTop) {
+        if (!previousCommentRef.current) {
+          previousCommentRef.current = true
+          setScrolling(true)
+        }
+      } else if (lastScrollTop === currentScroll) {
+        if (previousCommentRef.current) {
+          previousCommentRef.current = false
+          setScrolling(false)
+        }
+      }
+    }
+
+    previousCommentsBox.addEventListener("scroll", scrollHandler)
+
     return () => {
       document.removeEventListener("click", eventHandlerOnDocument)
+      previousCommentsBox.removeEventListener("scroll", scrollHandler)
     }
   }, [])
 
@@ -136,7 +165,9 @@ export default function LeadManagement() {
 
             <div className={`${styles.comment_section}`}>
               <h1>Comment Section</h1>
-              <section className={`${styles.previous_comments_section}`}>
+              <section
+                className={`previous_comments_section ${styles.previous_comments_section}`}
+              >
                 <h3>Previous Comments</h3>
                 {comments.map((comment) => (
                   <div
@@ -155,6 +186,14 @@ export default function LeadManagement() {
                     </div>
                   </div>
                 ))}
+                {!isScrolling && (
+                  <button
+                    type="button"
+                    className={`btn rounded-pill ${styles.scrollToSeeMoreBtn}`}
+                  >
+                    Scroll to see more
+                  </button>
+                )}
               </section>
               <section className={`${styles.add_comment_section}`}>
                 <h3>Add New Comment</h3>

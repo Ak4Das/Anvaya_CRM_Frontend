@@ -236,7 +236,7 @@ export async function handleClickOnApplyBtnForFilter(obj) {
 
     const response = await filterByProperties(updatedPropertiesString)
 
-    setFunction(response.data)
+    setFunction(response)
     setProperties(updatedProperties)
   } else {
     delete properties[openFilterInput]
@@ -244,7 +244,7 @@ export async function handleClickOnApplyBtnForFilter(obj) {
     const propertiesString = JSON.stringify(properties)
 
     const response = await filterByProperties(propertiesString)
-    setFunction(response.data)
+    setFunction(response)
     setProperties(properties)
   }
 }
@@ -260,7 +260,7 @@ export async function removePropertyFilterHandler(obj) {
   delete properties[property]
   const propertiesString = JSON.stringify(properties)
   const response = await filterByProperties(propertiesString)
-  setFunction(response.data)
+  setFunction(response)
   setProperties(properties)
 }
 
@@ -269,7 +269,7 @@ export async function clearAllFiltersHandler(obj) {
   Object.keys(properties).forEach((key) => delete properties[key])
   const propertiesString = JSON.stringify(properties)
   const response = await filterByProperties(propertiesString)
-  setFunction(response.data)
+  setFunction(response)
   setProperties(properties)
 }
 
@@ -357,7 +357,7 @@ export async function unsortData(obj) {
   const { properties, filterByProperties, setFunction, applySort } = obj
   const propertiesString = JSON.stringify(properties)
   const response = await filterByProperties(propertiesString)
-  setFunction(response.data)
+  setFunction(response)
   applySort(false)
 }
 

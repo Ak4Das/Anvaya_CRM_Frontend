@@ -87,8 +87,8 @@ export default function EditLead() {
         <NavBar />
         <section className={`main_section`}>
           <div className={`${styles.heading}`}>
-            <h2 className={`${styles.text1}`}>Lead Form</h2>
-            <h5 className={`${styles.text2}`}>Add New Lead</h5>
+            <h2 className={`${styles.text1}`}>Edit Lead</h2>
+            <h5 className={`${styles.text2}`}>Edit Existing Lead</h5>
           </div>
           <form onSubmit={handleSubmit} className="container">
             <div className={`${formStyles.input_wrapper}`}>
