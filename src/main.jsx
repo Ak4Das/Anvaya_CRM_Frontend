@@ -16,6 +16,7 @@ import SalesAgent from "./pages/SalesAgent.jsx"
 import LeadManagement from "./pages/LeadManagement.jsx"
 import { ToastContainer } from 'react-toastify';
 import EditLead from "./pages/EditLead.jsx"
+import ReportPage from "./pages/ReportPage.jsx"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
   { path: "/editLead/:id", element: <EditLead /> },
   { path: "/salesAgent/:id", element: <SalesAgent /> },
   { path: "/lead/:id", element: <LeadManagement /> },
+  { path: "/report", element: <ReportPage /> },
 ])
 
 createRoot(document.getElementById("root")).render(

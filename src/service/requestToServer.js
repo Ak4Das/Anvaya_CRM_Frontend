@@ -20,7 +20,8 @@ export async function getLeadDataByPropertyInATimeRange(
 export async function getAllAgentsData(setSalesAgents) {
   try {
     const response = await axios.get("http://localhost:3000/agents")
-    setSalesAgents(response.data)
+    setSalesAgents && setSalesAgents(response.data)
+    return response.data
   } catch (error) {
     throw error
   }
@@ -267,5 +268,40 @@ export async function getAgentCommentsOnALead(obj) {
     setFunction(response.data)
   } catch (error) {
     throw error
+  }
+}
+
+export async function getLeadsWithDifferentStatusInATimeRange(endDay) {
+  const newLeads = await getLeadDataByPropertyInATimeRange(
+    { status: "New" },
+    endDay,
+  )
+  const contactedLeads = await getLeadDataByPropertyInATimeRange(
+    { status: "Contacted" },
+    endDay,
+  )
+  const qualifiedLeads = await getLeadDataByPropertyInATimeRange(
+    { status: "Qualified" },
+    endDay,
+  )
+  const proposalSentLeads = await getLeadDataByPropertyInATimeRange(
+    { status: "Proposal Sent" },
+    endDay,
+  )
+  const closedLeads = await getLeadDataByPropertyInATimeRange(
+    { status: "Closed" },
+    endDay,
+  )
+  const lostLeads = await getLeadDataByPropertyInATimeRange(
+    { status: "Lost" },
+    endDay,
+  )
+  return {
+    newLeads,
+    contactedLeads,
+    qualifiedLeads,
+    proposalSentLeads,
+    closedLeads,
+    lostLeads,
   }
 }

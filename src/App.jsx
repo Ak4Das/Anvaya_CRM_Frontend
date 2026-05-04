@@ -7,7 +7,11 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 import { useTheme } from "styled-components"
 import SideBar from "./components/SideBar.jsx"
 import NavBar from "./components/NavBar.jsx"
-import { barChart, lineChart, pieChart } from "./service/chart.js"
+import {
+  thirtyDaysAgentsPerformanceReportBarChart,
+  sixMonthsAgentsPerformanceReportLineChart,
+  oneYearAgentsPerformanceReportPieChart,
+} from "./service/chart.js"
 import {
   getScoreOfAgent,
   sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber,
@@ -136,9 +140,9 @@ function App() {
 
   useEffect(() => {
     if (getOneYearPerformanceReport.length) {
-      barChart(getThirtyDaysPerformanceReport)
-      lineChart(getSixMonthsPerformanceReport)
-      pieChart(getOneYearPerformanceReport)
+      thirtyDaysAgentsPerformanceReportBarChart(getThirtyDaysPerformanceReport)
+      sixMonthsAgentsPerformanceReportLineChart(getSixMonthsPerformanceReport)
+      oneYearAgentsPerformanceReportPieChart(getOneYearPerformanceReport)
     }
   }, [getOneYearPerformanceReport])
 

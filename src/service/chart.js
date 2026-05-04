@@ -1,6 +1,8 @@
 import Chart from "chart.js/auto"
 
-async function barChart(thirtyDaysPerformanceReport) {
+export async function thirtyDaysAgentsPerformanceReportBarChart(
+  thirtyDaysPerformanceReport,
+) {
   new Chart(document.getElementById("bar_chart"), {
     type: "bar",
     options: {
@@ -68,7 +70,9 @@ async function barChart(thirtyDaysPerformanceReport) {
   })
 }
 
-async function lineChart(sixMonthsPerformanceReport) {
+export async function sixMonthsAgentsPerformanceReportLineChart(
+  sixMonthsPerformanceReport,
+) {
   new Chart(document.getElementById("line_chart"), {
     type: "line",
     options: {
@@ -133,7 +137,9 @@ async function lineChart(sixMonthsPerformanceReport) {
   })
 }
 
-async function pieChart(oneYearPerformanceReport) {
+export async function oneYearAgentsPerformanceReportPieChart(
+  oneYearPerformanceReport,
+) {
   const oneYearPerformanceScoresArr = oneYearPerformanceReport.map(
     (a) => a.score,
   )
@@ -230,4 +236,116 @@ async function pieChart(oneYearPerformanceReport) {
   })
 }
 
-export { barChart, lineChart, pieChart }
+export async function leadsClosedAndInPipelinePieChart(
+  leadsClosedAndInPipeline,
+) {
+  const { closedLeads, leadsInPipeline, lostLeads } = leadsClosedAndInPipeline
+  new Chart(document.getElementById("leadsClosedAndInPipeline"), {
+    type: "pie",
+    options: {
+      plugins: {
+        legend: {
+          display: true,
+          position: "right",
+          labels: {
+            color: "#ffffff",
+            font: {
+              size: 15,
+            },
+          },
+        },
+        title: {
+          display: true,
+          text: "Leads Lost, Closed And In Pipeline",
+          color: "#70d89d",
+          padding: {
+            bottom: 30,
+          },
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio,
+      animation: false,
+    },
+    data: {
+      labels: ["Closed", "Pipeline", "Lost"],
+      datasets: [
+        {
+          data: [closedLeads, leadsInPipeline, lostLeads],
+          backgroundColor: ["#4CAF50", "#2196F3", "#FFC107"],
+        },
+      ],
+    },
+  })
+}
+
+export async function leadStatusDistributionPieChart(leadStatusDistribution) {
+  const {
+    newLeads,
+    contactedLeads,
+    qualifiedLeads,
+    proposalSentLeads,
+    closedLeads,
+    lostLeads,
+  } = leadStatusDistribution
+  new Chart(document.getElementById("leadStatusDistribution"), {
+    type: "pie",
+    options: {
+      plugins: {
+        legend: {
+          display: true,
+          position: "right",
+          labels: {
+            color: "#ffffff",
+            font: {
+              size: 15,
+            },
+          },
+        },
+        title: {
+          display: true,
+          text: "Lead Status Distribution",
+          color: "#70d89d",
+          padding: {
+            bottom: 30,
+          },
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio,
+      animation: false,
+    },
+    data: {
+      labels: [
+        "New",
+        "Contacted",
+        "Qualified",
+        "Proposal Sent",
+        "Closed",
+        "Lost",
+      ],
+      datasets: [
+        {
+          data: [
+            newLeads,
+            contactedLeads,
+            qualifiedLeads,
+            proposalSentLeads,
+            closedLeads,
+            lostLeads,
+          ],
+          backgroundColor: [
+            "#4CAF50",
+            "#2196F3",
+            "#FFC107",
+            "#FF5722",
+            "#9C27B0",
+            "#00BCD4",
+          ],
+        },
+      ],
+    },
+  })
+}
