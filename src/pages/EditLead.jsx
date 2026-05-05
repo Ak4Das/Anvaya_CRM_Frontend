@@ -4,12 +4,12 @@ import SideBar from "../components/SideBar"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
 import { useFormik } from "formik"
-import { addLeadSchema } from "../schema/AddLead.schema.js"
+import { editLeadSchema } from "../schema/EditLead.schema.js"
 import Select from "react-select"
 import {
   sourceOptions,
   getAgentOptions,
-  statusOptions,
+  editLeadStatusOptions,
   tagsOptions,
   priorityOptions,
 } from "../service/reactSelectOptions.js"
@@ -59,7 +59,7 @@ export default function EditLead() {
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: addLeadSchema,
+    validationSchema: editLeadSchema,
     enableReinitialize: true,
     onSubmit: async (values, action) => {
       const response = await updateLeadById({ id: lead[0]._id, body: values })
@@ -179,14 +179,14 @@ export default function EditLead() {
                 Status
               </label>
               <Select
-                options={statusOptions}
+                options={editLeadStatusOptions}
                 styles={customStyles}
                 placeholder=""
                 classNamePrefix="custom-select"
                 name="status"
                 id="status"
                 value={
-                  statusOptions.find((opt) => opt.value === values.status) ||
+                  editLeadStatusOptions.find((opt) => opt.value === values.status) ||
                   null
                 }
                 onChange={(selected) => {
@@ -310,7 +310,7 @@ export default function EditLead() {
               ) : null}
             </div>
             <button type="submit" className="btn btn-success">
-              Create New Lead
+              Save Changes
             </button>
           </form>
         </section>

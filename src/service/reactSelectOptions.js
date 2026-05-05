@@ -25,6 +25,15 @@ export const statusOptions = [
   { value: "Proposal Sent", label: "Proposal Sent" },
 ]
 
+export const editLeadStatusOptions = [
+  { value: "New", label: "New" },
+  { value: "Contacted", label: "Contacted" },
+  { value: "Qualified", label: "Qualified" },
+  { value: "Proposal Sent", label: "Proposal Sent" },
+  { value: "Closed", label: "Closed" },
+  { value: "Lost", label: "Lost" },
+]
+
 export const priorityOptions = [
   { value: "High", label: "High" },
   { value: "Medium", label: "Medium" },
@@ -37,7 +46,7 @@ export const tagsOptions = [
 ]
 
 export const reportOptions = [
-  { value: 30, label: "thirtyDays" },
-  { value: 180, label: "sixMonths" },
-  { value: 360, label: "oneYear" },
+  { value: 30, label: "Thirty Days" },
+  { value: 180, label: "Six Months" },
+  { value: 360, label: "One Year" },
 ]
