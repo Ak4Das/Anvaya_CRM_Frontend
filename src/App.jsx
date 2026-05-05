@@ -1,5 +1,5 @@
 import styles from "./style_modules/page_modules/App.module.css"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -39,6 +39,12 @@ function App() {
   const [getOneYearPerformanceReport, setOneYearPerformanceReport] = useState(
     [],
   )
+  const getThirtyDaysPerformanceReportChartRef = useRef(null)
+  const getThirtyDaysPerformanceReportChartInstance = useRef(null)
+  const getSixMonthsPerformanceReportChartRef = useRef(null)
+  const getSixMonthsPerformanceReportChartInstance = useRef(null)
+  const getOneYearPerformanceReportChartRef = useRef(null)
+  const getOneYearPerformanceReportChartInstance = useRef(null)
 
   async function updateSalesAgentsData() {
     const updatedData = await Promise.all(
@@ -140,11 +146,34 @@ function App() {
 
   useEffect(() => {
     if (getOneYearPerformanceReport.length) {
-      thirtyDaysAgentsPerformanceReportBarChart(getThirtyDaysPerformanceReport)
-      sixMonthsAgentsPerformanceReportLineChart(getSixMonthsPerformanceReport)
-      oneYearAgentsPerformanceReportPieChart(getOneYearPerformanceReport)
+      thirtyDaysAgentsPerformanceReportBarChart({
+        data: getThirtyDaysPerformanceReport,
+        chartRef: getThirtyDaysPerformanceReportChartRef,
+        chartInstance: getThirtyDaysPerformanceReportChartInstance,
+      })
+      sixMonthsAgentsPerformanceReportLineChart({
+        data: getSixMonthsPerformanceReport,
+        chartRef: getSixMonthsPerformanceReportChartRef,
+        chartInstance: getSixMonthsPerformanceReportChartInstance,
+      })
+      oneYearAgentsPerformanceReportPieChart({
+        data: getOneYearPerformanceReport,
+        chartRef: getOneYearPerformanceReportChartRef,
+        chartInstance: getOneYearPerformanceReportChartInstance,
+      })
     }
   }, [getOneYearPerformanceReport])
+
+  useEffect(() => {
+    return () => {
+      getThirtyDaysPerformanceReportChartInstance.current?.destroy()
+      getThirtyDaysPerformanceReportChartInstance.current = null
+      getSixMonthsPerformanceReportChartInstance.current?.destroy()
+      getSixMonthsPerformanceReportChartInstance.current = null
+      getOneYearPerformanceReportChartInstance.current?.destroy()
+      getOneYearPerformanceReportChartInstance.current = null
+    }
+  }, [])
 
   return (
     <>
@@ -238,18 +267,21 @@ function App() {
                 <canvas
                   className={`${styles.pie_chart}`}
                   id="pie_chart"
+                  ref={getOneYearPerformanceReportChartRef}
                 ></canvas>
               </div>
               <div className={`${styles.agent_performance_bar_chart}`}>
                 <canvas
                   className={`${styles.bar_chart}`}
                   id="bar_chart"
+                  ref={getThirtyDaysPerformanceReportChartRef}
                 ></canvas>
               </div>
               <div className={`${styles.agent_performance_line_chart}`}>
                 <canvas
                   className={`${styles.line_chart}`}
                   id="line_chart"
+                  ref={getSixMonthsPerformanceReportChartRef}
                 ></canvas>
               </div>
             </div>

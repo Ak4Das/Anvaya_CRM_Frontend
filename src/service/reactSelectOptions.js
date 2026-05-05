@@ -35,3 +35,9 @@ export const tagsOptions = [
   { value: "Follow Up", label: "Follow Up" },
   { value: "High Value", label: "High Value" },
 ]
+
+export const reportOptions = [
+  { value: 30, label: "thirtyDays" },
+  { value: 180, label: "sixMonths" },
+  { value: 360, label: "oneYear" },
+]

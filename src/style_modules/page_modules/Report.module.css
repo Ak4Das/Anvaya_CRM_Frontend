@@ -39,3 +39,7 @@
 .third_box {
   grid-column-start: span 2;
 }
+
+.select {
+  display: inline-block;
+}
