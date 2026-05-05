@@ -58,7 +58,7 @@ export async function filterLeadsByProperties(filtersString, setFunction) {
       `http://localhost:3000/leads?minDay=0&maxDay=30&filters=${filtersString}`,
     )
     setFunction && setFunction(response.data)
-    return response
+    return response.data
   } catch (error) {
     throw error
   }

@@ -241,7 +241,7 @@ export default function EditLead() {
                 autoComplete="off"
                 name="timeToClose"
                 id="timeToClose"
-                value={values.timeToClose}
+                value={values.timeToClose || 0}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />

@@ -117,7 +117,8 @@ export default function SalesAgent() {
 
   useEffect(() => {
     async function fetch() {
-      await filterAgentsByProperties({ _id: id }, setAgent)
+      const filterString = JSON.stringify({ _id: id })
+      await filterAgentsByProperties(filterString, setAgent)
       await getLeadDataByPropertyInATimeRange(
         { salesAgent: id },
         30,
@@ -166,8 +167,8 @@ export default function SalesAgent() {
                   {
                     getOverallPerformanceScore.find((ele) => ele.id === id)
                       .performanceScore
-                  }
-                  {" "}/ 10
+                  }{" "}
+                  / 10
                 </span>
               </p>
             )}

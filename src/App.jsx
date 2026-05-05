@@ -263,21 +263,21 @@ function App() {
                   </tbody>
                 </table>
               </div>
-              <div className={`${styles.agent_performance_pie_chart}`}>
+              <div className={`p-2 ${styles.agent_performance_pie_chart}`}>
                 <canvas
                   className={`${styles.pie_chart}`}
                   id="pie_chart"
                   ref={getOneYearPerformanceReportChartRef}
                 ></canvas>
               </div>
-              <div className={`${styles.agent_performance_bar_chart}`}>
+              <div className={`p-2 ${styles.agent_performance_bar_chart}`}>
                 <canvas
                   className={`${styles.bar_chart}`}
                   id="bar_chart"
                   ref={getThirtyDaysPerformanceReportChartRef}
                 ></canvas>
               </div>
-              <div className={`${styles.agent_performance_line_chart}`}>
+              <div className={`p-2 ${styles.agent_performance_line_chart}`}>
                 <canvas
                   className={`${styles.line_chart}`}
                   id="line_chart"

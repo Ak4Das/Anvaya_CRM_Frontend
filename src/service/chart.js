@@ -41,6 +41,9 @@ export async function thirtyDaysAgentsPerformanceReportBarChart(obj) {
             display: true,
             text: "30 days performance report (out of 10)",
             color: "#70d89d",
+            padding: {
+              bottom: 30,
+            },
           },
           tooltip: {
             callbacks: {
@@ -119,6 +122,9 @@ export async function sixMonthsAgentsPerformanceReportLineChart(obj) {
             display: true,
             text: "6 months performance report (out of 10)",
             color: "#70d89d",
+            padding: {
+              bottom: 30,
+            },
           },
           tooltip: {
             callbacks: {
@@ -196,6 +202,9 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
             display: true,
             text: "1 year performance report (out of  10)",
             color: "#70d89d",
+            padding: {
+              bottom: 30,
+            },
           },
           tooltip: {
             callbacks: {
