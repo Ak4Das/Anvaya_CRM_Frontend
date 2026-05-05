@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react"
 import {
   leadsClosedAndInPipelinePieChart,
+  leadsClosedBySalesAgentsBarChart,
   leadStatusDistributionPieChart,
 } from "../service/chart.js"
 
@@ -62,7 +63,7 @@ export default function ReportPage() {
         )
         return {
           agentCode: agent.agentCode,
-          name: agent.name,
+          name: agent.name.split(" ")[0],
           leadsClosedByAgent: leadsClosedByAgent.length,
         }
       }),
@@ -82,6 +83,7 @@ export default function ReportPage() {
     if (leadsClosedBySalesAgents.length) {
       leadsClosedAndInPipelinePieChart(leadsClosedAndInPipeline)
       leadStatusDistributionPieChart(leadStatusDistribution)
+      leadsClosedBySalesAgentsBarChart(leadsClosedBySalesAgents)
     }
   }, [leadsClosedBySalesAgents])
 

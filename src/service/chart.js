@@ -349,3 +349,76 @@ export async function leadStatusDistributionPieChart(leadStatusDistribution) {
     },
   })
 }
+
+export async function leadsClosedBySalesAgentsBarChart(
+  leadsClosedBySalesAgents,
+) {
+  new Chart(document.getElementById("leadsClosedBySalesAgents"), {
+    type: "bar",
+    options: {
+      scales: {
+        x: {
+          ticks: {
+            color: "#ffffff",
+          },
+          grid: {
+            color: "#2a3447",
+            lineWidth: 1,
+          },
+        },
+        y: {
+          ticks: {
+            color: "#ffffff",
+          },
+          grid: {
+            color: "#2a3447",
+            lineWidth: 1,
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text: "Leads Closed By Sales Agents",
+          color: "#70d89d",
+          padding: {
+            bottom: 30,
+          },
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              const point = context.raw
+
+              return ` ${point.y.toFixed(1)} _ ( CODE : ${point.agentCode} ) `
+            },
+          },
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio,
+      animation: false,
+    },
+    data: {
+      labels: leadsClosedBySalesAgents.map((row) => row.name),
+      datasets: [
+        {
+          data: leadsClosedBySalesAgents.map((row) => ({
+            x: row.name,
+            y: row.leadsClosedByAgent,
+            agentCode: row.agentCode,
+          })),
+          backgroundColor: "#36A2EB",
+          borderColor: "#36A2EB",
+          borderWidth: 1,
+          categoryPercentage: 0.7,
+          barPercentage: 0.7,
+        },
+      ],
+    },
+  })
+}
