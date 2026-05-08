@@ -383,7 +383,7 @@ export function getScoreOfAgent(obj) {
 
   const denominator = leadsHandledByAgent.length
   const numerator = numberOfClosedLeadHandledByTheAgent.length
-  const score = (numerator / denominator) * 10
+  const score = denominator ? (numerator / denominator) * 10 : 0
   return Number(score.toFixed(1))
 }
 

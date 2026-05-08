@@ -34,8 +34,8 @@ export default function EditLead() {
       await getAllAgentsData(setSalesAgents)
       const filtersString = JSON.stringify({ _id: id })
       const response = await filterLeadsByProperties(filtersString)
-      if (response.data.length) {
-        setLead(response.data)
+      if (response.length) {
+        setLead(response)
       }
     }
     fetch()
