@@ -18,6 +18,13 @@ export function getAgentOptions(agents) {
   return options
 }
 
+export function getManagerOptions(managers) {
+  const options = managers.map((manager) => {
+    return { value: manager._id, label: manager.name }
+  })
+  return options
+}
+
 export const statusOptions = [
   { value: "New", label: "New" },
   { value: "Contacted", label: "Contacted" },

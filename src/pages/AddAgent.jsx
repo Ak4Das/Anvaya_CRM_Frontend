@@ -9,6 +9,10 @@ import { toast } from "react-toastify"
 import axios from "axios"
 import { createAgent } from "../service/requestToServer.js"
 import { getCurrentDate, normalizePhoneNumber } from "../service/functions.js"
+import Select from "react-select"
+import { getManagerOptions } from "../service/reactSelectOptions.js"
+import { getAllManagersData } from "../service/requestToServer.js"
+import { customStyles } from "../service/reactSelectCustomStyles.js"
 
 export default function AddAgent() {
   const [nameInputClicked, setNameInputClick] = useState(false)
@@ -19,6 +23,18 @@ export default function AddAgent() {
   const [passwordInputClicked, setPasswordInputClick] = useState(false)
   const [confirmPasswordInputClicked, setConfirmPasswordInputClick] =
     useState(false)
+  const [managers, setManagers] = useState([])
+  const [managerOptions, setManagerOptions] = useState([])
+  const [managersInputClicked, setManagersInputClick] = useState(false)
+
+  useEffect(() => {
+    getAllManagersData(setManagers)
+  }, [])
+
+  useEffect(() => {
+    const options = managers.length && getManagerOptions(managers)
+    options && setManagerOptions(options)
+  }, [managers])
 
   const initialValues = {
     name: "",
@@ -26,6 +42,7 @@ export default function AddAgent() {
     country: "",
     phoneNumber: "",
     email: "",
+    manager: "",
     address: "",
     profileImg: "",
     password: "",
@@ -55,8 +72,16 @@ export default function AddAgent() {
     },
   })
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    formik
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+    setFieldTouched,
+  } = formik
 
   function eventHandlerOnDocument() {
     const name = document.querySelector("[name = 'name']")
@@ -70,6 +95,9 @@ export default function AddAgent() {
 
     const email = document.querySelector("[name = 'email']")
     !email.value && setEmailInputClick(false)
+
+    const manager = document.querySelector("[name = 'manager']")
+    !manager.value && setManagersInputClick(false)
 
     const address = document.querySelector("[name = 'address']")
     !address.value && setAddressInputClick(false)
@@ -235,6 +263,46 @@ export default function AddAgent() {
                   className={`text-danger ${formStyles.show_validation_error}`}
                 >
                   {errors.email}
+                </span>
+              ) : null}
+            </div>
+            <div
+              className={`${formStyles.input_wrapper}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <label
+                htmlFor="manager"
+                className={`${managersInputClicked && formStyles.input_clicked}`}
+              >
+                Manager
+              </label>
+              <Select
+                options={managerOptions}
+                styles={customStyles}
+                placeholder=""
+                classNamePrefix="custom-select"
+                name="manager"
+                id="manager"
+                onMenuOpen={() => {
+                  setManagersInputClick(true)
+                }}
+                value={
+                  (managerOptions &&
+                    managerOptions.find(
+                      (opt) => opt.value === values.manager,
+                    )) ||
+                  null
+                }
+                onChange={(selected) => {
+                  setFieldValue("manager", selected ? selected.value : "")
+                }}
+                onBlur={() => setFieldTouched("manager", true)}
+              />
+              {errors.manager && touched.manager ? (
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
+                  {errors.manager}
                 </span>
               ) : null}
             </div>
