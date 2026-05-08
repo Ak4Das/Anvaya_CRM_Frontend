@@ -8,12 +8,41 @@ export const addLeadSchema = yup.object({
       /^[A-Z][a-z]+(?:\s[A-Z][a-z]+)+$/,
       "Enter name in format like 'John Doe'",
     ),
-  source: yup.string().required("Please mention a source"),
-  salesAgent: yup.string().required("Please assign a Sales agent"),
-  status: yup.string().required("Mention lead status"),
-  tags: yup.string().required("Choose a tag"),
+  source: yup
+    .string()
+    .oneOf(
+      [
+        `Website`,
+        `Youtube`,
+        `Instagram`,
+        `Facebook`,
+        `News Paper`,
+        `Our Customers`,
+        `Referral`,
+        `Television Ad`,
+        `Google`,
+        `Other`,
+      ],
+      "Invalid source",
+    )
+    .required("source is required"),
+  salesAgent: yup
+    .string()
+    .required("Please assign a Sales agent")
+    .matches(/^[0-9a-fA-F]{24}$/, "salesAgent must be a valid ObjectId."),
+  status: yup
+    .string()
+    .oneOf([`New`, `Contacted`, `Qualified`, `Proposal Sent`], "Invalid status")
+    .required("Mention lead status"),
+  tags: yup
+    .string()
+    .oneOf([`High Value`, `Follow Up`], "Invalid tag")
+    .required("Tag is required."),
   timeToClose: yup.number().min(1).max(30).required("Mention time to close"),
-  priority: yup.string().required("Please mention priority"),
+  priority: yup
+    .string()
+    .oneOf([`High`, `Medium`, `Low`], "Invalid status")
+    .required("Please mention priority"),
   phoneNumber: yup
     .string()
     .required("Phone number is required")
