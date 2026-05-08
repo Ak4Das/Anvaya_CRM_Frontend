@@ -10,10 +10,7 @@ export const addAgentSchema = yup.object({
     ),
   dateOfBirth: yup
     .string()
-    .matches(
-      /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-      "Date must be in yyyy-mm-dd format",
-    )
+    .matches(/^\d{4}-\d{2}-\d{2}$/, "Date must be in yyyy-mm-dd format")
     .required("Date is required"),
   country: yup
     .string()
@@ -23,7 +20,7 @@ export const addAgentSchema = yup.object({
     .string()
     .required("Phone number is required")
     .matches(
-      /^\(\+\d{1,3}\)\d{10}$/,
+      /^\(\+\d{1,3}\)\d+$/,
       "Phone number must be in format (+91)9785578985",
     ),
   email: yup
@@ -35,6 +32,10 @@ export const addAgentSchema = yup.object({
       "Email must be in lowercase",
       (value) => value === value?.toLowerCase(),
     ),
+  manager: yup
+    .string()
+    .matches(/^[0-9a-fA-F]{24}$/, "manager must be a valid ObjectId.")
+    .required("Assign a manager"),
   address: yup.string().required("Please enter your address"),
   profileImg: yup.string().required("Please enter your profile image"),
   password: yup.string().min(6).required("Please enter a password"),
