@@ -299,7 +299,7 @@ export async function leadsClosedAndInPipelinePieChart(obj) {
         maintainAspectRatio: false,
         devicePixelRatio: window.devicePixelRatio,
         animation: {
-          duration: 1200,
+          duration: 500,
           easing: "easeInOutCubic",
         },
       },
@@ -364,7 +364,7 @@ export async function leadStatusDistributionPieChart(obj) {
         maintainAspectRatio: false,
         devicePixelRatio: window.devicePixelRatio,
         animation: {
-          duration: 1200,
+          duration: 500,
           easing: "easeInOutCubic",
         },
       },
@@ -461,7 +461,7 @@ export async function leadsClosedBySalesAgentsBarChart(obj) {
         maintainAspectRatio: false,
         devicePixelRatio: window.devicePixelRatio,
         animation: {
-          duration: 1200,
+          duration: 500,
           easing: "easeInOutCubic",
         },
       },
