@@ -210,7 +210,7 @@ export async function handleClickOnApplyBtnForFilter(obj) {
   const inputValue = inputField.value
   if (inputValue) {
     let updatedInputValue
-    if (openFilterInput === "phoneNumber") {
+    if (openFilterInput === "phoneNumber" || openFilterInput === "email") {
       updatedInputValue = inputValue
     } else {
       updatedInputValue = capitalizeFirstLetter(inputValue)

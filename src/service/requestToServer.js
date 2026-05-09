@@ -43,7 +43,7 @@ export async function getLeadsDataInATimeRange(obj) {
 export async function filterAgentsByProperties(filtersString, setFunction) {
   try {
     const response = await axios.get(
-      `http://localhost:3000/agents/prop?filters=${encodeURIComponent(JSON.stringify(filtersString))}`,
+      `http://localhost:3000/agents/prop?filters=${encodeURIComponent(filtersString)}`,
     )
     setFunction && setFunction(response.data)
     return response.data
