@@ -59,9 +59,9 @@ function App() {
         )
         agent.assignedLead = assignedLead.length
         agent.closedLead = closedLead.length
-        const performanceScore = Number(
-          ((agent.closedLead / agent.assignedLead) * 10).toFixed(1),
-        )
+        const performanceScore = assignedLead.length
+          ? Number(((agent.closedLead / agent.assignedLead) * 10).toFixed(1))
+          : 0
         agent.performanceScore = performanceScore
         return agent
       }),

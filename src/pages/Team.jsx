@@ -130,7 +130,7 @@ export default function Team() {
     if (salesAgents.length && managers.length) {
       addManagerNameInAgentsData(salesAgents)
     }
-  }, [managers])
+  }, [managers, salesAgents])
 
   return (
     <div>
