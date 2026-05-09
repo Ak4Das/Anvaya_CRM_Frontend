@@ -21,6 +21,7 @@ import {
   getAllAgentsData,
   getLeadsDataInATimeRange,
 } from "./service/requestToServer.js"
+import CompressedSideBar from "./components/CompressedSideBar.jsx"
 
 function App() {
   const theme = useTheme()
@@ -45,6 +46,7 @@ function App() {
   const getSixMonthsPerformanceReportChartInstance = useRef(null)
   const getOneYearPerformanceReportChartRef = useRef(null)
   const getOneYearPerformanceReportChartInstance = useRef(null)
+  const [closeMenu, setCloseMenu] = useState(false)
 
   async function updateSalesAgentsData() {
     const updatedData = await Promise.all(
@@ -178,7 +180,12 @@ function App() {
   return (
     <>
       <div className={`app`}>
-        <SideBar />
+        {!closeMenu ? (
+          <SideBar setCloseMenu={setCloseMenu} />
+        ) : (
+          <CompressedSideBar setCloseMenu={setCloseMenu} />
+        )}
+
         <main className={`content`}>
           <NavBar />
           <section className={`main_section`}>

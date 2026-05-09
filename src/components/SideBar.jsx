@@ -1,7 +1,8 @@
 import styles from "../style_modules/component_modules/SideBar.module.css"
 import { Link } from "react-router-dom"
 
-export default function SideBar() {
+export default function SideBar(prop) {
+  const { setCloseMenu } = prop
   return (
     <>
       <div className={`${styles.sidebar}`}>
@@ -14,7 +15,7 @@ export default function SideBar() {
                     <span className={`${styles.item_content}`}>
                       <div className={`${styles.item_container}`}>
                         <h3 className={`${styles.admins}`}>ADMINS</h3>
-                        <button>
+                        <button onClick={() => setCloseMenu(true)}>
                           <i className="bi bi-list"></i>
                         </button>
                       </div>
