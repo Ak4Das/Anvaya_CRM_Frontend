@@ -5,13 +5,12 @@
   min-width: 270px;
   text-align: left;
   position: sticky;
-  top:0;
+  top: 0;
   z-index: 1009;
 }
 
 .sidebar_inner {
   background: #1f2a40 !important;
-  height: 100%;
   position: relative;
   z-index: 101;
 }
@@ -183,4 +182,28 @@
   line-height: 1.6;
   color: #a3a3a3;
   margin: 15px 0 5px 20px;
+}
+
+
+
+@media (min-width: 1200px) {
+  .menu_button_2 {
+    display: none;
+  }
+}
+@media (max-width: 1199px) {
+  .menu_button_1 {
+    display: none;
+  }
+  .sidebar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  .pro_sidebar_layout {
+    scrollbar-width: none;
+  }
+  .pro_sidebar_layout::-webkit-scrollbar {
+    display: none;
+  }
 }

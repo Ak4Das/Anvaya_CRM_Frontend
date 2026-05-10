@@ -29,7 +29,8 @@ export default function AddAgent() {
   const [managerOptions, setManagerOptions] = useState([])
   const [managersInputClicked, setManagersInputClick] = useState(false)
   const [closeMenu, setCloseMenu] = useState(false)
-  
+  const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+
   const { state } = useLocation()
 
   useEffect(() => {
@@ -128,12 +129,33 @@ export default function AddAgent() {
   }, [])
 
   return (
-    <div className={`app`}>
-      {!closeMenu ? (
-        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
-      ) : (
-        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
-      )}
+    <div className={`app ${styles.app}`}>
+      <div className={`${styles.sidebar_container_1}`}>
+        {!closeMenu ? (
+          <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+        ) : (
+          <CompressedSideBar
+            closeMenu={closeMenu}
+            setCloseMenu={setCloseMenu}
+          />
+        )}
+      </div>
+      <div className={`${styles.sidebar_container_2}`}>
+        {isMenuBtnClicked && (
+          <SideBar
+            closeMenu={closeMenu}
+            setCloseMenu={setCloseMenu}
+            setIsMenuBtnClicked={setIsMenuBtnClicked}
+          />
+        )}
+      </div>
+      <button
+        className={`${styles.menu_button}`}
+        title="Menu"
+        onClick={() => setIsMenuBtnClicked(true)}
+      >
+        <i className="bi bi-list"></i>
+      </button>
       <main className={`content`}>
         <NavBar />
         <section className={`main_section`}>

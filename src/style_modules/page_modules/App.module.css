@@ -86,3 +86,49 @@
   height: 100% !important;
   color: #ffffff;
 }
+
+
+
+.card_container {
+  padding: 20px;
+}
+
+.card {
+  background-color: #2e3a52 !important;
+  color: #ffffff !important;
+}
+
+.menu_button {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  background-color: #1f2a40;
+  color: #ffffff;
+}
+
+@media (min-width: 1200px) {
+  .menu_button {
+    display: none;
+  }
+  .sidebar_container_2 {
+    display: none;
+  }
+}
+@media (min-width: 1600px) {
+  .card_container {
+    display: none;
+  }
+}
+@media (max-width: 1599px) {
+  .agent_performance_table .table {
+    display: none;
+  }
+}
+@media (max-width: 1199px) {
+  .app {
+    padding-left: 40px;
+  }
+  .sidebar_container_1 {
+    display: none;
+  }
+}

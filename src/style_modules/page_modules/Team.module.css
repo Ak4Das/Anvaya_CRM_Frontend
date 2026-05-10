@@ -32,3 +32,30 @@
 .heading_container .add_people_btn:hover {
   color: #141b2d;
 }
+
+
+
+.menu_button {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  background-color: #1f2a40;
+  color: #ffffff;
+}
+
+@media (min-width: 1200px) {
+  .menu_button {
+    display: none;
+  }
+  .sidebar_container_2 {
+    display: none;
+  }
+}
+@media (max-width: 1199px) {
+  .app {
+    padding-left: 40px;
+  }
+  .sidebar_container_1 {
+    display: none;
+  }
+}

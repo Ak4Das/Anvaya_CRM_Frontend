@@ -48,7 +48,8 @@ function App() {
   const getOneYearPerformanceReportChartRef = useRef(null)
   const getOneYearPerformanceReportChartInstance = useRef(null)
   const [closeMenu, setCloseMenu] = useState(false)
-  
+  const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+
   const { state } = useLocation()
 
   useEffect(() => {
@@ -188,15 +189,33 @@ function App() {
 
   return (
     <>
-      <div className={`app`}>
-        {!closeMenu ? (
-          <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
-        ) : (
-          <CompressedSideBar
-            closeMenu={closeMenu}
-            setCloseMenu={setCloseMenu}
-          />
-        )}
+      <div className={`app ${styles.app}`}>
+        <div className={`${styles.sidebar_container_1}`}>
+          {!closeMenu ? (
+            <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+          ) : (
+            <CompressedSideBar
+              closeMenu={closeMenu}
+              setCloseMenu={setCloseMenu}
+            />
+          )}
+        </div>
+        <div className={`${styles.sidebar_container_2}`}>
+          {isMenuBtnClicked && (
+            <SideBar
+              closeMenu={closeMenu}
+              setCloseMenu={setCloseMenu}
+              setIsMenuBtnClicked={setIsMenuBtnClicked}
+            />
+          )}
+        </div>
+        <button
+          className={`${styles.menu_button}`}
+          title="Menu"
+          onClick={() => setIsMenuBtnClicked(true)}
+        >
+          <i className="bi bi-list"></i>
+        </button>
         <main className={`content`}>
           <NavBar />
           <section className={`main_section`}>
@@ -280,6 +299,58 @@ function App() {
                     })}
                   </tbody>
                 </table>
+                <div className={`${styles.card_container}`}>
+                  <div className="row">
+                    <div className="col-12">
+                      {sortAgentsByPerformanceScore.map((agent, index) => {
+                        return (
+                          <div
+                            className={`card mb-3 ${styles.card}`}
+                            key={agent.agentCode}
+                          >
+                            <div className="card-body d-flex justify-content-between">
+                              <div className="agent_description">
+                                <p>
+                                  <b>Code:</b> {agent.agentCode}
+                                </p>
+                                <p>
+                                  <b>Agent Name:</b> {agent.name}
+                                </p>
+                                <p>
+                                  <b>Assigned Lead:</b> {agent.assignedLead}
+                                </p>
+                                <p>
+                                  <b>Closed Lead:</b> {agent.closedLead}
+                                </p>
+                                <p>
+                                  <b>Performance Score:</b>{" "}
+                                  <span style={{ color: "#70d89d" }}>
+                                    {agent.performanceScore.toFixed(1)}
+                                  </span>{" "}
+                                  out of 10
+                                </p>
+                              </div>
+                              <div>
+                                <p>
+                                  <b>Status:</b>{" "}
+                                  <span style={{ color: "#70d89d" }}>
+                                    {agent.status}
+                                  </span>
+                                </p>
+                                <p>
+                                  <b>Rank:</b>{" "}
+                                  <span style={{ color: "#70d89d" }}>
+                                    {index + 1}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className={`p-2 ${styles.agent_performance_pie_chart}`}>
                 <canvas

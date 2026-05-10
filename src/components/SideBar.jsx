@@ -2,7 +2,7 @@ import styles from "../style_modules/component_modules/SideBar.module.css"
 import { Link } from "react-router-dom"
 
 export default function SideBar(prop) {
-  const { closeMenu, setCloseMenu } = prop
+  const { closeMenu, setCloseMenu, setIsMenuBtnClicked } = prop
   return (
     <>
       <div className={`${styles.sidebar}`}>
@@ -15,7 +15,16 @@ export default function SideBar(prop) {
                     <span className={`${styles.item_content}`}>
                       <div className={`${styles.item_container}`}>
                         <h3 className={`${styles.admins}`}>ADMINS</h3>
-                        <button onClick={() => setCloseMenu(true)}>
+                        <button
+                          className={`${styles.menu_button_1}`}
+                          onClick={() => setCloseMenu(true)}
+                        >
+                          <i className="bi bi-list"></i>
+                        </button>
+                        <button
+                          className={`${styles.menu_button_2}`}
+                          onClick={() => setIsMenuBtnClicked(false)}
+                        >
                           <i className="bi bi-list"></i>
                         </button>
                       </div>
