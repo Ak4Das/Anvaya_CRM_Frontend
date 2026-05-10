@@ -15,6 +15,8 @@ import {
 import Select from "react-select"
 import { reportOptions } from "../service/reactSelectOptions.js"
 import { customStylesForReportPage } from "../service/reactSelectCustomStyles.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
+import { useLocation } from "react-router-dom"
 
 export default function ReportPage() {
   const [leadsClosedAndInPipeline, setLeadsClosedAndInPipeline] = useState({})
@@ -27,6 +29,15 @@ export default function ReportPage() {
   const leadStatusDistributionPieChartInstance = useRef(null)
   const leadsClosedBySalesAgentsBarChartRef = useRef(null)
   const leadsClosedBySalesAgentsBarChartInstance = useRef(null)
+  const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   async function getNumberOfLeadsClosedAndInPipeline(endDay) {
     const {
@@ -122,7 +133,11 @@ export default function ReportPage() {
 
   return (
     <div className={`app`}>
-      <SideBar />
+      {!closeMenu ? (
+        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      ) : (
+        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      )}
       <main className={`content`}>
         <NavBar />
         <section className="main_section">

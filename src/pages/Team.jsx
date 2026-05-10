@@ -3,7 +3,7 @@ import tableStyles from "../style_modules/component_modules/Table.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import {
   handleClickOnApplyBtnForFilter as clickHandler,
   capitalizeFirstLetter,
@@ -21,6 +21,7 @@ import {
   findOverallPerformanceScoreOfAgent,
   getOverallPerformanceScores,
 } from "../service/requestToServer.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
 
 export default function Team() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -40,6 +41,15 @@ export default function Team() {
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
+  const [closeMenu, setCloseMenu] = useState(false)
+
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   async function handleClick() {
     clickHandler({
@@ -135,7 +145,14 @@ export default function Team() {
   return (
     <div>
       <div className={`app`}>
-        <SideBar />
+        {!closeMenu ? (
+          <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+        ) : (
+          <CompressedSideBar
+            closeMenu={closeMenu}
+            setCloseMenu={setCloseMenu}
+          />
+        )}
         <main className={`content`}>
           <NavBar />
           <section className={`main_section`}>
@@ -164,6 +181,7 @@ export default function Team() {
                 <Link
                   to="/addAgent"
                   className={`btn btn-outline-success ${styles.add_people_btn}`}
+                  state={closeMenu}
                 >
                   Add New Agent
                 </Link>
@@ -706,6 +724,7 @@ export default function Team() {
                               <Link
                                 to={`/salesAgent/${agent._id}`}
                                 className="btn btn-success btn-sm"
+                                state={closeMenu}
                               >
                                 View Profile
                               </Link>

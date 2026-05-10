@@ -2,7 +2,7 @@ import styles from "../style_modules/component_modules/SideBar.module.css"
 import { Link } from "react-router-dom"
 
 export default function SideBar(prop) {
-  const { setCloseMenu } = prop
+  const { closeMenu, setCloseMenu } = prop
   return (
     <>
       <div className={`${styles.sidebar}`}>
@@ -38,7 +38,11 @@ export default function SideBar(prop) {
                   </div>
                 </div>
                 <div className={`${styles.navigation_section}`}>
-                  <Link className="text-decoration-none" to="/">
+                  <Link
+                    className="text-decoration-none"
+                    to="/"
+                    state={closeMenu}
+                  >
                     <li
                       className={`${styles.dashboard_section} ${styles.navigation_section_item}`}
                     >
@@ -67,7 +71,11 @@ export default function SideBar(prop) {
                     </li>
                   </Link>
                   <h6 className={`${styles.section_heading}`}>Data</h6>
-                  <Link className="text-decoration-none" to="/team">
+                  <Link
+                    className="text-decoration-none"
+                    to="/team"
+                    state={closeMenu}
+                  >
                     <li className={`${styles.navigation_section_item}`}>
                       <div className={`${styles.navigation_item_container}`}>
                         <span
@@ -91,7 +99,11 @@ export default function SideBar(prop) {
                       </div>
                     </li>
                   </Link>
-                  <Link className="text-decoration-none" to="/teamContact">
+                  <Link
+                    className="text-decoration-none"
+                    to="/teamContact"
+                    state={closeMenu}
+                  >
                     <li className={`${styles.navigation_section_item}`}>
                       <div className={`${styles.navigation_item_container}`}>
                         <span
@@ -115,7 +127,11 @@ export default function SideBar(prop) {
                       </div>
                     </li>
                   </Link>
-                  <Link className="text-decoration-none" to="/sales">
+                  <Link
+                    className="text-decoration-none"
+                    to="/sales"
+                    state={closeMenu}
+                  >
                     <li className={`${styles.navigation_section_item}`}>
                       <div className={`${styles.navigation_item_container}`}>
                         <span
@@ -139,8 +155,11 @@ export default function SideBar(prop) {
                       </div>
                     </li>
                   </Link>
-                  <h6 className={`${styles.section_heading}`}>Pages</h6>
-                  <Link className="text-decoration-none" to="/leads">
+                  <Link
+                    className="text-decoration-none"
+                    to="/leads"
+                    state={closeMenu}
+                  >
                     <li className={`${styles.navigation_section_item}`}>
                       <div className={`${styles.navigation_item_container}`}>
                         <span
@@ -164,7 +183,12 @@ export default function SideBar(prop) {
                       </div>
                     </li>
                   </Link>
-                  <Link className="text-decoration-none" to="/report">
+                  <h6 className={`${styles.section_heading}`}>Pages</h6>
+                  <Link
+                    className="text-decoration-none"
+                    to="/report"
+                    state={closeMenu}
+                  >
                     <li className={`${styles.navigation_section_item}`}>
                       <div className={`${styles.navigation_item_container}`}>
                         <span

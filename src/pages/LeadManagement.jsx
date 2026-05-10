@@ -3,7 +3,7 @@ import formStyles from "../style_modules/component_modules/Form.module.css"
 import React, { useEffect, useRef, useState } from "react"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 import axios from "axios"
 import { useFormik } from "formik"
 import { agentCommentSchema } from "../schema/AgentComment.schema.js"
@@ -21,6 +21,7 @@ import {
   getDateFromIsoString,
   getTimeFromIsoString,
 } from "../service/functions.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
 
 export default function LeadManagement() {
   const id = useParams().id
@@ -31,6 +32,15 @@ export default function LeadManagement() {
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
   const [isScrolling, setScrolling] = useState(false)
+  const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   const previousCommentRef = useRef()
 
@@ -123,7 +133,11 @@ export default function LeadManagement() {
 
   return (
     <div className={`app`}>
-      <SideBar />
+      {!closeMenu ? (
+        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      ) : (
+        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      )}
       <main className={`content`}>
         <NavBar />
         <section className={`main_section`}>
@@ -135,6 +149,7 @@ export default function LeadManagement() {
             <Link
               to={`/editLead/${id}`}
               className={`btn btn-outline-success ${styles.editLeadBtn}`}
+              state={closeMenu}
             >
               Edit Lead Details
             </Link>

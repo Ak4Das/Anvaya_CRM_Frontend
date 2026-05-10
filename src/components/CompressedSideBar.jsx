@@ -3,7 +3,7 @@ import styles from "../style_modules/component_modules/CompressedSideBar.module.
 import { Link } from "react-router-dom"
 
 export default function CompressedSideBar(prop) {
-  const { setCloseMenu } = prop
+  const { closeMenu, setCloseMenu } = prop
   return (
     <div className={`${styles.sidebar_wrapper}`}>
       <div
@@ -14,7 +14,7 @@ export default function CompressedSideBar(prop) {
       </div>
       <div className={`${styles.sidebar_container}`}>
         <div className={`${styles.sidebar_items_category}`}>
-          <Link className="text-decoration-none" to="/">
+          <Link className="text-decoration-none" to="/" state={closeMenu}>
             <i
               className={`bi bi-house-door ${styles.dashboard_icon}`}
               title="Dashboard"
@@ -23,31 +23,35 @@ export default function CompressedSideBar(prop) {
         </div>
         <div className={`${styles.sidebar_items_category}`}>
           <h6>Data</h6>
-          <Link className="text-decoration-none" to="/team">
+          <Link className="text-decoration-none" to="/team" state={closeMenu}>
             <i
               className={`bi bi-microsoft-teams ${styles.icon}`}
               title="Team"
             ></i>
           </Link>
-          <Link className="text-decoration-none" to="/teamContact">
+          <Link
+            className="text-decoration-none"
+            to="/teamContact"
+            state={closeMenu}
+          >
             <i
               className={`bi bi-person-rolodex ${styles.icon}`}
               title="Team Contact Info"
             ></i>
           </Link>
-          <Link className="text-decoration-none" to="/sales">
+          <Link className="text-decoration-none" to="/sales" state={closeMenu}>
             <i
               className={`bi bi-currency-dollar ${styles.icon}`}
               title="Sales"
             ></i>
           </Link>
+          <Link className="text-decoration-none" to="/leads" state={closeMenu}>
+            <i className={`bi bi-people-fill ${styles.icon}`} title="Leads"></i>
+          </Link>
         </div>
         <div className={`${styles.sidebar_items_category}`}>
           <h6>Pages</h6>
-          <Link className="text-decoration-none" to="/leads">
-            <i className={`bi bi-people-fill ${styles.icon}`} title="Leads"></i>
-          </Link>
-          <Link className="text-decoration-none" to="/report">
+          <Link className="text-decoration-none" to="/report" state={closeMenu}>
             <i
               className={`bi bi-file-earmark-fill ${styles.icon}`}
               title="Reports"

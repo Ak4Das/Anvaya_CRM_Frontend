@@ -22,6 +22,7 @@ import {
   getLeadsDataInATimeRange,
 } from "./service/requestToServer.js"
 import CompressedSideBar from "./components/CompressedSideBar.jsx"
+import { useLocation } from "react-router-dom"
 
 function App() {
   const theme = useTheme()
@@ -47,6 +48,14 @@ function App() {
   const getOneYearPerformanceReportChartRef = useRef(null)
   const getOneYearPerformanceReportChartInstance = useRef(null)
   const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   async function updateSalesAgentsData() {
     const updatedData = await Promise.all(
@@ -181,11 +190,13 @@ function App() {
     <>
       <div className={`app`}>
         {!closeMenu ? (
-          <SideBar setCloseMenu={setCloseMenu} />
+          <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
         ) : (
-          <CompressedSideBar setCloseMenu={setCloseMenu} />
+          <CompressedSideBar
+            closeMenu={closeMenu}
+            setCloseMenu={setCloseMenu}
+          />
         )}
-
         <main className={`content`}>
           <NavBar />
           <section className={`main_section`}>

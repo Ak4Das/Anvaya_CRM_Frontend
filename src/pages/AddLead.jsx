@@ -18,6 +18,8 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import { createLead, getAllAgentsData } from "../service/requestToServer.js"
 import { getCurrentDate } from "../service/functions.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
+import { useLocation } from "react-router-dom"
 
 export default function AddLead() {
   const [nameInputClicked, setNameInputClick] = useState(false)
@@ -30,6 +32,15 @@ export default function AddLead() {
   const [phoneInputClicked, setPhoneInputClick] = useState(false)
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
+  const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   useEffect(() => {
     getAllAgentsData(setSalesAgents)
@@ -119,7 +130,11 @@ export default function AddLead() {
 
   return (
     <div className={`app`}>
-      <SideBar />
+      {!closeMenu ? (
+        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      ) : (
+        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      )}
       <main className={`content`}>
         <NavBar />
         <section className={`main_section`}>

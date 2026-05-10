@@ -13,6 +13,8 @@ import Select from "react-select"
 import { getManagerOptions } from "../service/reactSelectOptions.js"
 import { getAllManagersData } from "../service/requestToServer.js"
 import { customStyles } from "../service/reactSelectCustomStyles.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
+import { useLocation } from "react-router-dom"
 
 export default function AddAgent() {
   const [nameInputClicked, setNameInputClick] = useState(false)
@@ -26,6 +28,15 @@ export default function AddAgent() {
   const [managers, setManagers] = useState([])
   const [managerOptions, setManagerOptions] = useState([])
   const [managersInputClicked, setManagersInputClick] = useState(false)
+  const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   useEffect(() => {
     getAllManagersData(setManagers)
@@ -118,7 +129,11 @@ export default function AddAgent() {
 
   return (
     <div className={`app`}>
-      <SideBar />
+      {!closeMenu ? (
+        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      ) : (
+        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      )}
       <main className={`content`}>
         <NavBar />
         <section className={`main_section`}>

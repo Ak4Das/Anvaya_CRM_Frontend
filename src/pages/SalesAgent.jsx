@@ -3,7 +3,7 @@ import tableStyles from "../style_modules/component_modules/Table.module.css"
 import SideBar from "../components/SideBar"
 import NavBar from "../components/NavBar.jsx"
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 import {
   handleClickOnApplyBtnForFilter as clickHandler,
   removePropertyFilterHandler,
@@ -22,6 +22,7 @@ import {
   filterAgentsByProperties,
   getOverallPerformanceScores,
 } from "../service/requestToServer.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
 
 export default function SalesAgent() {
   const id = useParams().id
@@ -43,6 +44,15 @@ export default function SalesAgent() {
 
   const [openFilterInput, setOpenFilterInput] = useState("")
   const [properties, setProperties] = useState({})
+  const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   async function handleClick() {
     clickHandler({
@@ -140,7 +150,11 @@ export default function SalesAgent() {
 
   return (
     <div className={`app`}>
-      <SideBar />
+      {!closeMenu ? (
+        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      ) : (
+        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      )}
       <main className={`content`}>
         <NavBar />
         <section className={`main_section`}>
@@ -702,6 +716,7 @@ export default function SalesAgent() {
                               <Link
                                 to={`/lead/${lead._id}`}
                                 className="btn btn-success btn-sm"
+                                state={closeMenu}
                               >
                                 Manage Lead
                               </Link>

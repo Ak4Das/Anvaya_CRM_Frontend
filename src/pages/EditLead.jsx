@@ -16,18 +16,28 @@ import {
 import { customStyles } from "../service/reactSelectCustomStyles.js"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import {
   filterLeadsByProperties,
   updateLeadById,
   getAllAgentsData,
 } from "../service/requestToServer.js"
+import CompressedSideBar from "../components/CompressedSideBar.jsx"
 
 export default function EditLead() {
   const id = useParams().id
   const [lead, setLead] = useState([])
   const [salesAgents, setSalesAgents] = useState([])
   const [agentOptions, setAgentOptions] = useState([])
+  const [closeMenu, setCloseMenu] = useState(false)
+  
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state !== null) {
+      setCloseMenu(state)
+    }
+  }, [])
 
   useEffect(() => {
     async function fetch() {
@@ -82,7 +92,11 @@ export default function EditLead() {
 
   return (
     <div className={`app`}>
-      <SideBar />
+      {!closeMenu ? (
+        <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      ) : (
+        <CompressedSideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+      )}
       <main className={`content`}>
         <NavBar />
         <section className={`main_section`}>
@@ -186,8 +200,9 @@ export default function EditLead() {
                 name="status"
                 id="status"
                 value={
-                  editLeadStatusOptions.find((opt) => opt.value === values.status) ||
-                  null
+                  editLeadStatusOptions.find(
+                    (opt) => opt.value === values.status,
+                  ) || null
                 }
                 onChange={(selected) => {
                   setFieldValue("status", selected ? selected.value : "")
