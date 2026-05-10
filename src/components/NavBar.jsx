@@ -1,4 +1,5 @@
 import styles from "../style_modules/component_modules/NavBar.module.css"
+import AnvayaLogo from "../assets/Anvaya_CRM_png.png"
 export default function navBar() {
   return (
     <>
@@ -8,6 +9,9 @@ export default function navBar() {
           <h5 className={`${styles.name_description}`}>
             Agent Performance Monitor
           </h5>
+        </div>
+        <div className={`${styles.logo}`}>
+          <img src={AnvayaLogo} alt="AnvayaLogo" className="img-fluid w-100" />
         </div>
         <div className={`${styles.nav_items}`}>
           <button className={`${styles.nav_btn}`}>

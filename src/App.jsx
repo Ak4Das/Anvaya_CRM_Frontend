@@ -308,7 +308,7 @@ function App() {
                             className={`card mb-3 ${styles.card}`}
                             key={agent.agentCode}
                           >
-                            <div className="card-body d-flex justify-content-between">
+                            <div className="card-body d-flex gap-2 justify-content-between">
                               <div className="agent_description">
                                 <p>
                                   <b>Code:</b> {agent.agentCode}
@@ -325,22 +325,40 @@ function App() {
                                 <p>
                                   <b>Performance Score:</b>{" "}
                                   <span style={{ color: "#70d89d" }}>
-                                    {agent.performanceScore.toFixed(1)}
-                                  </span>{" "}
-                                  out of 10
+                                    {agent.performanceScore.toFixed(1)} / 10
+                                  </span>
                                 </p>
-                              </div>
-                              <div>
-                                <p>
+                                <p className="d-block d-sm-none">
                                   <b>Status:</b>{" "}
                                   <span style={{ color: "#70d89d" }}>
                                     {agent.status}
                                   </span>
                                 </p>
-                                <p>
+                                <p className="d-block d-lg-none">
                                   <b>Rank:</b>{" "}
                                   <span style={{ color: "#70d89d" }}>
                                     {index + 1}
+                                  </span>
+                                </p>
+                              </div>
+                              <div>
+                                <p className="d-none d-lg-block">
+                                  <b>Status:</b>{" "}
+                                  <span style={{ color: "#70d89d" }}>
+                                    {agent.status}
+                                  </span>
+                                </p>
+                                <p className="d-none d-lg-block">
+                                  <b>Rank:</b>{" "}
+                                  <span style={{ color: "#70d89d" }}>
+                                    {index + 1}
+                                  </span>
+                                </p>
+                                <p className="d-none d-sm-block d-lg-none">
+                                  <span
+                                    className={`badge rounded-pill ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
+                                  >
+                                    {agent.status}
                                   </span>
                                 </p>
                               </div>

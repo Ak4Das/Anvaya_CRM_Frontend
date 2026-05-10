@@ -87,8 +87,6 @@
   color: #ffffff;
 }
 
-
-
 .card_container {
   padding: 20px;
 }
@@ -130,5 +128,38 @@
   }
   .sidebar_container_1 {
     display: none;
+  }
+  .agent_performance_table {
+    grid-column: span 7;
+  }
+  .agent_performance_pie_chart {
+    grid-column: span 5;
+  }
+}
+@media (max-width: 850px) {
+  .about {
+    font-size: 15px;
+  }
+}
+@media (max-width: 767px) {
+  .agent_performance_table {
+    grid-column: span 12;
+  }
+  .agent_performance_pie_chart {
+    grid-column: span 12;
+  }
+  .agent_performance_bar_chart {
+    grid-column: span 12;
+  }
+  .agent_performance_line_chart {
+    grid-column: span 12;
+  }
+  .first_row_item_wrapper {
+    grid-column: span 6;
+  }
+}
+@media (max-width: 419px) {
+  .first_row_item_container {
+    margin: 0 auto;
   }
 }
