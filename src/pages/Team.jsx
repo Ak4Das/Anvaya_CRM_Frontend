@@ -187,7 +187,7 @@ export default function Team() {
               <div className="d-flex gap-3">
                 {sortApplied && (
                   <div
-                    className="btn btn-outline-danger"
+                    className={`btn btn-outline-danger ${styles.unsort_btn_1}`}
                     onClick={unsortAgentsData}
                   >
                     Unsort
@@ -195,7 +195,7 @@ export default function Team() {
                 )}
                 {Object.keys(properties).length !== 0 && (
                   <button
-                    className="btn btn-outline-danger"
+                    className={`btn btn-outline-danger ${styles.clear_filter_btn_1}`}
                     onClick={clearAllFilters}
                   >
                     Clear All Filters
@@ -824,7 +824,26 @@ export default function Team() {
                   </tbody>
                 </table>
                 <div className={`${styles.card_wrapper}`}>
-                  <div className={`${styles.head}`}></div>
+                  <div
+                    className={`d-flex align-items-center px-2 justify-content-end gap-3 ${styles.head}`}
+                  >
+                    {sortApplied && (
+                      <div
+                        className="btn btn-outline-danger"
+                        onClick={unsortAgentsData}
+                      >
+                        Unsort
+                      </div>
+                    )}
+                    {Object.keys(properties).length !== 0 && (
+                      <button
+                        className="btn btn-outline-danger"
+                        onClick={clearAllFilters}
+                      >
+                        Clear All Filters
+                      </button>
+                    )}
+                  </div>
                   <div className={`${styles.card_container}`}>
                     <div className="row">
                       {salesAgents &&

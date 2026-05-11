@@ -80,6 +80,9 @@
   .card_wrapper {
     display: none;
   }
+  .head {
+    display: none;
+  }
 }
 @media (min-width: 1700px) {
   .select {
@@ -88,6 +91,12 @@
 }
 @media (max-width: 1599px) {
   .table {
+    display: none;
+  }
+  .unsort_btn_1 {
+    display: none;
+  }
+  .clear_filter_btn_1 {
     display: none;
   }
 }
