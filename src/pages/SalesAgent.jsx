@@ -412,7 +412,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Name</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(nameBtnClicked ? false : true)
@@ -465,7 +465,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Source</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -521,7 +521,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Status</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -574,7 +574,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Tags</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -627,7 +627,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Priority</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -682,7 +682,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Time To Close</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -725,7 +725,7 @@ export default function SalesAgent() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Closed At</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)

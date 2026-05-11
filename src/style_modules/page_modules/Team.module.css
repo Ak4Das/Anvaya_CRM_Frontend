@@ -49,6 +49,11 @@
     display: none;
   }
 }
+@media(min-width:1700px) {
+  .select {
+    display: none !important;
+  }
+}
 @media (max-width: 1199px) {
   .app {
     padding-left: 40px;

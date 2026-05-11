@@ -351,7 +351,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Name</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(nameBtnClicked ? false : true)
@@ -405,7 +405,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Role</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -459,7 +459,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Status</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -513,7 +513,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Joined Date</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -571,7 +571,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Department</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -629,7 +629,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Manager</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -683,7 +683,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Location</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -739,7 +739,7 @@ export default function Team() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Performance Score</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)

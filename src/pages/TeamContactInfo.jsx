@@ -297,7 +297,7 @@ export default function TeamContactInfo() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Name</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(nameBtnClicked ? false : true)
@@ -348,7 +348,7 @@ export default function TeamContactInfo() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Date Of Birth</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -405,7 +405,7 @@ export default function TeamContactInfo() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Country</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -456,7 +456,7 @@ export default function TeamContactInfo() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Email</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)
@@ -507,7 +507,7 @@ export default function TeamContactInfo() {
                       <th className={`${tableStyles.col}`} scope="col">
                         <span>Phone Number</span>
                         <i
-                          className="bi bi-three-dots-vertical"
+                          className={`bi bi-three-dots-vertical ${tableStyles.vertical_three_dot_icon}`}
                           onClick={() => {
                             setIdBtnClick(false)
                             setNameBtnClick(false)

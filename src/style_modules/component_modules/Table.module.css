@@ -137,3 +137,10 @@
   left: 10px;
   top: 65px;
 }
+
+
+@media(max-width:1699px) {
+  .vertical_three_dot_icon {
+    display: none !important;
+  }
+}
