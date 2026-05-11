@@ -48,8 +48,6 @@
   margin-bottom: 10px;
 }
 
-
-
 .menu_button {
   position: absolute;
   top: 20px;
@@ -84,6 +82,11 @@
   font-size: 12px;
 }
 
+@media (min-width: 700px) {
+  .card_wrapper_2 {
+    display: none;
+  }
+}
 @media (min-width: 1200px) {
   .menu_button {
     display: none;
@@ -112,6 +115,11 @@
     padding-inline: 40px;
   }
   .sidebar_container_1 {
+    display: none;
+  }
+}
+@media (max-width: 699px) {
+  .table_2 {
     display: none;
   }
 }

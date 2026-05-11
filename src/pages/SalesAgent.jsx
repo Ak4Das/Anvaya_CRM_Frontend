@@ -218,7 +218,7 @@ export default function SalesAgent() {
               Performance In Between 30 days
             </h6>
             <div className={`${tableStyles.table_container}`}>
-              <table className={`table ${tableStyles.table}`}>
+              <table className={`table ${styles.table_2} ${tableStyles.table}`}>
                 <thead>
                   <tr>
                     <th scope="col">New Lead</th>
@@ -246,6 +246,57 @@ export default function SalesAgent() {
                   </tr>
                 </tbody>
               </table>
+              <div className={`${styles.card_wrapper_2}`}>
+                <div className={`${styles.head}`}></div>
+                <div className={`${styles.card_container}`}>
+                  <div className="row">
+                    <div className="col-12 col-lg-6">
+                      <div className={`card mb-3 ${styles.card}`}>
+                        <div className="card-body d-flex gap-2 justify-content-between">
+                          <div className={`${styles.lead_description}`}>
+                            <p>
+                              <b>New Lead:</b> {newLeads.length}
+                            </p>
+                            <p>
+                              <b>Contacted:</b> {contactedLeads.length}
+                            </p>
+                            <p>
+                              <b>Qualified:</b> {qualifiedLeads.length}
+                            </p>
+                            <p>
+                              <b>Proposal Send:</b> {proposalSentLeads.length}
+                            </p>
+                            <p>
+                              <b>closed:</b> {closedLeads.length}
+                            </p>
+                            <p>
+                              <b>Score:</b>{" "}
+                              <span style={{ color: "#44C9BD" }}>
+                                {getScoreOfAgent({
+                                  leadsData,
+                                  agentId: id,
+                                }) || 0}{" "}
+                                / 10
+                              </span>
+                            </p>
+                          </div>
+                          <div>
+                            {agent.length !== 0 && (
+                              <p>
+                                <span
+                                  className={`badge ${styles.badge} ${agent[0].status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
+                                >
+                                  {agent[0].status}
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
           <section className={`${styles.child_section_three}`}>
