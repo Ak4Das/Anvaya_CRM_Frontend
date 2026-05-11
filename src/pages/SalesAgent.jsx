@@ -23,6 +23,9 @@ import {
   getOverallPerformanceScores,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
+import { leadsHandledBySalesAgentFilterOptions } from "../service/reactSelectOptions.js"
+import Select from "react-select"
+import { customStylesForReportPage } from "../service/reactSelectCustomStyles.js"
 
 export default function SalesAgent() {
   const id = useParams().id
@@ -46,6 +49,7 @@ export default function SalesAgent() {
   const [properties, setProperties] = useState({})
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [selectedFilterOption, setSelectedFilterOption] = useState("")
 
   const { state } = useLocation()
 
@@ -267,6 +271,70 @@ export default function SalesAgent() {
                   >
                     Clear All Filters
                   </button>
+                )}
+              </div>
+            </div>
+            <div
+              className={`d-flex text-align-center justify-content-end position-relative ${styles.select}`}
+            >
+              <Select
+                options={leadsHandledBySalesAgentFilterOptions}
+                styles={customStylesForReportPage}
+                placeholder="Filter options"
+                classNamePrefix="custom-select"
+                name="source"
+                id="source"
+                onChange={(selected) => setSelectedFilterOption(selected.value)}
+              />
+              <div
+                className="filter_dropdown_menu_container"
+                onClick={() => setSelectedFilterOption("")}
+              >
+                {selectedFilterOption && (
+                  <div
+                    className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
+                  >
+                    <div
+                      className={`btn ${tableStyles.button}`}
+                      onClick={() => {
+                        sortLeadsDataInAscOrderByProp(selectedFilterOption)
+                        applySort(true)
+                      }}
+                    >
+                      Sort by ASC
+                    </div>
+                    <div
+                      className={`btn ${tableStyles.button}`}
+                      onClick={() => {
+                        sortLeadsDataInDescOrderByProp(selectedFilterOption)
+                        applySort(true)
+                      }}
+                    >
+                      Sort by DESC
+                    </div>
+                    {selectedFilterOption !== "leadCode" ? (
+                      <div
+                        className={`btn ${tableStyles.button}`}
+                        onClick={() => setOpenFilterInput(selectedFilterOption)}
+                      >
+                        Filter
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {selectedFilterOption !== "leadCode" ? (
+                      <div
+                        className={`btn text-danger ${tableStyles.button}`}
+                        onClick={() =>
+                          removePropertyFilter(selectedFilterOption)
+                        }
+                      >
+                        Remove Filter
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 )}
               </div>
             </div>

@@ -4,8 +4,6 @@
   width: 270px;
   min-width: 270px;
   text-align: left;
-  position: sticky;
-  top: 0;
   z-index: 1009;
 }
 
@@ -13,6 +11,8 @@
   background: #1f2a40 !important;
   position: relative;
   z-index: 101;
+  position: sticky;
+  top:0px;
 }
 
 .pro_sidebar_layout {

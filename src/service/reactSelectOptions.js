@@ -57,3 +57,56 @@ export const reportOptions = [
   { value: 180, label: "Six Months" },
   { value: 360, label: "One Year" },
 ]
+
+export const teamFilterOptions = [
+  { value: "agentCode", label: "Code" },
+  { value: "name", label: "Name" },
+  { value: "role", label: "Role" },
+  { value: "status", label: "Status" },
+  { value: "joinedDate", label: "Joined Date" },
+  { value: "department", label: "Department" },
+  { value: "manager", label: "Manager" },
+  { value: "location", label: "Location" },
+  { value: "performanceScore", label: "Performance Score" },
+]
+
+export const teamContactFilterOptions = [
+  { value: "agentCode", label: "Code" },
+  { value: "name", label: "Name" },
+  { value: "dateOfBirth", label: "Date Of Birth" },
+  { value: "country", label: "Country" },
+  { value: "email", label: "Email" },
+  { value: "phoneNumber", label: "Phone Number" },
+]
+
+export const salesInfoFilterOptions = [
+  { value: "agentCode", label: "Code" },
+  { value: "name", label: "Name" },
+  { value: "email", label: "Email" },
+  { value: "phoneNumber", label: "Phone Number" },
+  { value: "totalSalesDoneInBtw30Days", label: "Total Sale" },
+  { value: "rank", label: "Rank" },
+]
+
+export const leadsHandledBySalesAgentFilterOptions = [
+  { value: "leadCode", label: "Code" },
+  { value: "name", label: "Name" },
+  { value: "source", label: "Source" },
+  { value: "status", label: "Status" },
+  { value: "tags", label: "Tags" },
+  { value: "priority", label: "Priority" },
+  { value: "timeToClose", label: "Time To Close" },
+  { value: "closedAt", label: "Closed At" },
+]
+
+export const leadsFilterOptions = [
+  { value: "leadCode", label: "Code" },
+  { value: "name", label: "Name" },
+  { value: "source", label: "Source" },
+  { value: "agentName", label: "Agent Name" },
+  { value: "status", label: "Status" },
+  { value: "tags", label: "Tags" },
+  { value: "priority", label: "Priority" },
+  { value: "timeToClose", label: "Time To Close" },
+  { value: "closedAt", label: "Closed At" },
+]

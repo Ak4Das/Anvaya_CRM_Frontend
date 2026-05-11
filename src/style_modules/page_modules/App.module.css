@@ -87,6 +87,8 @@
   color: #ffffff;
 }
 
+
+
 .card_container {
   padding: 20px;
 }
@@ -124,7 +126,7 @@
 }
 @media (max-width: 1199px) {
   .app {
-    padding-left: 40px;
+    padding-inline: 40px;
   }
   .sidebar_container_1 {
     display: none;
