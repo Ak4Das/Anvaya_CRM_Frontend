@@ -365,7 +365,7 @@ export default function SalesAgent() {
                     ></i>
                   </div>
                 )}
-                <table className={`table ${tableStyles.table}`}>
+                <table className={`table ${styles.table} ${tableStyles.table}`}>
                   <thead>
                     <tr>
                       <th className={`${tableStyles.col}`} scope="col">
@@ -816,6 +816,88 @@ export default function SalesAgent() {
                       })}
                   </tbody>
                 </table>
+                <div className={`${styles.card_wrapper}`}>
+                  <div className={`${styles.head}`}></div>
+                  <div className={`${styles.card_container}`}>
+                    <div className="row">
+                      {updatedLeadsData &&
+                        updatedLeadsData.map((lead) => {
+                          return (
+                            <div
+                              className="col-12 col-lg-6"
+                              key={lead.leadCode}
+                            >
+                              <div className={`card mb-3 ${styles.card}`}>
+                                <div className="card-body d-flex gap-2 justify-content-between">
+                                  <div className={`${styles.lead_description}`}>
+                                    <p>
+                                      <b>Code:</b> {lead.leadCode}
+                                    </p>
+                                    <p>
+                                      <b>Name:</b> {lead.name}
+                                    </p>
+                                    <p>
+                                      <b>Source:</b> {lead.source}
+                                    </p>
+                                    <p>
+                                      <b>Sales Agent:</b>{" "}
+                                      <span style={{ color: "#70d89d" }}>
+                                        {lead.agentName}
+                                      </span>
+                                    </p>
+                                    <p className="d-block d-sm-none">
+                                      <b>Status:</b>{" "}
+                                      <span style={{ color: "#70d89d" }}>
+                                        {lead.status}
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <b>Tags:</b> {lead.tags}
+                                    </p>
+                                    <p>
+                                      <b>Priority:</b> {lead.priority}
+                                    </p>
+                                    <p>
+                                      <b>Time To Close:</b>{" "}
+                                      {lead.timeToClose
+                                        ? `${lead.timeToClose} days`
+                                        : "___"}
+                                    </p>
+                                    <p>
+                                      <b>Closed At:</b>{" "}
+                                      <span style={{ color: "#70d89d" }}>
+                                        {lead.closedAt ? lead.closedAt : "___"}
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p>
+                                      <span
+                                        className={`badge ${styles.badge} d-none d-sm-block text-bg-success`}
+                                      >
+                                        {lead.status}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className={`${styles.card_footer}`}>
+                                  <p className="mb-0 p-2">
+                                    <Link
+                                      to={`/lead/${lead._id}`}
+                                      className="btn btn-success btn-sm"
+                                      state={closeMenu}
+                                    >
+                                      Manage Lead
+                                    </Link>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        })}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

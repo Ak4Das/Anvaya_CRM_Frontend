@@ -41,6 +41,33 @@
   color: #ffffff;
 }
 
+.card_container {
+  padding: 20px;
+}
+
+.head {
+  min-height: 50px;
+  background-color: #3e4396;
+}
+
+.card {
+  background-color: #2e3a52 !important;
+  color: #ffffff !important;
+}
+
+.agent_description,
+.lead_description {
+  font-size: 16px;
+}
+
+.card_footer {
+  background-color: #41557c;
+}
+
+.badge {
+  font-size: 12px;
+}
+
 @media (min-width: 1200px) {
   .menu_button {
     display: none;
@@ -49,9 +76,19 @@
     display: none;
   }
 }
-@media(min-width:1700px) {
+@media (min-width: 1600px) {
+  .card_wrapper {
+    display: none;
+  }
+}
+@media (min-width: 1700px) {
   .select {
     display: none !important;
+  }
+}
+@media (max-width: 1599px) {
+  .table {
+    display: none;
   }
 }
 @media (max-width: 1199px) {
@@ -60,5 +97,17 @@
   }
   .sidebar_container_1 {
     display: none;
+  }
+}
+@media (max-width: 450px) {
+  .agent_description,
+  .lead_description {
+    font-size: 14px;
+  }
+}
+@media (max-width: 400px) {
+  .agent_description,
+  .lead_description {
+    font-size: 13px;
   }
 }
