@@ -199,7 +199,6 @@ export default function LeadManagement() {
                 Time To Close: <span>{lead[0]?.timeToClose} days</span>
               </p>
             </div>
-
             <div className={`${styles.comment_section}`}>
               <h1>Comment Section</h1>
               <section

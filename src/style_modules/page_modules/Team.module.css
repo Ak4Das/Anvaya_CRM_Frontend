@@ -109,11 +109,11 @@
   }
 }
 @media (max-width: 575px) {
-  .heading {
+  .heading .text2 {
     display: none;
   }
-  .heading_container {
-    justify-content: flex-end;
+  .heading {
+    margin-bottom: 0px;
   }
   .app {
     padding-inline: 10px;

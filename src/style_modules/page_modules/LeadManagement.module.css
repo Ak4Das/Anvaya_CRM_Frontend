@@ -49,7 +49,7 @@
 }
 
 .previous_comments_section {
-  height: 500px;
+  max-height: 500px;
   overflow: auto;
   position: relative;
   scrollbar-width: none;
@@ -154,8 +154,6 @@
   padding: 10px 15px;
 }
 
-
-
 .menu_button {
   position: absolute;
   top: 20px;
@@ -192,5 +190,15 @@
   }
   .menu_button {
     display: none;
+  }
+}
+@media (max-width: 500px) {
+  .scrollToSeeMoreBtn {
+    font-size: 12px;
+  }
+}
+@media (max-width: 400px) {
+  .scrollToSeeMoreBtn {
+    font-size: 10px;
   }
 }

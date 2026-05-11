@@ -49,9 +49,6 @@
   }
 }
 @media (max-width: 575px) {
-  .heading {
-    display: none;
-  }
   .heading_container {
     justify-content: flex-end;
   }
