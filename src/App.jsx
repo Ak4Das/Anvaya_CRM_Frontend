@@ -217,7 +217,7 @@ function App() {
           <i className="bi bi-list"></i>
         </button>
         <main className={`content`}>
-          <NavBar />
+          <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
           <section className={`main_section`}>
             <div className={`${styles.grid_container}`}>
               <div className={`${styles.first_row_item_wrapper}`}>

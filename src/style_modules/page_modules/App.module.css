@@ -165,3 +165,11 @@
     margin: 0 auto;
   }
 }
+@media (max-width:575px) {
+  .app {
+    padding-inline: 10px;
+  }
+  .menu_button {
+    display: none;
+  }
+}

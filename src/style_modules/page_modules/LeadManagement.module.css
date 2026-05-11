@@ -174,9 +174,23 @@
 }
 @media (max-width: 1199px) {
   .app {
-    padding-left: 40px;
+    padding-inline: 40px;
   }
   .sidebar_container_1 {
+    display: none;
+  }
+}
+@media (max-width: 575px) {
+  .heading {
+    display: none;
+  }
+  .heading_container {
+    justify-content: flex-end;
+  }
+  .app {
+    padding-inline: 10px;
+  }
+  .menu_button {
     display: none;
   }
 }

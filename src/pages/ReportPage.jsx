@@ -161,7 +161,7 @@ export default function ReportPage() {
         <i className="bi bi-list"></i>
       </button>
       <main className={`content`}>
-        <NavBar />
+        <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
         <section className="main_section">
           <div className={`${styles.heading_container}`}>
             <div className={`${styles.heading}`}>

@@ -50,10 +50,13 @@
   font-size: 1.2rem;
 }
 
+.menu_button {
+  background-color: #1f2a40;
+  color: #ffffff;
+}
 
-
-@media (min-width: 500px) {
-  .logo {
+@media (min-width: 576px) {
+  .menu_button {
     display: none;
   }
 }
@@ -61,11 +64,11 @@
   .name_container .name {
     font-size: 25px;
   }
+  .navbar {
+    align-items: flex-end;
+  }
 }
 @media (max-width: 499px) {
-  .logo {
-    width: 50px;
-  }
   .name_container {
     display: none;
   }

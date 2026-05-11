@@ -120,7 +120,7 @@ export default function EditLead() {
         <i className="bi bi-list"></i>
       </button>
       <main className={`content`}>
-        <NavBar />
+        <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
         <section className={`main_section`}>
           <div className={`${styles.heading}`}>
             <h2 className={`${styles.text1}`}>Edit Lead</h2>

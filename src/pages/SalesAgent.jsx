@@ -182,7 +182,7 @@ export default function SalesAgent() {
         <i className="bi bi-list"></i>
       </button>
       <main className={`content`}>
-        <NavBar />
+        <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
         <section className={`main_section`}>
           <section className={`${styles.child_section_one}`}>
             <div className={`${styles.profile_image}`}>
