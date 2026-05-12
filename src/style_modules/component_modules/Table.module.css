@@ -108,8 +108,8 @@
   width: 110px;
   background-color: #141b2d;
   position: absolute;
-  top:40px;
-  left:0px;
+  top: 40px;
+  left: 0px;
   z-index: 1;
   font-size: 12px;
   padding: 5px;
@@ -119,28 +119,41 @@
 .button {
   width: 100%;
   font-size: 12px !important;
-  color:#ffffff;
+  color: #ffffff;
   padding: 12px 12px;
 }
 
 .button:hover {
-  background-color: #1F2A40;
+  background-color: #1f2a40;
 }
 
 .filter_btn_container_end {
-  top:40px;
-  left:-90px;
+  top: 40px;
+  left: -90px;
 }
-
 
 .filter_dropdown_menu {
   left: 10px;
   top: 65px;
 }
 
-
-@media(max-width:1699px) {
+@media (max-width: 1699px) {
   .vertical_three_dot_icon {
     display: none !important;
+  }
+}
+@media (max-width: 500px) {
+  .filter {
+    width: 350px;
+  }
+}
+@media (max-width: 450px) {
+  .filter {
+    width: 300px;
+  }
+}
+@media (max-width: 400px) {
+  .filter {
+    width: 260px;
   }
 }
