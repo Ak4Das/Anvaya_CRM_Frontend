@@ -23,6 +23,7 @@ import {
   getAllAgentsData,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
+import { getCurrentDate } from "../service/functions.js"
 
 export default function EditLead() {
   const id = useParams().id
@@ -73,6 +74,11 @@ export default function EditLead() {
     validationSchema: editLeadSchema,
     enableReinitialize: true,
     onSubmit: async (values, action) => {
+      if (values.status === "Lost") {
+        values.lostAt = getCurrentDate()
+      } else {
+        values.lostAt = ""
+      }
       const response = await updateLeadById({ id: lead[0]._id, body: values })
       if (response && Object.keys(response).length) {
         toast("Lead Updated Successfully👍")
