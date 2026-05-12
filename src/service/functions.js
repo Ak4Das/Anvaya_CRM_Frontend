@@ -1,4 +1,4 @@
-export function sortArrayOfObjectsInAscendingOrderByPropertyContainingString( //sortStringsInAscendingOrder
+export function sortArrayOfObjectsInAscendingOrderByPropertyContainingString(
   arr,
   prop,
 ) {
@@ -21,7 +21,6 @@ export function sortArrayOfObjectsInDescendingOrderByPropertyContainingString(
   arr,
   prop,
 ) {
-  //sortStringsInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstCharacterOfI = arr[i][prop][0].toLowerCase()
@@ -41,7 +40,6 @@ export function sortArrayOfObjectsInAscendingOrderByPropertyContainingCodeNumber
   arr,
   prop,
 ) {
-  //sortCodeNumbersInAscendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
@@ -61,7 +59,6 @@ export function sortArrayOfObjectsInDescendingOrderByPropertyContainingCodeNumbe
   arr,
   prop,
 ) {
-  //sortCodeNumbersInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
@@ -81,7 +78,6 @@ export function sortArrayOfObjectsInAscendingOrderByPropertyContainingNumber(
   arr,
   prop,
 ) {
-  //sortNumbersInAscendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[i][prop] > arr[j][prop]) {
@@ -99,7 +95,6 @@ export function sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
   arr,
   prop,
 ) {
-  //sortNumbersInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       if (arr[i][prop] < arr[j][prop]) {
@@ -117,7 +112,6 @@ export function sortArrayOfObjectsInAscendingOrderByPropertyContainingDate(
   arr,
   prop,
 ) {
-  //sortDateInAscendingOrder
   arr.sort((a, b) => new Date(a[prop] || 0) - new Date(b[prop] || 0))
   return arr
 }
@@ -126,7 +120,6 @@ export function sortArrayOfObjectsInDescendingOrderByPropertyContainingDate(
   arr,
   prop,
 ) {
-  //sortDateInDescendingOrder
   arr.sort((a, b) => new Date(b[prop] || 0) - new Date(a[prop] || 0))
   return arr
 }
@@ -135,7 +128,6 @@ export function sortArrayOfObjectsInAscendingOrderByPropertyContainingPhoneNumbe
   arr,
   prop,
 ) {
-  //sortPhoneNumbersInAscendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
@@ -155,7 +147,6 @@ export function sortArrayOfObjectsInDescendingOrderByPropertyContainingPhoneNumb
   arr,
   prop,
 ) {
-  //sortPhoneNumbersInDescendingOrder
   for (let i = 0; i < arr.length; ) {
     for (let j = i + 1; j < arr.length; j++) {
       const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
@@ -170,21 +161,6 @@ export function sortArrayOfObjectsInDescendingOrderByPropertyContainingPhoneNumb
   }
   return arr
 }
-
-// export function sortArrayByProperty(arr, prop) {
-//   const newArr = [...arr]
-//   for (let i = 0; i < newArr.length; ) {
-//     for (let j = i + 1; j < newArr.length; j++) {
-//       if (newArr[i][prop] < newArr[j][prop]) {
-//         const a = newArr[i]
-//         newArr[i] = newArr[j]
-//         newArr[j] = a
-//       }
-//     }
-//     i++
-//   }
-//   return newArr
-// }
 
 export function capitalizeFirstLetter(string) {
   const String = string.trim()
