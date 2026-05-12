@@ -31,6 +31,21 @@ export default function ReportPage() {
   const leadsClosedBySalesAgentsBarChartInstance = useRef(null)
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 599)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 599) {
+        setIsMobile(true)
+      } else if (window.innerWidth >= 600) {
+        setIsMobile(false)
+      }
+    }
+
+    window.addEventListener("resize", handleResize)
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const { state } = useLocation()
 
@@ -103,15 +118,21 @@ export default function ReportPage() {
 
   useEffect(() => {
     if (leadsClosedBySalesAgents.length) {
+      leadsClosedAndInPipelinePieChartInstance.current?.destroy()
+      leadsClosedAndInPipelinePieChartInstance.current = null
       leadsClosedAndInPipelinePieChart({
         data: leadsClosedAndInPipeline,
         chartRef: leadsClosedAndInPipelinePieChartRef,
         chartInstance: leadsClosedAndInPipelinePieChartInstance,
+        isMobile: isMobile,
       })
+      leadStatusDistributionPieChartInstance.current?.destroy()
+      leadStatusDistributionPieChartInstance.current = null
       leadStatusDistributionPieChart({
         data: leadStatusDistribution,
         chartRef: leadStatusDistributionPieChartRef,
         chartInstance: leadStatusDistributionPieChartInstance,
+        isMobile: isMobile,
       })
       leadsClosedBySalesAgentsBarChart({
         data: leadsClosedBySalesAgents,
@@ -119,7 +140,7 @@ export default function ReportPage() {
         chartInstance: leadsClosedBySalesAgentsBarChartInstance,
       })
     }
-  }, [leadsClosedBySalesAgents])
+  }, [leadsClosedBySalesAgents, isMobile])
 
   useEffect(() => {
     return () => {
@@ -170,36 +191,58 @@ export default function ReportPage() {
                 Reports Of The Agents Performance
               </h5>
             </div>
-            <div className={`${styles.select}`}>
-              <Select
-                options={reportOptions}
-                styles={customStylesForReportPage}
-                placeholder="Choose a option"
-                classNamePrefix="custom-select"
-                name="source"
-                id="source"
-                onChange={(selected) => setOption(selected.value)}
-              />
-            </div>
           </div>
-          <section className={`${styles.charts_container}`}>
-            <div className={`${styles.first_box} ${styles.box}`}>
-              <canvas
-                id="leadsClosedAndInPipeline"
-                ref={leadsClosedAndInPipelinePieChartRef}
-              ></canvas>
+          <div className={`d-flex justify-content-end`}>
+            <Select
+              options={reportOptions}
+              styles={customStylesForReportPage}
+              placeholder="Choose a option"
+              classNamePrefix="custom-select"
+              name="source"
+              id="source"
+              onChange={(selected) => setOption(selected.value)}
+            />
+          </div>
+          <section
+            className={`d-flex flex-column gap-4 ${styles.charts_container}`}
+          >
+            <div className="row row-gap-4">
+              <div
+                className={`col-xl-12 col-xxl-6 ${styles.first_box}`}
+              >
+                <div className={`card ${styles.card}`}>
+                  <div className="card-body">
+                    <canvas
+                      id="leadsClosedAndInPipeline"
+                      ref={leadsClosedAndInPipelinePieChartRef}
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`col-xl-12 col-xxl-6 ${styles.second_box}`}
+              >
+                <div className={`card ${styles.card}`}>
+                  <div className="card-body">
+                    <canvas
+                      id="leadStatusDistribution"
+                      ref={leadStatusDistributionPieChartRef}
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className={`${styles.second_box} ${styles.box}`}>
-              <canvas
-                id="leadStatusDistribution"
-                ref={leadStatusDistributionPieChartRef}
-              ></canvas>
-            </div>
-            <div className={`${styles.third_box} ${styles.box}`}>
-              <canvas
-                id="leadsClosedBySalesAgents"
-                ref={leadsClosedBySalesAgentsBarChartRef}
-              ></canvas>
+            <div className="row">
+              <div className={`col-12 ${styles.third_box}`}>
+                <div className={`card ${styles.card}`}>
+                  <div className="card-body">
+                    <canvas
+                      id="leadsClosedBySalesAgents"
+                      ref={leadsClosedBySalesAgentsBarChartRef}
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         </section>

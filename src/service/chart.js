@@ -262,7 +262,7 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
 }
 
 export async function leadsClosedAndInPipelinePieChart(obj) {
-  const { data, chartRef, chartInstance } = obj
+  const { data, chartRef, chartInstance, isMobile } = obj
   const { closedLeads, leadsInPipeline, lostLeads } = data
   if (chartInstance.current) {
     chartInstance.current.data.datasets[0].data = [
@@ -278,7 +278,7 @@ export async function leadsClosedAndInPipelinePieChart(obj) {
         plugins: {
           legend: {
             display: true,
-            position: "right",
+            position: isMobile ? "bottom" : "right",
             labels: {
               color: "#ffffff",
               font: {
@@ -317,7 +317,7 @@ export async function leadsClosedAndInPipelinePieChart(obj) {
 }
 
 export async function leadStatusDistributionPieChart(obj) {
-  const { data, chartRef, chartInstance } = obj
+  const { data, chartRef, chartInstance, isMobile } = obj
   const {
     newLeads,
     contactedLeads,
@@ -343,7 +343,7 @@ export async function leadStatusDistributionPieChart(obj) {
         plugins: {
           legend: {
             display: true,
-            position: "right",
+            position: isMobile ? "bottom" : "right",
             labels: {
               color: "#ffffff",
               font: {

@@ -24,34 +24,17 @@
   align-items: center;
 }
 
-.charts_container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.box {
-  background-color: #1f2a40;
-  padding: 10px 20px 20px;
-}
-
-.third_box {
-  grid-column-start: span 2;
-}
-
-.select {
-  display: inline-block;
-}
-
-
-
 .menu_button {
   position: absolute;
   top: 20px;
   left: 10px;
   background-color: #1f2a40;
   color: #ffffff;
+}
+
+.card {
+  background-color: #1f2a40;
+  height: 340px;
 }
 
 @media (min-width: 1200px) {
@@ -72,10 +55,10 @@
 }
 @media (max-width: 575px) {
   .heading {
-    display: none;
+    margin: 0px;
   }
-  .heading_container {
-    justify-content: flex-end;
+  .heading .text2 {
+    display: none;
   }
   .app {
     padding-inline: 10px;
