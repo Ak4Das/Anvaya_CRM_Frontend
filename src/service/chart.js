@@ -50,7 +50,7 @@ export async function thirtyDaysAgentsPerformanceReportBarChart(obj) {
               label: function (context) {
                 const point = context.raw
 
-                return ` ${point.y.toFixed(1)} _ ( ID : ${point.id} ) `
+                return ` ${point.y.toFixed(1)} _ ( CODE : ${point.id} ) `
               },
             },
           },
@@ -61,7 +61,6 @@ export async function thirtyDaysAgentsPerformanceReportBarChart(obj) {
         animation: false,
       },
       data: {
-        labels: data.map((row) => row.name),
         datasets: [
           {
             data: data.map((row) => ({
@@ -131,7 +130,7 @@ export async function sixMonthsAgentsPerformanceReportLineChart(obj) {
               label: function (context) {
                 const point = context.raw
 
-                return ` ${point.y.toFixed(1)} _ ( ID : ${point.id} ) `
+                return ` ${point.y.toFixed(1)} _ ( CODE : ${point.id} ) `
               },
             },
           },
@@ -142,7 +141,6 @@ export async function sixMonthsAgentsPerformanceReportLineChart(obj) {
         animation: false,
       },
       data: {
-        labels: data.map((row) => row.name),
         datasets: [
           {
             data: data.map((row) => ({
@@ -174,26 +172,6 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
     chartInstance.current = new Chart(chartRef.current, {
       type: "pie",
       options: {
-        scales: {
-          x: {
-            ticks: {
-              color: "#ffffff",
-            },
-            grid: {
-              color: "#2a3447",
-              lineWidth: 1,
-            },
-          },
-          y: {
-            ticks: {
-              color: "#ffffff",
-            },
-            grid: {
-              color: "#2a3447",
-              lineWidth: 1,
-            },
-          },
-        },
         plugins: {
           legend: {
             display: false,
@@ -214,7 +192,7 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
 
                 const id = context.dataset.ids[context.dataIndex]
 
-                return ` ${value} _ ( ID - ${id} ) `
+                return ` ${value} _ ( CODE - ${id} ) `
               },
             },
           },
@@ -225,7 +203,6 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
         animation: false,
       },
       data: {
-        labels: data.map((row) => row.name),
         datasets: [
           {
             data: data.map((row) => row.score),
@@ -241,19 +218,8 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
               "#E91E63",
               "#3F51B5",
             ],
-            ids: [
-              "AG-0292582413",
-              "AG-6086212578",
-              "AG-8957270755",
-              "AG-4701339252",
-              "AG-6426045967",
-              "AG-0234367290",
-              "AG-3381478618",
-              "AG-8888710130",
-              "AG-1653318933",
-              "AG-7506422052",
-            ],
-            offset: data.map((_, i) => (i === maxIndex ? 20 : 0)),
+            ids: data.map((row) => row.id),
+            offset: data.map((obj, i) => (i === maxIndex ? 20 : 0)),
           },
         ],
       },
