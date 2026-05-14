@@ -23,6 +23,7 @@ import {
 } from "./service/requestToServer.js"
 import CompressedSideBar from "./components/CompressedSideBar.jsx"
 import { useLocation } from "react-router-dom"
+import AppShimmer from "./shimmer_effects/App.shimmer.jsx"
 
 function App() {
   const theme = useTheme()
@@ -264,112 +265,116 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className={`${styles.agent_performance_table}`}>
-                <h6>Agents overall performance table (1 year)</h6>
-                <table className={`table ${styles.table}`}>
-                  <thead>
-                    <tr>
-                      <th scope="col">code</th>
-                      <th scope="col">Agent Name</th>
-                      <th scope="col">Assigned Lead</th>
-                      <th scope="col">Closed Lead</th>
-                      <th scope="col">Performance Score</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Rank</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortAgentsByPerformanceScore.map((agent, index) => {
-                      return (
-                        <tr key={agent.agentCode}>
-                          <th scope="row">{agent.agentCode}</th>
-                          <td>{agent.name}</td>
-                          <td>{agent.assignedLead}</td>
-                          <td>{agent.closedLead}</td>
-                          <td>
-                            <span style={{ color: "#70d89d" }}>
-                              {agent.performanceScore.toFixed(1)}
-                            </span>{" "}
-                            out of 10
-                          </td>
-                          <td style={{ color: "#70d89d" }}>{agent.status}</td>
-                          <td>{index + 1}</td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-                <div className={`${styles.card_container}`}>
-                  <div className="row">
-                    <div className="col-12">
+              {sortAgentsByPerformanceScore.length === 0 ? (
+                <AppShimmer />
+              ) : (
+                <div className={`${styles.agent_performance_table}`}>
+                  <h6>Agents overall performance table (1 year)</h6>
+                  <table className={`table ${styles.table}`}>
+                    <thead>
+                      <tr>
+                        <th scope="col">code</th>
+                        <th scope="col">Agent Name</th>
+                        <th scope="col">Assigned Lead</th>
+                        <th scope="col">Closed Lead</th>
+                        <th scope="col">Performance Score</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Rank</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                       {sortAgentsByPerformanceScore.map((agent, index) => {
                         return (
-                          <div
-                            className={`card mb-3 ${styles.card}`}
-                            key={agent.agentCode}
-                          >
-                            <div className="card-body d-flex gap-2 justify-content-between">
-                              <div className="agent_description">
-                                <p>
-                                  <b>Code:</b> {agent.agentCode}
-                                </p>
-                                <p>
-                                  <b>Agent Name:</b> {agent.name}
-                                </p>
-                                <p>
-                                  <b>Assigned Lead:</b> {agent.assignedLead}
-                                </p>
-                                <p>
-                                  <b>Closed Lead:</b> {agent.closedLead}
-                                </p>
-                                <p>
-                                  <b>Performance Score:</b>{" "}
-                                  <span style={{ color: "#70d89d" }}>
-                                    {agent.performanceScore.toFixed(1)} / 10
-                                  </span>
-                                </p>
-                                <p className="d-block d-sm-none">
-                                  <b>Status:</b>{" "}
-                                  <span style={{ color: "#70d89d" }}>
-                                    {agent.status}
-                                  </span>
-                                </p>
-                                <p className="d-block d-lg-none">
-                                  <b>Rank:</b>{" "}
-                                  <span style={{ color: "#70d89d" }}>
-                                    {index + 1}
-                                  </span>
-                                </p>
-                              </div>
-                              <div>
-                                <p className="d-none d-lg-block">
-                                  <b>Status:</b>{" "}
-                                  <span style={{ color: "#70d89d" }}>
-                                    {agent.status}
-                                  </span>
-                                </p>
-                                <p className="d-none d-lg-block">
-                                  <b>Rank:</b>{" "}
-                                  <span style={{ color: "#70d89d" }}>
-                                    {index + 1}
-                                  </span>
-                                </p>
-                                <p className="d-none d-sm-block d-lg-none">
-                                  <span
-                                    className={`badge rounded-pill ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
-                                  >
-                                    {agent.status}
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                          <tr key={agent.agentCode}>
+                            <th scope="row">{agent.agentCode}</th>
+                            <td>{agent.name}</td>
+                            <td>{agent.assignedLead}</td>
+                            <td>{agent.closedLead}</td>
+                            <td>
+                              <span style={{ color: "#70d89d" }}>
+                                {agent.performanceScore.toFixed(1)}
+                              </span>{" "}
+                              out of 10
+                            </td>
+                            <td style={{ color: "#70d89d" }}>{agent.status}</td>
+                            <td>{index + 1}</td>
+                          </tr>
                         )
                       })}
+                    </tbody>
+                  </table>
+                  <div className={`${styles.card_container}`}>
+                    <div className="row">
+                      <div className="col-12">
+                        {sortAgentsByPerformanceScore.map((agent, index) => {
+                          return (
+                            <div
+                              className={`card mb-3 ${styles.card}`}
+                              key={agent.agentCode}
+                            >
+                              <div className="card-body d-flex gap-2 justify-content-between">
+                                <div className="agent_description">
+                                  <p>
+                                    <b>Code:</b> {agent.agentCode}
+                                  </p>
+                                  <p>
+                                    <b>Agent Name:</b> {agent.name}
+                                  </p>
+                                  <p>
+                                    <b>Assigned Lead:</b> {agent.assignedLead}
+                                  </p>
+                                  <p>
+                                    <b>Closed Lead:</b> {agent.closedLead}
+                                  </p>
+                                  <p>
+                                    <b>Performance Score:</b>{" "}
+                                    <span style={{ color: "#70d89d" }}>
+                                      {agent.performanceScore.toFixed(1)} / 10
+                                    </span>
+                                  </p>
+                                  <p className="d-block d-sm-none">
+                                    <b>Status:</b>{" "}
+                                    <span style={{ color: "#70d89d" }}>
+                                      {agent.status}
+                                    </span>
+                                  </p>
+                                  <p className="d-block d-lg-none">
+                                    <b>Rank:</b>{" "}
+                                    <span style={{ color: "#70d89d" }}>
+                                      {index + 1}
+                                    </span>
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="d-none d-lg-block">
+                                    <b>Status:</b>{" "}
+                                    <span style={{ color: "#70d89d" }}>
+                                      {agent.status}
+                                    </span>
+                                  </p>
+                                  <p className="d-none d-lg-block">
+                                    <b>Rank:</b>{" "}
+                                    <span style={{ color: "#70d89d" }}>
+                                      {index + 1}
+                                    </span>
+                                  </p>
+                                  <p className="d-none d-sm-block d-lg-none">
+                                    <span
+                                      className={`badge rounded-pill ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
+                                    >
+                                      {agent.status}
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
               <div className={`p-2 ${styles.agent_performance_pie_chart}`}>
                 <canvas
                   className={`${styles.pie_chart}`}
