@@ -27,6 +27,7 @@ import { teamFilterOptions } from "../service/reactSelectOptions.js"
 import Select from "react-select"
 import { customStylesForReportPage } from "../service/reactSelectCustomStyles.js"
 import TableShimmer from "../shimmer_effects/Table.shimmer.jsx"
+import { toast } from "react-toastify"
 
 export default function Settings() {
   const [idBtnClicked, setIdBtnClick] = useState(false)
@@ -833,6 +834,7 @@ export default function Settings() {
                                   onClick={async () => {
                                     await deleteAgent(agent._id)
                                     await getAllAgentsData(setSalesAgents)
+                                    toast("Agent Removed Successfully👍")
                                   }}
                                 >
                                   Remove
@@ -934,6 +936,7 @@ export default function Settings() {
                                         onClick={async () => {
                                           await deleteAgent(agent._id)
                                           await getAllAgentsData(setSalesAgents)
+                                          toast("Agent Removed Successfully👍")
                                         }}
                                       >
                                         Remove
