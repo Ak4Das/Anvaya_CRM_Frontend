@@ -48,6 +48,7 @@ export default function Team() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -65,6 +66,7 @@ export default function Team() {
       setFunction: setSalesAgents,
       setProperties,
       getIdByManagerName,
+      setIsError,
     })
   }
 
@@ -131,8 +133,8 @@ export default function Team() {
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents)
-      await getAllManagersData(setManagers)
+      await getAllAgentsData(setSalesAgents, setIsError)
+      await getAllManagersData(setManagers, setIsError)
     }
     fetch()
   }, [])

@@ -34,6 +34,7 @@ export default function LeadManagement() {
   const [isScrolling, setScrolling] = useState(false)
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -48,9 +49,13 @@ export default function LeadManagement() {
   useEffect(() => {
     async function fetch() {
       const filtersString = JSON.stringify({ _id: id })
-      await filterLeadsByProperties(filtersString, setLead)
-      await getAllAgentsData(setSalesAgents)
-      await getAgentCommentsOnALead({ leadId: id, setFunction: setComments })
+      await filterLeadsByProperties(filtersString, setLead, setIsError)
+      await getAllAgentsData(setSalesAgents, setIsError)
+      await getAgentCommentsOnALead({
+        leadId: id,
+        setFunction: setComments,
+        setIsError,
+      })
     }
     fetch()
   }, [])
@@ -74,11 +79,19 @@ export default function LeadManagement() {
     initialValues: initialValues,
     validationSchema: agentCommentSchema,
     onSubmit: async (values, action) => {
-      const response = await postAgentComment({ leadId: id, body: values })
+      const response = await postAgentComment({
+        leadId: id,
+        body: values,
+        setIsError,
+      })
       if (response) {
         toast("Comment Posted Successfully👍")
       }
-      await getAgentCommentsOnALead({ leadId: id, setFunction: setComments })
+      await getAgentCommentsOnALead({
+        leadId: id,
+        setFunction: setComments,
+        setIsError,
+      })
       action.resetForm()
     },
   })

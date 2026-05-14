@@ -4,99 +4,287 @@ export async function getLeadDataByPropertyInATimeRange(
   properties,
   endDay,
   setFunction,
+  setIsError,
 ) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const propString = JSON.stringify(properties)
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=${endDay}&filters=${propString}`,
+      `http://localhost:3000/leads?minDay=0&maxDay=${endDay}&filters=${propString}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     setFunction && setFunction(response.data)
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function getAllAgentsData(setSalesAgents) {
+export async function getAllAgentsData(setSalesAgents, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
-    const response = await axios.get(
-      "https://anvaya-crm-backend-delta.vercel.app/agents",
-    )
+    const response = await axios.get("http://localhost:3000/agents/", {
+      signal: controller.signal,
+    })
+
+    clearTimeout(timerId)
+
     setSalesAgents && setSalesAgents(response.data)
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
 export async function getLeadsDataInATimeRange(obj) {
-  const { setFunction, endDay } = obj
+  const { setFunction, endDay, setIsError } = obj
+
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=${endDay}`,
+      `http://localhost:3000/leads?minDay=0&maxDay=${endDay}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     setFunction && setFunction(response.data)
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function filterAgentsByProperties(filtersString, setFunction) {
+export async function filterAgentsByProperties(
+  filtersString,
+  setFunction,
+  setIsError,
+) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/prop?filters=${encodeURIComponent(filtersString)}`,
+      `http://localhost:3000/agents/prop?filters=${encodeURIComponent(filtersString)}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     setFunction && setFunction(response.data)
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function filterLeadsByProperties(filtersString, setFunction) {
+export async function filterLeadsByProperties(
+  filtersString,
+  setFunction,
+  setIsError,
+) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=30&filters=${filtersString}`,
+      `http://localhost:3000/leads?minDay=0&maxDay=30&filters=${filtersString}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     setFunction && setFunction(response.data)
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function getIdByManagerName(name) {
+export async function getIdByManagerName(name, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/managers/name/${name}`,
+      `http://localhost:3000/managers/name/${name}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     const arrayOfId = response.data.map((agent) => agent._id)
     return arrayOfId
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function getIdByAgentName(name) {
+export async function getIdByAgentName(name, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/name/${name}`,
+      `http://localhost:3000/agents/name/${name}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     const arrayOfId = response.data.map((agent) => agent._id)
     return arrayOfId
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function getAllManagersData(setManagers) {
+export async function getAllManagersData(setManagers, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
-    const response = await axios.get(
-      "https://anvaya-crm-backend-delta.vercel.app/managers",
-    )
-    setManagers(response.data)
+    const response = await axios.get("http://localhost:3000/managers", {
+      signal: controller.signal,
+    })
+
+    clearTimeout(timerId)
+
+    setManagers && setManagers(response.data)
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
@@ -106,7 +294,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
   const filtersToFindLostLeadsInOneYear = { salesAgent: id, status: "Lost" }
   const findLostFilterString = JSON.stringify(filtersToFindLostLeadsInOneYear)
   const lostLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findLostFilterString}`,
+    `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findLostFilterString}`,
   )
 
   // Closed leads
@@ -118,14 +306,14 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindClosedLeadsInOneYear,
   )
   const closedLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findClosedFilterString}`,
+    `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findClosedFilterString}`,
   )
 
   // New leads
   const filtersToFindNewLeadsInOneYear = { salesAgent: id, status: "New" }
   const findNewFilterString = JSON.stringify(filtersToFindNewLeadsInOneYear)
   const NewLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findNewFilterString}`,
+    `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findNewFilterString}`,
   )
 
   // Contacted leads
@@ -137,7 +325,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindContactedLeadsInOneYear,
   )
   const ContactedLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findContactedFilterString}`,
+    `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findContactedFilterString}`,
   )
 
   // Qualified leads
@@ -149,7 +337,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindQualifiedLeadsInOneYear,
   )
   const QualifiedLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findQualifiedFilterString}`,
+    `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findQualifiedFilterString}`,
   )
 
   // Proposal sent leads
@@ -161,7 +349,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindProposalSentLeadsInOneYear,
   )
   const ProposalSentLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findProposalSentFilterString}`,
+    `http://localhost:3000/leads?minDay=0&maxDay=360&filters=${findProposalSentFilterString}`,
   )
 
   const denominator =
@@ -199,91 +387,254 @@ export async function getOverallPerformanceScores(obj) {
 }
 
 export async function getSalesDataInATimeRange(obj) {
-  //getSalesData
-  const { setFunction, endDay } = obj
+  const { setFunction, endDay, setIsError } = obj
+
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/sales/prop?minDay=0&maxDay=${endDay}`,
+      `http://localhost:3000/sales/prop?minDay=0&maxDay=${endDay}`,
+      {
+        signal: controller.signal,
+      },
     )
-    setFunction(response.data)
+
+    clearTimeout(timerId)
+
+    setFunction && setFunction(response.data)
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function createAgent(body) {
+export async function createAgent(body, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.post(
-      "https://anvaya-crm-backend-delta.vercel.app/agents/addAgent",
+      "http://localhost:3000/agents/addAgent",
       body,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
 
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
-export async function createLead(body) {
+export async function createLead(body, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.post(
-      "https://anvaya-crm-backend-delta.vercel.app/leads/addLead",
+      "http://localhost:3000/leads/addLead",
       body,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
 
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
 export async function updateLeadById(obj) {
-  const { id, body } = obj
+  const { id, body, setIsError } = obj
+
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.patch(
-      `https://anvaya-crm-backend-delta.vercel.app/leads/update/${id}`,
+      `http://localhost:3000/leads/update/${id}`,
       body,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
 export async function updateAgentById(obj) {
-  const { id, body } = obj
+  const { id, body, setIsError } = obj
+
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.patch(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/update/${id}`,
+      `http://localhost:3000/agents/update/${id}`,
       body,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
 export async function postAgentComment(obj) {
-  const { leadId, body } = obj
+  const { leadId, body, setIsError } = obj
+
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.post(
-      `https://anvaya-crm-backend-delta.vercel.app/agentComment/leads/${leadId}/comments`,
+      `http://localhost:3000/agentComment/leads/${leadId}/comments`,
       body,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
 
 export async function getAgentCommentsOnALead(obj) {
-  const { leadId, setFunction } = obj
+  const { leadId, setFunction, setIsError } = obj
+
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/agentComment/leads/${leadId}/comments`,
+      `http://localhost:3000/agentComment/leads/${leadId}/comments`,
+      {
+        signal: controller.signal,
+      },
     )
-    setFunction(response.data)
+
+    clearTimeout(timerId)
+
+    setFunction && setFunction(response.data)
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }
@@ -323,13 +674,36 @@ export async function getLeadsWithDifferentStatusInATimeRange(endDay) {
   }
 }
 
-export async function deleteAgent(agentId) {
+export async function deleteAgent(agentId, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
   try {
     const response = await axios.delete(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/delete/${agentId}`,
+      `http://localhost:3000/agents/delete/${agentId}`,
+      {
+        signal: controller.signal,
+      },
     )
+
+    clearTimeout(timerId)
+
     return response.data
   } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
     throw error
   }
 }

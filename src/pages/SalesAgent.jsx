@@ -51,6 +51,7 @@ export default function SalesAgent() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -68,6 +69,7 @@ export default function SalesAgent() {
       setProperties,
       setFunction: setLeadsData,
       getIdByAgentName,
+      setIsError,
     })
   }
 
@@ -78,6 +80,7 @@ export default function SalesAgent() {
       filterByProperties: filterLeadsByProperties,
       setFunction: setLeadsData,
       setProperties,
+      setIsError,
     })
   }
 
@@ -87,6 +90,7 @@ export default function SalesAgent() {
       filterByProperties: filterLeadsByProperties,
       setFunction: setLeadsData,
       setProperties,
+      setIsError,
     })
   }
 
@@ -119,6 +123,7 @@ export default function SalesAgent() {
       filterByProperties: filterLeadsByProperties,
       setFunction: setLeadsData,
       applySort,
+      setIsError,
     })
   }
 
@@ -134,11 +139,12 @@ export default function SalesAgent() {
   useEffect(() => {
     async function fetch() {
       const filterString = JSON.stringify({ _id: id })
-      await filterAgentsByProperties(filterString, setAgent)
+      await filterAgentsByProperties(filterString, setAgent, setIsError)
       await getLeadDataByPropertyInATimeRange(
         { salesAgent: id },
         30,
         setLeadsData,
+        setIsError,
       )
     }
     fetch()

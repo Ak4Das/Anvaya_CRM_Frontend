@@ -37,6 +37,7 @@ export default function TeamContactInfo() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -53,6 +54,7 @@ export default function TeamContactInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       setProperties,
+      setIsError,
     })
   }
 
@@ -63,6 +65,7 @@ export default function TeamContactInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       setProperties,
+      setIsError,
     })
   }
 
@@ -72,6 +75,7 @@ export default function TeamContactInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       setProperties,
+      setIsError,
     })
   }
 
@@ -97,11 +101,12 @@ export default function TeamContactInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       applySort,
+      setIsError,
     })
   }
 
   useEffect(() => {
-    getAllAgentsData(setSalesAgents)
+    getAllAgentsData(setSalesAgents, setIsError)
   }, [])
 
   return (

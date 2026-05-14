@@ -43,6 +43,7 @@ export default function Leads() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -65,6 +66,7 @@ export default function Leads() {
       setProperties,
       getIdByAgentName,
       setFunction: setLeadsData,
+      setIsError,
     })
   }
 
@@ -75,6 +77,7 @@ export default function Leads() {
       filterByProperties: filterLeadsByProperties,
       setFunction: setLeadsData,
       setProperties,
+      setIsError,
     })
   }
 
@@ -84,6 +87,7 @@ export default function Leads() {
       filterByProperties: filterLeadsByProperties,
       setFunction: setLeadsData,
       setProperties,
+      setIsError,
     })
   }
 
@@ -116,13 +120,18 @@ export default function Leads() {
       filterByProperties: filterLeadsByProperties,
       setFunction: setLeadsData,
       applySort,
+      setIsError,
     })
   }
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents)
-      await getLeadsDataInATimeRange({ setFunction: setLeadsData, endDay: 30 })
+      await getAllAgentsData(setSalesAgents, setIsError)
+      await getLeadsDataInATimeRange({
+        setFunction: setLeadsData,
+        endDay: 30,
+        setIsError,
+      })
     }
     fetch()
   }, [])

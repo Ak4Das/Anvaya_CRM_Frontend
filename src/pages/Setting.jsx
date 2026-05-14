@@ -50,6 +50,7 @@ export default function Settings() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -67,6 +68,7 @@ export default function Settings() {
       setFunction: setSalesAgents,
       setProperties,
       getIdByManagerName,
+      setIsError,
     })
   }
 
@@ -77,6 +79,7 @@ export default function Settings() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       setProperties,
+      setIsError,
     })
   }
 
@@ -86,6 +89,7 @@ export default function Settings() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       setProperties,
+      setIsError,
     })
   }
 
@@ -128,13 +132,14 @@ export default function Settings() {
       filterByProperties: filterAgentsByProperties,
       setFunction: setSalesAgents,
       applySort,
+      setIsError,
     })
   }
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents)
-      await getAllManagersData(setManagers)
+      await getAllAgentsData(setSalesAgents, setIsError)
+      await getAllManagersData(setManagers, setIsError)
     }
     fetch()
   }, [])
@@ -832,8 +837,8 @@ export default function Settings() {
                                 <button
                                   className="btn btn-outline-danger btn-sm"
                                   onClick={async () => {
-                                    await deleteAgent(agent._id)
-                                    await getAllAgentsData(setSalesAgents)
+                                    // await deleteAgent(agent._id,setIsError)
+                                    // await getAllAgentsData(setSalesAgents,setIsError)
                                     toast("Agent Removed Successfully👍")
                                   }}
                                 >
@@ -934,8 +939,8 @@ export default function Settings() {
                                       <button
                                         className="btn btn-danger btn-sm"
                                         onClick={async () => {
-                                          await deleteAgent(agent._id)
-                                          await getAllAgentsData(setSalesAgents)
+                                          // await deleteAgent(agent._id,setIsError)
+                                          // await getAllAgentsData(setSalesAgents,setIsError)
                                           toast("Agent Removed Successfully👍")
                                         }}
                                       >

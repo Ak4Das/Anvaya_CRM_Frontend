@@ -32,6 +32,7 @@ export default function ReportPage() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 599)
+  const [isError, setIsError] = useState("")
 
   useEffect(() => {
     const handleResize = () => {
@@ -88,7 +89,7 @@ export default function ReportPage() {
   }
 
   async function getLeadsClosedBySalesAgents(endDay) {
-    const agents = await getAllAgentsData()
+    const agents = await getAllAgentsData(undefined, setIsError)
     const data = await Promise.all(
       agents.map(async (agent) => {
         const leadsClosedByAgent = await getLeadDataByPropertyInATimeRange(
@@ -97,6 +98,8 @@ export default function ReportPage() {
             status: "Closed",
           },
           endDay,
+          undefined,
+          setIsError,
         )
         return {
           agentCode: agent.agentCode,
@@ -207,9 +210,7 @@ export default function ReportPage() {
             className={`d-flex flex-column gap-4 ${styles.charts_container}`}
           >
             <div className="row row-gap-4">
-              <div
-                className={`col-xl-12 col-xxl-6 ${styles.first_box}`}
-              >
+              <div className={`col-xl-12 col-xxl-6 ${styles.first_box}`}>
                 <div className={`card ${styles.card}`}>
                   <div className="card-body">
                     <canvas
@@ -219,9 +220,7 @@ export default function ReportPage() {
                   </div>
                 </div>
               </div>
-              <div
-                className={`col-xl-12 col-xxl-6 ${styles.second_box}`}
-              >
+              <div className={`col-xl-12 col-xxl-6 ${styles.second_box}`}>
                 <div className={`card ${styles.card}`}>
                   <div className="card-body">
                     <canvas

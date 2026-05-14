@@ -50,6 +50,7 @@ function App() {
   const getOneYearPerformanceReportChartInstance = useRef(null)
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -65,10 +66,14 @@ function App() {
         const assignedLead = await getLeadDataByPropertyInATimeRange(
           { salesAgent: agent._id },
           360,
+          undefined,
+          setIsError,
         )
         const closedLead = await getLeadDataByPropertyInATimeRange(
           { salesAgent: agent._id, status: "Closed" },
           360,
+          undefined,
+          setIsError,
         )
         agent.assignedLead = assignedLead.length
         agent.closedLead = closedLead.length
@@ -91,6 +96,7 @@ function App() {
     const { endDay, setFunction } = obj
     const leadsData = await getLeadsDataInATimeRange({
       endDay,
+      setIsError
     })
     const performanceReport = salesAgent.map((agent) => {
       const obj = { leadsData, agentId: agent._id }
@@ -110,28 +116,33 @@ function App() {
         { status: "New" },
         30,
         setNewLeadsData,
+        setIsError,
       )
       await getLeadDataByPropertyInATimeRange(
         { status: "Contacted" },
         30,
         setContactedLeadsData,
+        setIsError,
       )
       await getLeadDataByPropertyInATimeRange(
         { status: "Qualified" },
         30,
         setQualifiedLeadsData,
+        setIsError,
       )
       await getLeadDataByPropertyInATimeRange(
         { status: "Proposal Sent" },
         30,
         setProposalSentLeadsData,
+        setIsError,
       )
       await getLeadDataByPropertyInATimeRange(
         { status: "Closed" },
         30,
         setClosedLeadsData,
+        setIsError,
       )
-      await getAllAgentsData(setSalesAgent)
+      await getAllAgentsData(setSalesAgent, setIsError)
     }
     fetch()
   }, [])

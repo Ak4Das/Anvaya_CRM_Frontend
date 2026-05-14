@@ -43,6 +43,7 @@ export default function SalesInfo() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -59,6 +60,7 @@ export default function SalesInfo() {
       filterByProperties: filterAgentsByProperties,
       setProperties,
       setFunction: getUpdatedAgentsArray,
+      setIsError,
     })
   }
 
@@ -69,6 +71,7 @@ export default function SalesInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: getUpdatedAgentsArray,
       setProperties,
+      setIsError,
     })
   }
 
@@ -78,6 +81,7 @@ export default function SalesInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: getUpdatedAgentsArray,
       setProperties,
+      setIsError,
     })
   }
 
@@ -126,13 +130,18 @@ export default function SalesInfo() {
       filterByProperties: filterAgentsByProperties,
       setFunction: getUpdatedAgentsArray,
       applySort,
+      setIsError,
     })
   }
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents)
-      await getSalesDataInATimeRange({ setFunction: setSalesData, endDay: 30 })
+      await getAllAgentsData(setSalesAgents, setIsError)
+      await getSalesDataInATimeRange({
+        setFunction: setSalesData,
+        endDay: 30,
+        setIsError,
+      })
     }
     fetch()
   }, [])

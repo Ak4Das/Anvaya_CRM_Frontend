@@ -30,6 +30,7 @@ export default function EditAgent() {
   const [managerOptions, setManagerOptions] = useState([])
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -41,9 +42,9 @@ export default function EditAgent() {
 
   useEffect(() => {
     async function fetch() {
-      await getAllManagersData(setManagers)
+      await getAllManagersData(setManagers, setIsError)
       const filtersString = JSON.stringify({ _id: id })
-      await filterAgentsByProperties(filtersString, setAgent)
+      await filterAgentsByProperties(filtersString, setAgent, setIsError)
     }
     fetch()
   }, [])
@@ -76,7 +77,11 @@ export default function EditAgent() {
       if (values.profileImg === "") {
         values.profileImg = agent[0].profileImg
       }
-      const response = await updateAgentById({ id: agent[0]._id, body: values })
+      const response = await updateAgentById({
+        id: agent[0]._id,
+        body: values,
+        setIsError,
+      })
       if (response && Object.keys(response).length) {
         toast("Agent Edited Successfully👍")
       }
@@ -261,10 +266,7 @@ export default function EditAgent() {
               className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <label
-                htmlFor="status"
-                className={`${formStyles.input_clicked}`}
-              >
+              <label htmlFor="status" className={`${formStyles.input_clicked}`}>
                 Status
               </label>
               <Select
@@ -298,10 +300,7 @@ export default function EditAgent() {
               className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <label
-                htmlFor="role"
-                className={`${formStyles.input_clicked}`}
-              >
+              <label htmlFor="role" className={`${formStyles.input_clicked}`}>
                 Role
               </label>
               <Select

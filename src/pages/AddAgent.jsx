@@ -30,6 +30,7 @@ export default function AddAgent() {
   const [managersInputClicked, setManagersInputClick] = useState(false)
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -40,7 +41,7 @@ export default function AddAgent() {
   }, [])
 
   useEffect(() => {
-    getAllManagersData(setManagers)
+    getAllManagersData(setManagers, setIsError)
   }, [])
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function AddAgent() {
       values.agentCode = generateAgentId()
       values.joinedDate = getCurrentDate()
       values.phoneNumberNormalized = normalizePhoneNumber(values.phoneNumber)
-      const response = await createAgent(values)
+      const response = await createAgent(values, setIsError)
       if (response && Object.keys(response).length) {
         toast("Agent Created Successfully👍")
       }

@@ -34,6 +34,7 @@ export default function AddLead() {
   const [agentOptions, setAgentOptions] = useState([])
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -44,7 +45,7 @@ export default function AddLead() {
   }, [])
 
   useEffect(() => {
-    getAllAgentsData(setSalesAgents)
+    getAllAgentsData(setSalesAgents, setIsError)
   }, [])
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export default function AddLead() {
     onSubmit: async (values, action) => {
       values.leadCode = generateLeadId()
       values.createdAt = getCurrentDate()
-      const response = await createLead(values)
+      const response = await createLead(values, setIsError)
       if (response && Object.keys(response).length) {
         toast("Lead Created Successfully👍")
       }

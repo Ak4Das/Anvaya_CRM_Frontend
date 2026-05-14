@@ -181,6 +181,7 @@ export async function handleClickOnApplyBtnForFilter(obj) {
     setProperties,
     getIdByManagerName,
     getIdByAgentName,
+    setIsError,
   } = obj
   const inputField = document.querySelector("#input")
   const inputValue = inputField.value
@@ -199,10 +200,16 @@ export async function handleClickOnApplyBtnForFilter(obj) {
     if (openFilterInput === "phoneNumber") {
       updatedProperties[openFilterInput] = { $regex: updatedInputValue }
     } else if (openFilterInput === "manager") {
-      const arrayOfAgentsId = await getIdByManagerName(updatedInputValue)
+      const arrayOfAgentsId = await getIdByManagerName(
+        updatedInputValue,
+        setIsError,
+      )
       updatedProperties.manager = { $in: arrayOfAgentsId }
     } else if (openFilterInput === "salesAgent") {
-      const arrayOfAgentsId = await getIdByAgentName(updatedInputValue)
+      const arrayOfAgentsId = await getIdByAgentName(
+        updatedInputValue,
+        setIsError,
+      )
       updatedProperties.salesAgent = { $in: arrayOfAgentsId }
     } else {
       updatedProperties[openFilterInput] = updatedInputValue
@@ -210,7 +217,11 @@ export async function handleClickOnApplyBtnForFilter(obj) {
 
     const updatedPropertiesString = JSON.stringify(updatedProperties)
 
-    const response = await filterByProperties(updatedPropertiesString)
+    const response = await filterByProperties(
+      updatedPropertiesString,
+      undefined,
+      setIsError,
+    )
 
     setFunction(response)
     setProperties(updatedProperties)
@@ -219,7 +230,11 @@ export async function handleClickOnApplyBtnForFilter(obj) {
 
     const propertiesString = JSON.stringify(properties)
 
-    const response = await filterByProperties(propertiesString)
+    const response = await filterByProperties(
+      propertiesString,
+      undefined,
+      setIsError,
+    )
     setFunction(response)
     setProperties(properties)
   }
@@ -232,19 +247,34 @@ export async function removePropertyFilterHandler(obj) {
     filterByProperties,
     setFunction,
     setProperties,
+    setIsError,
   } = obj
   delete properties[property]
   const propertiesString = JSON.stringify(properties)
-  const response = await filterByProperties(propertiesString)
+  const response = await filterByProperties(
+    propertiesString,
+    undefined,
+    setIsError,
+  )
   setFunction(response)
   setProperties(properties)
 }
 
 export async function clearAllFiltersHandler(obj) {
-  const { properties, filterByProperties, setFunction, setProperties } = obj
+  const {
+    properties,
+    filterByProperties,
+    setFunction,
+    setProperties,
+    setIsError,
+  } = obj
   Object.keys(properties).forEach((key) => delete properties[key])
   const propertiesString = JSON.stringify(properties)
-  const response = await filterByProperties(propertiesString)
+  const response = await filterByProperties(
+    propertiesString,
+    undefined,
+    setIsError,
+  )
   setFunction(response)
   setProperties(properties)
 }
@@ -330,9 +360,14 @@ export function sortDataInDescendingOrderByProperty(obj) {
 }
 
 export async function unsortData(obj) {
-  const { properties, filterByProperties, setFunction, applySort } = obj
+  const { properties, filterByProperties, setFunction, applySort, setIsError } =
+    obj
   const propertiesString = JSON.stringify(properties)
-  const response = await filterByProperties(propertiesString)
+  const response = await filterByProperties(
+    propertiesString,
+    undefined,
+    setIsError,
+  )
   setFunction(response)
   applySort(false)
 }

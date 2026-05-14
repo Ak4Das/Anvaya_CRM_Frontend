@@ -32,6 +32,7 @@ export default function EditLead() {
   const [agentOptions, setAgentOptions] = useState([])
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
@@ -43,9 +44,13 @@ export default function EditLead() {
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents)
+      await getAllAgentsData(setSalesAgents, setIsError)
       const filtersString = JSON.stringify({ _id: id })
-      const response = await filterLeadsByProperties(filtersString)
+      const response = await filterLeadsByProperties(
+        filtersString,
+        undefined,
+        setIsError,
+      )
       if (response.length) {
         setLead(response)
       }
@@ -79,7 +84,11 @@ export default function EditLead() {
       } else {
         values.lostAt = ""
       }
-      const response = await updateLeadById({ id: lead[0]._id, body: values })
+      const response = await updateLeadById({
+        id: lead[0]._id,
+        body: values,
+        setIsError,
+      })
       if (response && Object.keys(response).length) {
         toast("Lead Updated Successfully👍")
       }
