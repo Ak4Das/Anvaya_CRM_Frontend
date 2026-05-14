@@ -12,7 +12,11 @@ import {
 } from "../service/requestToServer.js"
 import { normalizePhoneNumber } from "../service/functions.js"
 import Select from "react-select"
-import { getManagerOptions } from "../service/reactSelectOptions.js"
+import {
+  agentRoleOptions,
+  agentStatusOptions,
+  getManagerOptions,
+} from "../service/reactSelectOptions.js"
 import { getAllManagersData } from "../service/requestToServer.js"
 import { customStyles } from "../service/reactSelectCustomStyles.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
@@ -55,6 +59,8 @@ export default function EditAgent() {
     phoneNumber: agent.length ? agent[0].phoneNumber : "",
     email: agent.length ? agent[0].email : "",
     manager: agent.length ? agent[0].manager : "",
+    status: agent.length ? agent[0].status : "",
+    role: agent.length ? agent[0].role : "",
     address: agent.length ? agent[0].address : "",
     profileImg: "",
   }
@@ -248,6 +254,80 @@ export default function EditAgent() {
                   className={`text-danger ${formStyles.show_validation_error}`}
                 >
                   {errors.manager}
+                </span>
+              ) : null}
+            </div>
+            <div
+              className={`${formStyles.input_wrapper}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <label
+                htmlFor="status"
+                className={`${formStyles.input_clicked}`}
+              >
+                Status
+              </label>
+              <Select
+                options={agentStatusOptions}
+                styles={customStyles}
+                placeholder=""
+                classNamePrefix="custom-select"
+                name="status"
+                id="status"
+                value={
+                  (agentStatusOptions &&
+                    agentStatusOptions.find(
+                      (opt) => opt.value === values.status,
+                    )) ||
+                  null
+                }
+                onChange={(selected) => {
+                  setFieldValue("status", selected ? selected.value : "")
+                }}
+                onBlur={() => setFieldTouched("status", true)}
+              />
+              {errors.status && touched.status ? (
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
+                  {errors.status}
+                </span>
+              ) : null}
+            </div>
+            <div
+              className={`${formStyles.input_wrapper}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <label
+                htmlFor="role"
+                className={`${formStyles.input_clicked}`}
+              >
+                Role
+              </label>
+              <Select
+                options={agentRoleOptions}
+                styles={customStyles}
+                placeholder=""
+                classNamePrefix="custom-select"
+                name="role"
+                id="role"
+                value={
+                  (agentRoleOptions &&
+                    agentRoleOptions.find(
+                      (opt) => opt.value === values.role,
+                    )) ||
+                  null
+                }
+                onChange={(selected) => {
+                  setFieldValue("role", selected ? selected.value : "")
+                }}
+                onBlur={() => setFieldTouched("role", true)}
+              />
+              {errors.role && touched.role ? (
+                <span
+                  className={`text-danger ${formStyles.show_validation_error}`}
+                >
+                  {errors.role}
                 </span>
               ) : null}
             </div>

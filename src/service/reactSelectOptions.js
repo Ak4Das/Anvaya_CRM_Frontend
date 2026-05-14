@@ -110,3 +110,13 @@ export const leadsFilterOptions = [
   { value: "timeToClose", label: "Time To Close" },
   { value: "closedAt", label: "Closed At" },
 ]
+
+export const agentStatusOptions = [
+  { value: "Active", label: "Active" },
+  { value: "Inactive", label: "Inactive" },
+]
+
+export const agentRoleOptions = [
+  { value: "Sales Agent", label: "Sales Agent" },
+  { value: "Senior Sales Agent", label: "Senior Sales Agent" },
+]

@@ -34,4 +34,9 @@ export const EditAgentSchema = yup.object({
     .required("Assign a manager"),
   address: yup.string().required("Please enter your address"),
   profileImg: yup.string().notRequired(),
+  status: yup
+    .string()
+    .oneOf(["Active", "Inactive"], "status must be one of 'Active', 'Inactive'")
+    .required("status is required."),
+  role: yup.string().required("role is required."),
 })
