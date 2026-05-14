@@ -76,7 +76,13 @@ export default function CompressedSideBar(prop) {
         </div>
         <div className={`${styles.sidebar_items_category}`}>
           <h6>Settings</h6>
-          <i className={`bi bi-gear ${styles.icon}`} title="Setting"></i>
+          <Link
+            className="text-decoration-none"
+            to="/settings"
+            state={closeMenu}
+          >
+            <i className={`bi bi-gear ${styles.icon}`} title="Setting"></i>
+          </Link>
         </div>
       </div>
     </div>

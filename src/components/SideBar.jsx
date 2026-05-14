@@ -309,26 +309,32 @@ export default function SideBar(prop) {
                     </div>
                   </li>
                   <h6 className={`${styles.section_heading}`}>Settings</h6>
-                  <li className={`${styles.navigation_section_item}`}>
-                    <div className={`${styles.navigation_item_container}`}>
-                      <span
-                        className={`${styles.navigation_item_icon_wrapper}`}
-                      >
+                  <Link
+                    className="text-decoration-none"
+                    to="/settings"
+                    state={closeMenu}
+                  >
+                    <li className={`${styles.navigation_section_item}`}>
+                      <div className={`${styles.navigation_item_container}`}>
                         <span
-                          className={`${styles.navigation_item_icon_container}`}
+                          className={`${styles.navigation_item_icon_wrapper}`}
                         >
-                          <i className={`bi bi-gear ${styles.icon}`}></i>
+                          <span
+                            className={`${styles.navigation_item_icon_container}`}
+                          >
+                            <i className={`bi bi-gear ${styles.icon}`}></i>
+                          </span>
                         </span>
-                      </span>
-                      <span
-                        className={`${styles.navigation_item_content_wrapper}`}
-                      >
-                        <p className={`${styles.navigation_item_content}`}>
-                          Settings
-                        </p>
-                      </span>
-                    </div>
-                  </li>
+                        <span
+                          className={`${styles.navigation_item_content_wrapper}`}
+                        >
+                          <p className={`${styles.navigation_item_content}`}>
+                            Settings
+                          </p>
+                        </span>
+                      </div>
+                    </li>
+                  </Link>
                 </div>
               </ul>
             </nav>
