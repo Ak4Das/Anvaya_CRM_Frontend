@@ -82,6 +82,11 @@
   font-size: 12px;
 }
 
+.edit_agent_btn {
+  border: 1px solid #70d89d;
+  color: #70d89d;
+}
+
 @media (min-width: 700px) {
   .card_wrapper_2 {
     display: none;

@@ -19,7 +19,9 @@ export async function getLeadDataByPropertyInATimeRange(
 
 export async function getAllAgentsData(setSalesAgents) {
   try {
-    const response = await axios.get("https://anvaya-crm-backend-delta.vercel.app/agents")
+    const response = await axios.get(
+      "https://anvaya-crm-backend-delta.vercel.app/agents",
+    )
     setSalesAgents && setSalesAgents(response.data)
     return response.data
   } catch (error) {
@@ -90,7 +92,9 @@ export async function getIdByAgentName(name) {
 
 export async function getAllManagersData(setManagers) {
   try {
-    const response = await axios.get("https://anvaya-crm-backend-delta.vercel.app/managers")
+    const response = await axios.get(
+      "https://anvaya-crm-backend-delta.vercel.app/managers",
+    )
     setManagers(response.data)
   } catch (error) {
     throw error
@@ -246,6 +250,19 @@ export async function updateLeadById(obj) {
   }
 }
 
+export async function updateAgentById(obj) {
+  const { id, body } = obj
+  try {
+    const response = await axios.patch(
+      `https://anvaya-crm-backend-delta.vercel.app/agents/update/${id}`,
+      body,
+    )
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function postAgentComment(obj) {
   const { leadId, body } = obj
   try {
@@ -303,5 +320,16 @@ export async function getLeadsWithDifferentStatusInATimeRange(endDay) {
     proposalSentLeads,
     closedLeads,
     lostLeads,
+  }
+}
+
+export async function deleteAgent(agentId) {
+  try {
+    const response = await axios.delete(
+      `https://anvaya-crm-backend-delta.vercel.app/agents/delete/${agentId}`,
+    )
+    return response.data
+  } catch (error) {
+    throw error
   }
 }
