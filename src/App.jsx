@@ -51,6 +51,7 @@ function App() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [isError, setIsError] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const { state } = useLocation()
 
@@ -96,7 +97,7 @@ function App() {
     const { endDay, setFunction } = obj
     const leadsData = await getLeadsDataInATimeRange({
       endDay,
-      setIsError
+      setIsError,
     })
     const performanceReport = salesAgent.map((agent) => {
       const obj = { leadsData, agentId: agent._id }
@@ -110,8 +111,10 @@ function App() {
     setFunction(performanceReport)
   }
 
-  useEffect(() => {
-    async function fetch() {
+  async function fetchData(setLoading, setIsError) {
+    try {
+      setLoading(true)
+
       await getLeadDataByPropertyInATimeRange(
         { status: "New" },
         30,
@@ -143,13 +146,20 @@ function App() {
         setIsError,
       )
       await getAllAgentsData(setSalesAgent, setIsError)
+    } catch (error) {
+      setIsError(error.message)
+    } finally {
+      setLoading(false)
     }
-    fetch()
+  }
+
+  useEffect(() => {
+    fetchData(setLoading, setIsError)
   }, [])
 
   useEffect(() => {
     async function tasks() {
-      if (salesAgent.length) {
+      if (salesAgent.length && !isError) {
         await updateSalesAgentsData()
         await getPerformanceReportOfAgentsInATimeRange({
           endDay: 30,
@@ -277,7 +287,13 @@ function App() {
                 </div>
               </div>
               {sortAgentsByPerformanceScore.length === 0 ? (
-                <AppShimmer />
+                <AppShimmer
+                  loading={loading}
+                  isError={isError}
+                  setLoading={setLoading}
+                  setIsError={setIsError}
+                  fetchData={fetchData}
+                />
               ) : (
                 <div className={`${styles.agent_performance_table}`}>
                   <h6>Agents overall performance table (1 year)</h6>
