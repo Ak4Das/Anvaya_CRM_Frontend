@@ -39,6 +39,7 @@ export default function TeamContactInfo() {
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
   const [isError, setIsError] = useState("")
   const [openFilterDropdownMenu, setOpenFilterDropdownMenu] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { state } = useLocation()
 
@@ -106,8 +107,20 @@ export default function TeamContactInfo() {
     })
   }
 
+  async function fetchData(setLoading, setIsError) {
+    try {
+      setLoading(true)
+
+      await getAllAgentsData(setSalesAgents, setIsError)
+    } catch (error) {
+      setIsError(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    getAllAgentsData(setSalesAgents, setIsError)
+    fetchData(setLoading, setIsError)
   }, [])
 
   return (
@@ -237,7 +250,13 @@ export default function TeamContactInfo() {
               </div>
             </div>
             {salesAgents.length === 0 ? (
-              <TableShimmer />
+              <TableShimmer
+                loading={loading}
+                isError={isError}
+                setLoading={setLoading}
+                setIsError={setIsError}
+                fetchData={fetchData}
+              />
             ) : (
               <div className={`${tableStyles.table_wrapper}`}>
                 <div className={`${tableStyles.table_container}`}>
