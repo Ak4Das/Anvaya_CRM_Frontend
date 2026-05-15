@@ -109,7 +109,8 @@
   background-color: #141b2d;
   position: absolute;
   top: 40px;
-  left: 0px;
+  /* left: 0px; */
+  right: 0px;
   z-index: 1;
   font-size: 12px;
   padding: 5px;
@@ -133,7 +134,8 @@
 }
 
 .filter_dropdown_menu {
-  left: 10px;
+  /* left:10px; */
+  right: 10px;
   top: 65px;
 }
 

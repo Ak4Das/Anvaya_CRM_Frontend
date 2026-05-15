@@ -49,6 +49,7 @@ export default function Team() {
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
   const [isError, setIsError] = useState("")
+  const [openFilterDropdownMenu, setOpenFilterDropdownMenu] = useState(false)
 
   const { state } = useLocation()
 
@@ -223,13 +224,17 @@ export default function Team() {
                 classNamePrefix="custom-select"
                 name="source"
                 id="source"
-                onChange={(selected) => setSelectedFilterOption(selected.value)}
+                onChange={(selected) => {
+                  setSelectedFilterOption(selected.value)
+                  setOpenFilterDropdownMenu(true)
+                }}
+                onMenuOpen={() => setOpenFilterDropdownMenu(false)}
               />
               <div
                 className="filter_dropdown_menu_container"
                 onClick={() => setSelectedFilterOption("")}
               >
-                {selectedFilterOption && (
+                {selectedFilterOption && openFilterDropdownMenu && (
                   <div
                     className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
                   >
