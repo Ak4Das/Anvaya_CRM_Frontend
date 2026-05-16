@@ -53,6 +53,7 @@ export default function SalesAgent() {
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
   const [isError, setIsError] = useState("")
   const [openFilterDropdownMenu, setOpenFilterDropdownMenu] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { state } = useLocation()
 
@@ -137,8 +138,10 @@ export default function SalesAgent() {
     lostLeads,
   } = leadsHandleByAgentAccordingToStatus({ leadsData, agentId: id })
 
-  useEffect(() => {
-    async function fetch() {
+  async function fetchData(setLoading, setIsError) {
+    try {
+      setLoading(true)
+
       const filterString = JSON.stringify({ _id: id })
       await filterAgentsByProperties(filterString, setAgent, setIsError)
       await getLeadDataByPropertyInATimeRange(
@@ -147,12 +150,19 @@ export default function SalesAgent() {
         setLeadsData,
         setIsError,
       )
+    } catch (error) {
+      setIsError(error.message)
+    } finally {
+      setLoading(false)
     }
-    fetch()
+  }
+
+  useEffect(() => {
+    fetchData(setLoading, setIsError)
   }, [])
 
   useEffect(() => {
-    if (leadsData.length && agent.length) {
+    if (leadsData.length && agent.length && !isError) {
       addPropertiesInLeadsData(leadsData)
       getOverallPerformanceScores({
         salesAgents: agent,
@@ -408,7 +418,13 @@ export default function SalesAgent() {
               </div>
             </div>
             {updatedLeadsData.length === 0 ? (
-              <TableShimmer />
+              <TableShimmer
+                loading={loading}
+                isError={isError}
+                setLoading={setLoading}
+                setIsError={setIsError}
+                fetchData={fetchData}
+              />
             ) : (
               <div className={`${tableStyles.table_wrapper}`}>
                 <div className={`${tableStyles.table_container}`}>
