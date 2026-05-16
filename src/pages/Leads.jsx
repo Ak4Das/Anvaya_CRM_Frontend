@@ -45,6 +45,7 @@ export default function Leads() {
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
   const [isError, setIsError] = useState("")
   const [openFilterDropdownMenu, setOpenFilterDropdownMenu] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { state } = useLocation()
 
@@ -125,20 +126,29 @@ export default function Leads() {
     })
   }
 
-  useEffect(() => {
-    async function fetch() {
+  async function fetchData(setLoading, setIsError) {
+    try {
+      setLoading(true)
+
       await getAllAgentsData(setSalesAgents, setIsError)
       await getLeadsDataInATimeRange({
         setFunction: setLeadsData,
         endDay: 30,
         setIsError,
       })
+    } catch (error) {
+      setIsError(error.message)
+    } finally {
+      setLoading(false)
     }
-    fetch()
+  }
+
+  useEffect(() => {
+    fetchData(setLoading, setIsError)
   }, [])
 
   useEffect(() => {
-    if (leadsData.length && salesAgents.length) {
+    if (leadsData.length && salesAgents.length && !isError) {
       addPropertiesInLeadsData(leadsData)
     }
   }, [leadsData])
@@ -284,8 +294,14 @@ export default function Leads() {
                 )}
               </div>
             </div>
-            {leadsData.length === 0 ? (
-              <TableShimmer />
+            {leadsData.length === 0 || salesAgents.length === 0 ? (
+              <TableShimmer
+                loading={loading}
+                isError={isError}
+                setLoading={setLoading}
+                setIsError={setIsError}
+                fetchData={fetchData}
+              />
             ) : (
               <div className={`${tableStyles.table_wrapper}`}>
                 <div className={`${tableStyles.table_container}`}>
@@ -813,7 +829,9 @@ export default function Leads() {
                               <td>{lead.name}</td>
                               <td>{lead.source}</td>
                               <td style={{ color: "#70d89d" }}>
-                                {getAgentNameById(lead.salesAgent)}
+                                {salesAgents.length
+                                  ? getAgentNameById(lead.salesAgent)
+                                  : "___"}
                               </td>
                               <td>{lead.status}</td>
                               <td>{lead.tags}</td>
@@ -866,7 +884,9 @@ export default function Leads() {
                                       <p>
                                         <b>Sales Agent:</b>{" "}
                                         <span style={{ color: "#70d89d" }}>
-                                          {getAgentNameById(lead.salesAgent)}
+                                          {salesAgents.length
+                                            ? getAgentNameById(lead.salesAgent)
+                                            : "___"}
                                         </span>
                                       </p>
                                       <p className="d-block d-sm-none">
