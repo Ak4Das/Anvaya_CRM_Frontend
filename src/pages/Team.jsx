@@ -50,6 +50,7 @@ export default function Team() {
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
   const [isError, setIsError] = useState("")
   const [openFilterDropdownMenu, setOpenFilterDropdownMenu] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { state } = useLocation()
 
@@ -132,16 +133,26 @@ export default function Team() {
     })
   }
 
-  useEffect(() => {
-    async function fetch() {
-      await getAllAgentsData(setSalesAgents, setIsError)
+  async function fetchData(setLoading, setIsError) {
+    try {
+      setLoading(true)
+
       await getAllManagersData(setManagers, setIsError)
+      await getAllAgentsData(setSalesAgents, setIsError)
+    } catch (error) {
+      setIsError(error.message)
+    } finally {
+      setLoading(false)
     }
-    fetch()
+  }
+
+  useEffect(() => {
+    fetchData(setLoading, setIsError)
   }, [])
 
   useEffect(() => {
     salesAgents.length &&
+      !isError &&
       getOverallPerformanceScores({
         salesAgents,
         setFunction: setOverallPerformanceScores,
@@ -285,7 +296,13 @@ export default function Team() {
               </div>
             </div>
             {salesAgents.length === 0 ? (
-              <TableShimmer />
+              <TableShimmer
+                loading={loading}
+                isError={isError}
+                setLoading={setLoading}
+                setIsError={setIsError}
+                fetchData={fetchData}
+              />
             ) : (
               <div className={`${tableStyles.table_wrapper}`}>
                 <div className={`${tableStyles.table_container}`}>
