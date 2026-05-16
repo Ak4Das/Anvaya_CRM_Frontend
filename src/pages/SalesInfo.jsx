@@ -45,6 +45,7 @@ export default function SalesInfo() {
   const [selectedFilterOption, setSelectedFilterOption] = useState("")
   const [isError, setIsError] = useState("")
   const [openFilterDropdownMenu, setOpenFilterDropdownMenu] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { state } = useLocation()
 
@@ -135,21 +136,30 @@ export default function SalesInfo() {
     })
   }
 
-  useEffect(() => {
-    async function fetch() {
-      await getAllAgentsData(setSalesAgents, setIsError)
+  async function fetchData(setLoading, setIsError) {
+    try {
+      setLoading(true)
+
       await getSalesDataInATimeRange({
         setFunction: setSalesData,
         endDay: 30,
         setIsError,
       })
+      await getAllAgentsData(setSalesAgents, setIsError)
+    } catch (error) {
+      setIsError(error.message)
+    } finally {
+      setLoading(false)
     }
-    fetch()
+  }
+
+  useEffect(() => {
+    fetchData(setLoading, setIsError)
   }, [])
 
   useEffect(() => {
-    salesAgents.length && getUpdatedAgentsArray(salesAgents)
-  }, [salesData])
+    salesAgents.length && !isError && getUpdatedAgentsArray(salesAgents)
+  }, [salesAgents])
 
   return (
     <div>
@@ -280,7 +290,13 @@ export default function SalesInfo() {
               </div>
             </div>
             {updatedSalesAgents.length === 0 ? (
-              <TableShimmer />
+              <TableShimmer
+                loading={loading}
+                isError={isError}
+                setLoading={setLoading}
+                setIsError={setIsError}
+                fetchData={fetchData}
+              />
             ) : (
               <div className={`${tableStyles.table_wrapper}`}>
                 <div className={`${tableStyles.table_container}`}>
