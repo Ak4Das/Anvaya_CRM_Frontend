@@ -19,6 +19,9 @@ import EditLead from "./pages/EditLead.jsx"
 import ReportPage from "./pages/ReportPage.jsx"
 import Settings from "./pages/Setting.jsx"
 import EditAgent from "./pages/EditAgent.jsx"
+import BarChart from "./pages/BarChart.jsx"
+import PieChart from "./pages/PieChart.jsx"
+import LineChart from "./pages/LineChart.jsx"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -34,13 +37,16 @@ const router = createBrowserRouter([
   { path: "/report", element: <ReportPage /> },
   { path: "/settings", element: <Settings /> },
   { path: "/editAgent/:id", element: <EditAgent /> },
+  { path: "/barChart", element: <BarChart /> },
+  { path: "/pieChart", element: <PieChart /> },
+  { path: "/lineChart", element: <LineChart /> },
 ])
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={theme}>
-    <StrictMode>
+    {/* <StrictMode> */}
       <RouterProvider router={router} />
       <ToastContainer />
-    </StrictMode>
+    {/* </StrictMode> */}
   </ThemeProvider>,
 )

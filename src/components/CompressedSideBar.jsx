@@ -61,18 +61,36 @@ export default function CompressedSideBar(prop) {
         </div>
         <div className={`${styles.sidebar_items_category}`}>
           <h6>Charts</h6>
-          <i
-            className={`bi bi-bar-chart-line-fill ${styles.icon}`}
-            title="Bar Chart"
-          ></i>
-          <i
-            className={`bi bi-pie-chart-fill ${styles.icon}`}
-            title="Pie Chart"
-          ></i>
-          <i
-            className={`bi bi-graph-up-arrow ${styles.icon}`}
-            title="Line Chart"
-          ></i>
+          <Link
+            className="text-decoration-none"
+            to="/barChart"
+            state={closeMenu}
+          >
+            <i
+              className={`bi bi-bar-chart-line-fill ${styles.icon}`}
+              title="Bar Chart"
+            ></i>
+          </Link>
+          <Link
+            className="text-decoration-none"
+            to="/pieChart"
+            state={closeMenu}
+          >
+            <i
+              className={`bi bi-pie-chart-fill ${styles.icon}`}
+              title="Pie Chart"
+            ></i>
+          </Link>
+          <Link
+            className="text-decoration-none"
+            to="/lineChart"
+            state={closeMenu}
+          >
+            <i
+              className={`bi bi-graph-up-arrow ${styles.icon}`}
+              title="Line Chart"
+            ></i>
+          </Link>
         </div>
         <div className={`${styles.sidebar_items_category}`}>
           <h6>Settings</h6>

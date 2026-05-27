@@ -242,72 +242,90 @@ export default function SideBar(prop) {
                     </div>
                   </li>
                   <h6 className={`${styles.section_heading}`}>Charts</h6>
-                  <li className={`${styles.navigation_section_item}`}>
-                    <div className={`${styles.navigation_item_container}`}>
-                      <span
-                        className={`${styles.navigation_item_icon_wrapper}`}
-                      >
+                  <Link
+                    className="text-decoration-none"
+                    to="/barChart"
+                    state={closeMenu}
+                  >
+                    <li className={`${styles.navigation_section_item}`}>
+                      <div className={`${styles.navigation_item_container}`}>
                         <span
-                          className={`${styles.navigation_item_icon_container}`}
+                          className={`${styles.navigation_item_icon_wrapper}`}
                         >
-                          <i
-                            className={`bi bi-bar-chart-line-fill ${styles.icon}`}
-                          ></i>
+                          <span
+                            className={`${styles.navigation_item_icon_container}`}
+                          >
+                            <i
+                              className={`bi bi-bar-chart-line-fill ${styles.icon}`}
+                            ></i>
+                          </span>
                         </span>
-                      </span>
-                      <span
-                        className={`${styles.navigation_item_content_wrapper}`}
-                      >
-                        <p className={`${styles.navigation_item_content}`}>
-                          Bar Chart
-                        </p>
-                      </span>
-                    </div>
-                  </li>
-                  <li className={`${styles.navigation_section_item}`}>
-                    <div className={`${styles.navigation_item_container}`}>
-                      <span
-                        className={`${styles.navigation_item_icon_wrapper}`}
-                      >
                         <span
-                          className={`${styles.navigation_item_icon_container}`}
+                          className={`${styles.navigation_item_content_wrapper}`}
                         >
-                          <i
-                            className={`bi bi-pie-chart-fill ${styles.icon}`}
-                          ></i>
+                          <p className={`${styles.navigation_item_content}`}>
+                            Bar Chart
+                          </p>
                         </span>
-                      </span>
-                      <span
-                        className={`${styles.navigation_item_content_wrapper}`}
-                      >
-                        <p className={`${styles.navigation_item_content}`}>
-                          Pie Chart
-                        </p>
-                      </span>
-                    </div>
-                  </li>
-                  <li className={`${styles.navigation_section_item}`}>
-                    <div className={`${styles.navigation_item_container}`}>
-                      <span
-                        className={`${styles.navigation_item_icon_wrapper}`}
-                      >
+                      </div>
+                    </li>
+                  </Link>
+                  <Link
+                    className="text-decoration-none"
+                    to="/pieChart"
+                    state={closeMenu}
+                  >
+                    <li className={`${styles.navigation_section_item}`}>
+                      <div className={`${styles.navigation_item_container}`}>
                         <span
-                          className={`${styles.navigation_item_icon_container}`}
+                          className={`${styles.navigation_item_icon_wrapper}`}
                         >
-                          <i
-                            className={`bi bi-graph-up-arrow ${styles.icon}`}
-                          ></i>
+                          <span
+                            className={`${styles.navigation_item_icon_container}`}
+                          >
+                            <i
+                              className={`bi bi-pie-chart-fill ${styles.icon}`}
+                            ></i>
+                          </span>
                         </span>
-                      </span>
-                      <span
-                        className={`${styles.navigation_item_content_wrapper}`}
-                      >
-                        <p className={`${styles.navigation_item_content}`}>
-                          Line Chart
-                        </p>
-                      </span>
-                    </div>
-                  </li>
+                        <span
+                          className={`${styles.navigation_item_content_wrapper}`}
+                        >
+                          <p className={`${styles.navigation_item_content}`}>
+                            Pie Chart
+                          </p>
+                        </span>
+                      </div>
+                    </li>
+                  </Link>
+                  <Link
+                    className="text-decoration-none"
+                    to="/lineChart"
+                    state={closeMenu}
+                  >
+                    <li className={`${styles.navigation_section_item}`}>
+                      <div className={`${styles.navigation_item_container}`}>
+                        <span
+                          className={`${styles.navigation_item_icon_wrapper}`}
+                        >
+                          <span
+                            className={`${styles.navigation_item_icon_container}`}
+                          >
+                            <i
+                              className={`bi bi-graph-up-arrow ${styles.icon}`}
+                            ></i>
+                          </span>
+                        </span>
+                        <span
+                          className={`${styles.navigation_item_content_wrapper}`}
+                        >
+                          <p className={`${styles.navigation_item_content}`}>
+                            Line Chart
+                          </p>
+                        </span>
+                      </div>
+                    </li>
+                  </Link>
                   <h6 className={`${styles.section_heading}`}>Settings</h6>
                   <Link
                     className="text-decoration-none"
