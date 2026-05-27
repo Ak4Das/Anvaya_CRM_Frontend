@@ -183,60 +183,65 @@ export async function handleClickOnApplyBtnForFilter(obj) {
     getIdByAgentName,
     setIsError,
   } = obj
-  const inputField = document.querySelector("#input")
-  const inputValue = inputField.value
-  if (inputValue) {
-    let updatedInputValue
-    if (openFilterInput === "phoneNumber" || openFilterInput === "email") {
-      updatedInputValue = inputValue
-    } else {
-      updatedInputValue = capitalizeFirstLetter(inputValue)
-    }
+  try {
+    const inputField = document.querySelector("#input")
+    const inputValue = inputField.value
+    if (inputValue) {
+      let updatedInputValue
+      if (openFilterInput === "phoneNumber" || openFilterInput === "email") {
+        updatedInputValue = inputValue
+      } else {
+        updatedInputValue = capitalizeFirstLetter(inputValue)
+      }
 
-    const updatedProperties = {
-      ...properties,
-    }
+      const updatedProperties = {
+        ...properties,
+      }
 
-    if (openFilterInput === "phoneNumber") {
-      updatedProperties[openFilterInput] = { $regex: updatedInputValue }
-    } else if (openFilterInput === "manager") {
-      const arrayOfAgentsId = await getIdByManagerName(
-        updatedInputValue,
+      if (openFilterInput === "phoneNumber") {
+        updatedProperties[openFilterInput] = { $regex: updatedInputValue }
+      } else if (openFilterInput === "manager") {
+        const arrayOfAgentsId = await getIdByManagerName(
+          updatedInputValue,
+          setIsError,
+        )
+        updatedProperties.manager = { $in: arrayOfAgentsId }
+      } else if (openFilterInput === "salesAgent") {
+        const arrayOfAgentsId = await getIdByAgentName(
+          updatedInputValue,
+          setIsError,
+        )
+        updatedProperties.salesAgent = { $in: arrayOfAgentsId }
+      } else {
+        updatedProperties[openFilterInput] = updatedInputValue
+      }
+
+      const updatedPropertiesString = JSON.stringify(updatedProperties)
+
+      const response = await filterByProperties(
+        updatedPropertiesString,
+        undefined,
         setIsError,
       )
-      updatedProperties.manager = { $in: arrayOfAgentsId }
-    } else if (openFilterInput === "salesAgent") {
-      const arrayOfAgentsId = await getIdByAgentName(
-        updatedInputValue,
+
+      setFunction(response)
+      setProperties(updatedProperties)
+    } else {
+      delete properties[openFilterInput]
+
+      const propertiesString = JSON.stringify(properties)
+
+      const response = await filterByProperties(
+        propertiesString,
+        undefined,
         setIsError,
       )
-      updatedProperties.salesAgent = { $in: arrayOfAgentsId }
-    } else {
-      updatedProperties[openFilterInput] = updatedInputValue
+      setFunction(response)
+      setProperties(properties)
     }
-
-    const updatedPropertiesString = JSON.stringify(updatedProperties)
-
-    const response = await filterByProperties(
-      updatedPropertiesString,
-      undefined,
-      setIsError,
-    )
-
-    setFunction(response)
-    setProperties(updatedProperties)
-  } else {
-    delete properties[openFilterInput]
-
-    const propertiesString = JSON.stringify(properties)
-
-    const response = await filterByProperties(
-      propertiesString,
-      undefined,
-      setIsError,
-    )
-    setFunction(response)
-    setProperties(properties)
+  } catch (error) {
+    console.error(error)
+    setIsError(error.message)
   }
 }
 
@@ -249,15 +254,20 @@ export async function removePropertyFilterHandler(obj) {
     setProperties,
     setIsError,
   } = obj
-  delete properties[property]
-  const propertiesString = JSON.stringify(properties)
-  const response = await filterByProperties(
-    propertiesString,
-    undefined,
-    setIsError,
-  )
-  setFunction(response)
-  setProperties(properties)
+  try {
+    delete properties[property]
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterByProperties(
+      propertiesString,
+      undefined,
+      setIsError,
+    )
+    setFunction(response)
+    setProperties(properties)
+  } catch (error) {
+    console.error(error)
+    setIsError(error.message)
+  }
 }
 
 export async function clearAllFiltersHandler(obj) {
@@ -268,15 +278,20 @@ export async function clearAllFiltersHandler(obj) {
     setProperties,
     setIsError,
   } = obj
-  Object.keys(properties).forEach((key) => delete properties[key])
-  const propertiesString = JSON.stringify(properties)
-  const response = await filterByProperties(
-    propertiesString,
-    undefined,
-    setIsError,
-  )
-  setFunction(response)
-  setProperties(properties)
+  try {
+    Object.keys(properties).forEach((key) => delete properties[key])
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterByProperties(
+      propertiesString,
+      undefined,
+      setIsError,
+    )
+    setFunction(response)
+    setProperties(properties)
+  } catch (error) {
+    console.error(error)
+    setIsError(error.message)
+  }
 }
 
 export function sortDataInAscendingOrderByProperty(obj) {
@@ -362,14 +377,19 @@ export function sortDataInDescendingOrderByProperty(obj) {
 export async function unsortData(obj) {
   const { properties, filterByProperties, setFunction, applySort, setIsError } =
     obj
-  const propertiesString = JSON.stringify(properties)
-  const response = await filterByProperties(
-    propertiesString,
-    undefined,
-    setIsError,
-  )
-  setFunction(response)
-  applySort(false)
+  try {
+    const propertiesString = JSON.stringify(properties)
+    const response = await filterByProperties(
+      propertiesString,
+      undefined,
+      setIsError,
+    )
+    setFunction(response)
+    applySort(false)
+  } catch (error) {
+    console.error(error)
+    setIsError(error.message)
+  }
 }
 
 export function getTotalSalesAmountOfAgent(obj) {

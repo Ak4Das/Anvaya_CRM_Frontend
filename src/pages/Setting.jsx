@@ -61,36 +61,51 @@ export default function Settings() {
   }, [])
 
   async function handleClick() {
-    clickHandler({
-      openFilterInput,
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-      getIdByManagerName,
-      setIsError,
-    })
+    try {
+      clickHandler({
+        openFilterInput,
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+        getIdByManagerName,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function removePropertyFilter(property) {
-    removePropertyFilterHandler({
-      properties,
-      property,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-      setIsError,
-    })
+    try {
+      removePropertyFilterHandler({
+        properties,
+        property,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function clearAllFilters() {
-    clearAllFiltersHandler({
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-      setIsError,
-    })
+    try {
+      clearAllFiltersHandler({
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   function getPerformanceScoreByAgentId(id) {
@@ -127,19 +142,29 @@ export default function Settings() {
   }
 
   async function unsortAgentsData() {
-    unsortData({
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      applySort,
-      setIsError,
-    })
+    try {
+      unsortData({
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        applySort,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents, setIsError)
-      await getAllManagersData(setManagers, setIsError)
+      try {
+        await getAllAgentsData(setSalesAgents, setIsError)
+        await getAllManagersData(setManagers, setIsError)
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
+      }
     }
     fetch()
   }, [])

@@ -61,34 +61,49 @@ export default function Team() {
   }, [])
 
   async function handleClick() {
-    clickHandler({
-      openFilterInput,
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-      getIdByManagerName,
-      setIsError,
-    })
+    try {
+      clickHandler({
+        openFilterInput,
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+        getIdByManagerName,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function removePropertyFilter(property) {
-    removePropertyFilterHandler({
-      properties,
-      property,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-    })
+    try {
+      removePropertyFilterHandler({
+        properties,
+        property,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function clearAllFilters() {
-    clearAllFiltersHandler({
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-    })
+    try {
+      clearAllFiltersHandler({
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   function getPerformanceScoreByAgentId(id) {
@@ -125,12 +140,17 @@ export default function Team() {
   }
 
   async function unsortAgentsData() {
-    unsortData({
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      applySort,
-    })
+    try {
+      unsortData({
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        applySort,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function fetchData(setLoading, setIsError) {
@@ -140,6 +160,7 @@ export default function Team() {
       await getAllManagersData(setManagers, setIsError)
       await getAllAgentsData(setSalesAgents, setIsError)
     } catch (error) {
+      console.error(error)
       setIsError(error.message)
     } finally {
       setLoading(false)

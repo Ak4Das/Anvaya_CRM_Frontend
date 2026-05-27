@@ -64,36 +64,51 @@ export default function SalesAgent() {
   }, [])
 
   async function handleClick() {
-    clickHandler({
-      openFilterInput,
-      properties,
-      filterByProperties: filterLeadsByProperties,
-      setProperties,
-      setFunction: setLeadsData,
-      getIdByAgentName,
-      setIsError,
-    })
+    try {
+      clickHandler({
+        openFilterInput,
+        properties,
+        filterByProperties: filterLeadsByProperties,
+        setProperties,
+        setFunction: setLeadsData,
+        getIdByAgentName,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function removePropertyFilter(property) {
-    removePropertyFilterHandler({
-      properties,
-      property,
-      filterByProperties: filterLeadsByProperties,
-      setFunction: setLeadsData,
-      setProperties,
-      setIsError,
-    })
+    try {
+      removePropertyFilterHandler({
+        properties,
+        property,
+        filterByProperties: filterLeadsByProperties,
+        setFunction: setLeadsData,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function clearAllFilters() {
-    clearAllFiltersHandler({
-      properties,
-      filterByProperties: filterLeadsByProperties,
-      setFunction: setLeadsData,
-      setProperties,
-      setIsError,
-    })
+    try {
+      clearAllFiltersHandler({
+        properties,
+        filterByProperties: filterLeadsByProperties,
+        setFunction: setLeadsData,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   function sortLeadsDataInAscOrderByProp(prop) {
@@ -120,13 +135,18 @@ export default function SalesAgent() {
   }
 
   async function unsortLeadsData() {
-    unsortData({
-      properties,
-      filterByProperties: filterLeadsByProperties,
-      setFunction: setLeadsData,
-      applySort,
-      setIsError,
-    })
+    try {
+      unsortData({
+        properties,
+        filterByProperties: filterLeadsByProperties,
+        setFunction: setLeadsData,
+        applySort,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   const {
@@ -151,6 +171,7 @@ export default function SalesAgent() {
         setIsError,
       )
     } catch (error) {
+      console.error(error)
       setIsError(error.message)
     } finally {
       setLoading(false)

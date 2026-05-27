@@ -72,13 +72,18 @@ export default function TeamContactInfo() {
   }
 
   async function clearAllFilters() {
-    clearAllFiltersHandler({
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      setProperties,
-      setIsError,
-    })
+    try {
+      clearAllFiltersHandler({
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   function sortAgentsDataInAscOrderByProp(prop) {
@@ -98,13 +103,18 @@ export default function TeamContactInfo() {
   }
 
   async function unsortAgentsData() {
-    unsortData({
-      properties,
-      filterByProperties: filterAgentsByProperties,
-      setFunction: setSalesAgents,
-      applySort,
-      setIsError,
-    })
+    try {
+      unsortData({
+        properties,
+        filterByProperties: filterAgentsByProperties,
+        setFunction: setSalesAgents,
+        applySort,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function fetchData(setLoading, setIsError) {
@@ -113,6 +123,7 @@ export default function TeamContactInfo() {
 
       await getAllAgentsData(setSalesAgents, setIsError)
     } catch (error) {
+      console.error(error)
       setIsError(error.message)
     } finally {
       setLoading(false)

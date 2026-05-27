@@ -74,14 +74,19 @@ export default function AddAgent() {
     initialValues: initialValues,
     validationSchema: addAgentSchema,
     onSubmit: async (values, action) => {
-      values.agentCode = generateAgentId()
-      values.joinedDate = getCurrentDate()
-      values.phoneNumberNormalized = normalizePhoneNumber(values.phoneNumber)
-      const response = await createAgent(values, setIsError)
-      if (response && Object.keys(response).length) {
-        toast("Agent Created Successfully👍")
+      try {
+        values.agentCode = generateAgentId()
+        values.joinedDate = getCurrentDate()
+        values.phoneNumberNormalized = normalizePhoneNumber(values.phoneNumber)
+        const response = await createAgent(values, setIsError)
+        if (response && Object.keys(response).length) {
+          toast("Agent Created Successfully👍")
+        }
+        action.resetForm()
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
-      action.resetForm()
     },
   })
 

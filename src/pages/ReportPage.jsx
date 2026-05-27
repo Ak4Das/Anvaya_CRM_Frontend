@@ -57,64 +57,84 @@ export default function ReportPage() {
   }, [])
 
   async function getNumberOfLeadsClosedAndInPipeline(endDay) {
-    const {
-      newLeads,
-      contactedLeads,
-      qualifiedLeads,
-      proposalSentLeads,
-      closedLeads,
-      lostLeads,
-    } = await getLeadsWithDifferentStatusInATimeRange(endDay)
+    try {
+      const {
+        newLeads,
+        contactedLeads,
+        qualifiedLeads,
+        proposalSentLeads,
+        closedLeads,
+        lostLeads,
+      } = await getLeadsWithDifferentStatusInATimeRange(endDay)
 
-    setLeadStatusDistribution({
-      newLeads: newLeads.length,
-      contactedLeads: contactedLeads.length,
-      qualifiedLeads: qualifiedLeads.length,
-      proposalSentLeads: proposalSentLeads.length,
-      closedLeads: closedLeads.length,
-      lostLeads: lostLeads.length,
-    })
+      setLeadStatusDistribution({
+        newLeads: newLeads.length,
+        contactedLeads: contactedLeads.length,
+        qualifiedLeads: qualifiedLeads.length,
+        proposalSentLeads: proposalSentLeads.length,
+        closedLeads: closedLeads.length,
+        lostLeads: lostLeads.length,
+      })
 
-    const NumberOfLeadsInPipeline =
-      newLeads.length +
-      contactedLeads.length +
-      qualifiedLeads.length +
-      proposalSentLeads.length
+      const NumberOfLeadsInPipeline =
+        newLeads.length +
+        contactedLeads.length +
+        qualifiedLeads.length +
+        proposalSentLeads.length
 
-    setLeadsClosedAndInPipeline({
-      leadsInPipeline: NumberOfLeadsInPipeline,
-      closedLeads: closedLeads.length,
-      lostLeads: lostLeads.length,
-    })
+      setLeadsClosedAndInPipeline({
+        leadsInPipeline: NumberOfLeadsInPipeline,
+        closedLeads: closedLeads.length,
+        lostLeads: lostLeads.length,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function getLeadsClosedBySalesAgents(endDay) {
-    const agents = await getAllAgentsData(undefined, setIsError)
-    const data = await Promise.all(
-      agents.map(async (agent) => {
-        const leadsClosedByAgent = await getLeadDataByPropertyInATimeRange(
-          {
-            salesAgent: agent._id,
-            status: "Closed",
-          },
-          endDay,
-          undefined,
-          setIsError,
-        )
-        return {
-          agentCode: agent.agentCode,
-          name: agent.name.split(" ")[0],
-          leadsClosedByAgent: leadsClosedByAgent.length,
-        }
-      }),
-    )
-    setLeadsClosedBySalesAgents(data)
+    try {
+      const agents = await getAllAgentsData(undefined, setIsError)
+      const data = await Promise.all(
+        agents.map(async (agent) => {
+          try {
+            const leadsClosedByAgent = await getLeadDataByPropertyInATimeRange(
+              {
+                salesAgent: agent._id,
+                status: "Closed",
+              },
+              endDay,
+              undefined,
+              setIsError,
+            )
+            return {
+              agentCode: agent.agentCode,
+              name: agent.name.split(" ")[0],
+              leadsClosedByAgent: leadsClosedByAgent.length,
+            }
+          } catch (error) {
+            console.error(error)
+            setIsError(error.message)
+          }
+        }),
+      )
+      setLeadsClosedBySalesAgents(data)
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   useEffect(() => {
     async function getResult() {
-      await getNumberOfLeadsClosedAndInPipeline(option ? option : 30)
-      await getLeadsClosedBySalesAgents(option ? option : 30)
+      try {
+        await getNumberOfLeadsClosedAndInPipeline(option ? option : 30)
+        await getLeadsClosedBySalesAgents(option ? option : 30)
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
+      }
     }
     getResult()
   }, [option])

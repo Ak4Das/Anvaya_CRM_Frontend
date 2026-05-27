@@ -76,13 +76,18 @@ export default function AddLead() {
     initialValues: initialValues,
     validationSchema: addLeadSchema,
     onSubmit: async (values, action) => {
-      values.leadCode = generateLeadId()
-      values.createdAt = getCurrentDate()
-      const response = await createLead(values, setIsError)
-      if (response && Object.keys(response).length) {
-        toast("Lead Created Successfully👍")
+      try {
+        values.leadCode = generateLeadId()
+        values.createdAt = getCurrentDate()
+        const response = await createLead(values, setIsError)
+        if (response && Object.keys(response).length) {
+          toast("Lead Created Successfully👍")
+        }
+        action.resetForm()
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
-      action.resetForm()
     },
   })
 

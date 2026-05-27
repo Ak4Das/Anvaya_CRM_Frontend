@@ -42,9 +42,14 @@ export default function EditAgent() {
 
   useEffect(() => {
     async function fetch() {
-      await getAllManagersData(setManagers, setIsError)
-      const filtersString = JSON.stringify({ _id: id })
-      await filterAgentsByProperties(filtersString, setAgent, setIsError)
+      try {
+        await getAllManagersData(setManagers, setIsError)
+        const filtersString = JSON.stringify({ _id: id })
+        await filterAgentsByProperties(filtersString, setAgent, setIsError)
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
+      }
     }
     fetch()
   }, [])
@@ -71,19 +76,26 @@ export default function EditAgent() {
     validationSchema: EditAgentSchema,
     enableReinitialize: true,
     onSubmit: async (values, action) => {
-      if (values.phoneNumber !== agent[0].phoneNumber) {
-        values.phoneNumberNormalized = normalizePhoneNumber(values.phoneNumber)
-      }
-      if (values.profileImg === "") {
-        values.profileImg = agent[0].profileImg
-      }
-      const response = await updateAgentById({
-        id: agent[0]._id,
-        body: values,
-        setIsError,
-      })
-      if (response && Object.keys(response).length) {
-        toast("Agent Edited Successfully👍")
+      try {
+        if (values.phoneNumber !== agent[0].phoneNumber) {
+          values.phoneNumberNormalized = normalizePhoneNumber(
+            values.phoneNumber,
+          )
+        }
+        if (values.profileImg === "") {
+          values.profileImg = agent[0].profileImg
+        }
+        const response = await updateAgentById({
+          id: agent[0]._id,
+          body: values,
+          setIsError,
+        })
+        if (response && Object.keys(response).length) {
+          toast("Agent Edited Successfully👍")
+        }
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
     },
   })

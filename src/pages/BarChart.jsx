@@ -52,44 +52,59 @@ export default function BarChart() {
   }, [])
 
   async function getPerformanceReportOfAgentsInATimeRange(obj) {
-    const { endDay, setFunction } = obj
-    const leadsData = await getLeadsDataInATimeRange({
-      endDay,
-      setIsError,
-    })
-    const performanceReport = salesAgent.map((agent) => {
-      const obj = { leadsData, agentId: agent._id }
-      const performanceScore = getScoreOfAgent(obj)
-      return {
-        id: agent.agentCode,
-        name: agent.name.split(" ")[0],
-        score: performanceScore,
-      }
-    })
-    setFunction(performanceReport)
+    try {
+      const { endDay, setFunction } = obj
+      const leadsData = await getLeadsDataInATimeRange({
+        endDay,
+        setIsError,
+      })
+      const performanceReport = salesAgent.map((agent) => {
+        const obj = { leadsData, agentId: agent._id }
+        const performanceScore = getScoreOfAgent(obj)
+        return {
+          id: agent.agentCode,
+          name: agent.name.split(" ")[0],
+          score: performanceScore,
+        }
+      })
+      setFunction(performanceReport)
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function getLeadsClosedBySalesAgents(endDay) {
-    const agents = await getAllAgentsData(undefined, setIsError)
-    const data = await Promise.all(
-      agents.map(async (agent) => {
-        const leadsClosedByAgent = await getLeadDataByPropertyInATimeRange(
-          {
-            salesAgent: agent._id,
-            status: "Closed",
-          },
-          endDay,
-          undefined,
-          setIsError,
-        )
-        return {
-          agentCode: agent.agentCode,
-          name: agent.name.split(" ")[0],
-          leadsClosedByAgent: leadsClosedByAgent.length,
-        }
-      }),
-    )
-    setLeadsClosedBySalesAgents(data)
+    try {
+      const agents = await getAllAgentsData(undefined, setIsError)
+      const data = await Promise.all(
+        agents.map(async (agent) => {
+          try {
+            const leadsClosedByAgent = await getLeadDataByPropertyInATimeRange(
+              {
+                salesAgent: agent._id,
+                status: "Closed",
+              },
+              endDay,
+              undefined,
+              setIsError,
+            )
+            return {
+              agentCode: agent.agentCode,
+              name: agent.name.split(" ")[0],
+              leadsClosedByAgent: leadsClosedByAgent.length,
+            }
+          } catch (error) {
+            console.error(error)
+            setIsError(error.message)
+          }
+        }),
+      )
+      setLeadsClosedBySalesAgents(data)
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   useEffect(() => {
@@ -105,6 +120,7 @@ export default function BarChart() {
           await getLeadsClosedBySalesAgents(30)
         }
       } catch (error) {
+        console.error(error)
         setIsError(error.message)
       } finally {
         setLoading(false)

@@ -38,6 +38,7 @@ export default function LineChart() {
 
         await getAllAgentsData(setSalesAgent, setIsError)
       } catch (error) {
+        console.error(error)
         setIsError(error.message)
       }
     }
@@ -45,21 +46,26 @@ export default function LineChart() {
   }, [])
 
   async function getPerformanceReportOfAgentsInATimeRange(obj) {
-    const { endDay, setFunction } = obj
-    const leadsData = await getLeadsDataInATimeRange({
-      endDay,
-      setIsError,
-    })
-    const performanceReport = salesAgent.map((agent) => {
-      const obj = { leadsData, agentId: agent._id }
-      const performanceScore = getScoreOfAgent(obj)
-      return {
-        id: agent.agentCode,
-        name: agent.name.split(" ")[0],
-        score: performanceScore,
-      }
-    })
-    setFunction(performanceReport)
+    try {
+      const { endDay, setFunction } = obj
+      const leadsData = await getLeadsDataInATimeRange({
+        endDay,
+        setIsError,
+      })
+      const performanceReport = salesAgent.map((agent) => {
+        const obj = { leadsData, agentId: agent._id }
+        const performanceScore = getScoreOfAgent(obj)
+        return {
+          id: agent.agentCode,
+          name: agent.name.split(" ")[0],
+          score: performanceScore,
+        }
+      })
+      setFunction(performanceReport)
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   useEffect(() => {
@@ -72,6 +78,7 @@ export default function LineChart() {
           })
         }
       } catch (error) {
+        console.error(error)
         setIsError(error.message)
       } finally {
         setLoading(false)

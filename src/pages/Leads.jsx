@@ -61,36 +61,51 @@ export default function Leads() {
   }
 
   async function handleClick() {
-    clickHandler({
-      openFilterInput,
-      properties,
-      filterByProperties: filterLeadsByProperties,
-      setProperties,
-      getIdByAgentName,
-      setFunction: setLeadsData,
-      setIsError,
-    })
+    try {
+      clickHandler({
+        openFilterInput,
+        properties,
+        filterByProperties: filterLeadsByProperties,
+        setProperties,
+        getIdByAgentName,
+        setFunction: setLeadsData,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function removePropertyFilter(property) {
-    removePropertyFilterHandler({
-      properties,
-      property,
-      filterByProperties: filterLeadsByProperties,
-      setFunction: setLeadsData,
-      setProperties,
-      setIsError,
-    })
+    try {
+      removePropertyFilterHandler({
+        properties,
+        property,
+        filterByProperties: filterLeadsByProperties,
+        setFunction: setLeadsData,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function clearAllFilters() {
-    clearAllFiltersHandler({
-      properties,
-      filterByProperties: filterLeadsByProperties,
-      setFunction: setLeadsData,
-      setProperties,
-      setIsError,
-    })
+    try {
+      clearAllFiltersHandler({
+        properties,
+        filterByProperties: filterLeadsByProperties,
+        setFunction: setLeadsData,
+        setProperties,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   function sortLeadsDataInAscOrderByProp(prop) {
@@ -117,13 +132,18 @@ export default function Leads() {
   }
 
   async function unsortLeadsData() {
-    unsortData({
-      properties,
-      filterByProperties: filterLeadsByProperties,
-      setFunction: setLeadsData,
-      applySort,
-      setIsError,
-    })
+    try {
+      unsortData({
+        properties,
+        filterByProperties: filterLeadsByProperties,
+        setFunction: setLeadsData,
+        applySort,
+        setIsError,
+      })
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function fetchData(setLoading, setIsError) {
@@ -137,6 +157,7 @@ export default function Leads() {
         setIsError,
       })
     } catch (error) {
+      console.error(error)
       setIsError(error.message)
     } finally {
       setLoading(false)

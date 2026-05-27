@@ -48,14 +48,19 @@ export default function LeadManagement() {
 
   useEffect(() => {
     async function fetch() {
-      const filtersString = JSON.stringify({ _id: id })
-      await filterLeadsByProperties(filtersString, setLead, setIsError)
-      await getAllAgentsData(setSalesAgents, setIsError)
-      await getAgentCommentsOnALead({
-        leadId: id,
-        setFunction: setComments,
-        setIsError,
-      })
+      try {
+        const filtersString = JSON.stringify({ _id: id })
+        await filterLeadsByProperties(filtersString, setLead, setIsError)
+        await getAllAgentsData(setSalesAgents, setIsError)
+        await getAgentCommentsOnALead({
+          leadId: id,
+          setFunction: setComments,
+          setIsError,
+        })
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
+      }
     }
     fetch()
   }, [])
@@ -79,20 +84,25 @@ export default function LeadManagement() {
     initialValues: initialValues,
     validationSchema: agentCommentSchema,
     onSubmit: async (values, action) => {
-      const response = await postAgentComment({
-        leadId: id,
-        body: values,
-        setIsError,
-      })
-      if (response) {
-        toast("Comment Posted Successfully👍")
+      try {
+        const response = await postAgentComment({
+          leadId: id,
+          body: values,
+          setIsError,
+        })
+        if (response) {
+          toast("Comment Posted Successfully👍")
+        }
+        await getAgentCommentsOnALead({
+          leadId: id,
+          setFunction: setComments,
+          setIsError,
+        })
+        action.resetForm()
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
-      await getAgentCommentsOnALead({
-        leadId: id,
-        setFunction: setComments,
-        setIsError,
-      })
-      action.resetForm()
     },
   })
 

@@ -62,53 +62,70 @@ function App() {
   }, [])
 
   async function updateSalesAgentsData() {
-    const updatedData = await Promise.all(
-      salesAgent.map(async (agent) => {
-        const assignedLead = await getLeadDataByPropertyInATimeRange(
-          { salesAgent: agent._id },
-          360,
-          undefined,
-          setIsError,
-        )
-        const closedLead = await getLeadDataByPropertyInATimeRange(
-          { salesAgent: agent._id, status: "Closed" },
-          360,
-          undefined,
-          setIsError,
-        )
-        agent.assignedLead = assignedLead.length
-        agent.closedLead = closedLead.length
-        const performanceScore = assignedLead.length
-          ? Number(((agent.closedLead / agent.assignedLead) * 10).toFixed(1))
-          : 0
-        agent.performanceScore = performanceScore
-        return agent
-      }),
-    )
-    const sortAgentsByPerformanceScore =
-      sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
-        updatedData,
-        "performanceScore",
+    try {
+      const updatedData = await Promise.all(
+        salesAgent.map(async (agent) => {
+          try {
+            const assignedLead = await getLeadDataByPropertyInATimeRange(
+              { salesAgent: agent._id },
+              360,
+              undefined,
+              setIsError,
+            )
+            const closedLead = await getLeadDataByPropertyInATimeRange(
+              { salesAgent: agent._id, status: "Closed" },
+              360,
+              undefined,
+              setIsError,
+            )
+            agent.assignedLead = assignedLead.length
+            agent.closedLead = closedLead.length
+            const performanceScore = assignedLead.length
+              ? Number(
+                  ((agent.closedLead / agent.assignedLead) * 10).toFixed(1),
+                )
+              : 0
+            agent.performanceScore = performanceScore
+            return agent
+          } catch (error) {
+            console.error(error)
+            setIsError(error.message)
+          }
+        }),
       )
-    setSortAgentsByPerformanceScore(sortAgentsByPerformanceScore)
+      const sortAgentsByPerformanceScore =
+        sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
+          updatedData,
+          "performanceScore",
+        )
+      setSortAgentsByPerformanceScore(sortAgentsByPerformanceScore)
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function getPerformanceReportOfAgentsInATimeRange(obj) {
-    const { endDay, setFunction } = obj
-    const leadsData = await getLeadsDataInATimeRange({
-      endDay,
-      setIsError,
-    })
-    const performanceReport = salesAgent.map((agent) => {
-      const obj = { leadsData, agentId: agent._id }
-      const performanceScore = getScoreOfAgent(obj)
-      return {
-        id: agent.agentCode,
-        name: agent.name.split(" ")[0],
-        score: performanceScore,
-      }
-    })
-    setFunction(performanceReport)
+    try {
+      const { endDay, setFunction } = obj
+      const leadsData = await getLeadsDataInATimeRange({
+        endDay,
+        setIsError,
+      })
+      const performanceReport = salesAgent.map((agent) => {
+        const obj = { leadsData, agentId: agent._id }
+        const performanceScore = getScoreOfAgent(obj)
+        return {
+          id: agent.agentCode,
+          name: agent.name.split(" ")[0],
+          score: performanceScore,
+        }
+      })
+      setFunction(performanceReport)
+    } catch (error) {
+      console.error(error)
+      setIsError(error.message)
+    }
   }
 
   async function fetchData(setLoading, setIsError) {
@@ -147,6 +164,7 @@ function App() {
       )
       await getAllAgentsData(setSalesAgent, setIsError)
     } catch (error) {
+      console.error(error)
       setIsError(error.message)
     } finally {
       setLoading(false)
@@ -159,20 +177,25 @@ function App() {
 
   useEffect(() => {
     async function tasks() {
-      if (salesAgent.length && !isError) {
-        await updateSalesAgentsData()
-        await getPerformanceReportOfAgentsInATimeRange({
-          endDay: 30,
-          setFunction: setThirtyDaysPerformanceReport,
-        })
-        await getPerformanceReportOfAgentsInATimeRange({
-          endDay: 180,
-          setFunction: setSixMonthsPerformanceReport,
-        })
-        await getPerformanceReportOfAgentsInATimeRange({
-          endDay: 360,
-          setFunction: setOneYearPerformanceReport,
-        })
+      try {
+        if (salesAgent.length && !isError) {
+          await updateSalesAgentsData()
+          await getPerformanceReportOfAgentsInATimeRange({
+            endDay: 30,
+            setFunction: setThirtyDaysPerformanceReport,
+          })
+          await getPerformanceReportOfAgentsInATimeRange({
+            endDay: 180,
+            setFunction: setSixMonthsPerformanceReport,
+          })
+          await getPerformanceReportOfAgentsInATimeRange({
+            endDay: 360,
+            setFunction: setOneYearPerformanceReport,
+          })
+        }
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
     }
     tasks()

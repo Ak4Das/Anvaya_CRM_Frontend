@@ -44,15 +44,20 @@ export default function EditLead() {
 
   useEffect(() => {
     async function fetch() {
-      await getAllAgentsData(setSalesAgents, setIsError)
-      const filtersString = JSON.stringify({ _id: id })
-      const response = await filterLeadsByProperties(
-        filtersString,
-        undefined,
-        setIsError,
-      )
-      if (response.length) {
-        setLead(response)
+      try {
+        await getAllAgentsData(setSalesAgents, setIsError)
+        const filtersString = JSON.stringify({ _id: id })
+        const response = await filterLeadsByProperties(
+          filtersString,
+          undefined,
+          setIsError,
+        )
+        if (response.length) {
+          setLead(response)
+        }
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
     }
     fetch()
@@ -79,18 +84,23 @@ export default function EditLead() {
     validationSchema: editLeadSchema,
     enableReinitialize: true,
     onSubmit: async (values, action) => {
-      if (values.status === "Lost") {
-        values.lostAt = getCurrentDate()
-      } else {
-        values.lostAt = ""
-      }
-      const response = await updateLeadById({
-        id: lead[0]._id,
-        body: values,
-        setIsError,
-      })
-      if (response && Object.keys(response).length) {
-        toast("Lead Updated Successfully👍")
+      try {
+        if (values.status === "Lost") {
+          values.lostAt = getCurrentDate()
+        } else {
+          values.lostAt = ""
+        }
+        const response = await updateLeadById({
+          id: lead[0]._id,
+          body: values,
+          setIsError,
+        })
+        if (response && Object.keys(response).length) {
+          toast("Lead Updated Successfully👍")
+        }
+      } catch (error) {
+        console.error(error)
+        setIsError(error.message)
       }
     },
   })
