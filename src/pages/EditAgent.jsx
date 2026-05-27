@@ -152,7 +152,10 @@ export default function EditAgent() {
           </div>
           <form onSubmit={handleSubmit} className="container">
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="name" className={`${formStyles.input_clicked}`}>
+              <label
+                htmlFor="name"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Name
               </label>
               <input
@@ -160,6 +163,7 @@ export default function EditAgent() {
                 autoComplete="off"
                 name="name"
                 id="name"
+                className={`${formStyles.input}`}
                 value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -175,7 +179,7 @@ export default function EditAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="country"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Country
               </label>
@@ -184,6 +188,7 @@ export default function EditAgent() {
                 autoComplete="off"
                 name="country"
                 id="country"
+                className={`${formStyles.input}`}
                 value={values.country}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -199,7 +204,7 @@ export default function EditAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="phoneNumber"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Phone Number
               </label>
@@ -208,6 +213,7 @@ export default function EditAgent() {
                 autoComplete="off"
                 name="phoneNumber"
                 id="phoneNumber"
+                className={`${formStyles.input}`}
                 value={values.phoneNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -221,7 +227,10 @@ export default function EditAgent() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="email" className={`${formStyles.input_clicked}`}>
+              <label
+                htmlFor="email"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Email
               </label>
               <input
@@ -229,6 +238,7 @@ export default function EditAgent() {
                 autoComplete="off"
                 name="email"
                 id="email"
+                className={`${formStyles.input}`}
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -247,7 +257,7 @@ export default function EditAgent() {
             >
               <label
                 htmlFor="manager"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Manager
               </label>
@@ -282,7 +292,10 @@ export default function EditAgent() {
               className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <label htmlFor="status" className={`${formStyles.input_clicked}`}>
+              <label
+                htmlFor="status"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Status
               </label>
               <Select
@@ -316,7 +329,10 @@ export default function EditAgent() {
               className={`${formStyles.input_wrapper}`}
               onClick={(e) => e.stopPropagation()}
             >
-              <label htmlFor="role" className={`${formStyles.input_clicked}`}>
+              <label
+                htmlFor="role"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Role
               </label>
               <Select
@@ -349,7 +365,7 @@ export default function EditAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="address"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Address
               </label>
@@ -358,6 +374,7 @@ export default function EditAgent() {
                 autoComplete="off"
                 name="address"
                 id="address"
+                className={`${formStyles.input}`}
                 value={values.address}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -373,12 +390,12 @@ export default function EditAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="profile Image"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Profile Image
               </label>
               <input
-                className={`${styles.profile_image_input}`}
+                className={`${formStyles.input} ${styles.profile_image_input}`}
                 type="file"
                 autoComplete="off"
                 name="profileImg"

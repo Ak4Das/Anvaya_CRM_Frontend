@@ -57,7 +57,13 @@ export default function CompressedSideBar(prop) {
               title="Reports"
             ></i>
           </Link>
-          <i className={`bi bi-calendar ${styles.icon}`} title="Calender"></i>
+          <Link
+            className="text-decoration-none"
+            to="/calendar"
+            state={closeMenu}
+          >
+            <i className={`bi bi-calendar ${styles.icon}`} title="Calender"></i>
+          </Link>
         </div>
         <div className={`${styles.sidebar_items_category}`}>
           <h6>Charts</h6>

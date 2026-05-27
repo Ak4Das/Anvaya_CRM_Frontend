@@ -267,7 +267,7 @@ export default function LeadManagement() {
                   >
                     <label
                       htmlFor="author"
-                      className={`${authorInputClicked && formStyles.input_clicked}`}
+                      className={`${formStyles.label} ${authorInputClicked && formStyles.input_clicked}`}
                     >
                       Author
                     </label>

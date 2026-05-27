@@ -176,7 +176,7 @@ export default function AddLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="name"
-                className={`${nameInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${nameInputClicked && formStyles.input_clicked}`}
               >
                 Name
               </label>
@@ -185,6 +185,7 @@ export default function AddLead() {
                 autoComplete="off"
                 name="name"
                 id="name"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setNameInputClick(true)
@@ -207,7 +208,7 @@ export default function AddLead() {
             >
               <label
                 htmlFor="source"
-                className={`${sourceInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${sourceInputClicked && formStyles.input_clicked}`}
               >
                 Source
               </label>
@@ -244,7 +245,7 @@ export default function AddLead() {
             >
               <label
                 htmlFor="salesAgent"
-                className={`${salesAgentInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${salesAgentInputClicked && formStyles.input_clicked}`}
               >
                 Sales Agent
               </label>
@@ -284,7 +285,7 @@ export default function AddLead() {
             >
               <label
                 htmlFor="status"
-                className={`${statusInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${statusInputClicked && formStyles.input_clicked}`}
               >
                 Status
               </label>
@@ -321,7 +322,7 @@ export default function AddLead() {
             >
               <label
                 htmlFor="tags"
-                className={`${tagsInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${tagsInputClicked && formStyles.input_clicked}`}
               >
                 Tags
               </label>
@@ -354,7 +355,7 @@ export default function AddLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="timeToClose"
-                className={`${timeToCloseInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${timeToCloseInputClicked && formStyles.input_clicked}`}
               >
                 Time To Close
               </label>
@@ -363,6 +364,7 @@ export default function AddLead() {
                 autoComplete="off"
                 name="timeToClose"
                 id="timeToClose"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setTimeToCloseInputClick(true)
@@ -385,7 +387,7 @@ export default function AddLead() {
             >
               <label
                 htmlFor="priority"
-                className={`${priorityInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${priorityInputClicked && formStyles.input_clicked}`}
               >
                 Priority
               </label>
@@ -420,7 +422,7 @@ export default function AddLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="phoneNumber"
-                className={`${phoneInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${phoneInputClicked && formStyles.input_clicked}`}
               >
                 Phone Number
               </label>
@@ -429,6 +431,7 @@ export default function AddLead() {
                 autoComplete="off"
                 name="phoneNumber"
                 id="phoneNumber"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setPhoneInputClick(true)

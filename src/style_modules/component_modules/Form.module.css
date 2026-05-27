@@ -9,7 +9,7 @@
   background-color: #293040;
 }
 
-label {
+.label {
   position: absolute;
   top: 15px;
   left: 10px;
@@ -22,7 +22,7 @@ label {
   font-size: 12px;
 }
 
-input {
+.input {
   background-color: transparent;
   color: #ffffff;
   border: none;
@@ -33,16 +33,16 @@ input {
   width: 100%;
 }
 
-input:focus {
+.input:focus {
   outline: none;
   border: none;
   box-shadow: none;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-select:-webkit-autofill {
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #293040 inset !important;
   -webkit-text-fill-color: #fff !important;
   transition: background-color 5000s ease-in-out 0s;

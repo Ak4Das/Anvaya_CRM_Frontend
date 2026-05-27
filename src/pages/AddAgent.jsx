@@ -175,7 +175,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="name"
-                className={`${nameInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${nameInputClicked && formStyles.input_clicked}`}
               >
                 Name
               </label>
@@ -184,6 +184,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="name"
                 id="name"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setNameInputClick(true)
@@ -203,7 +204,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="dateOfBirth"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Date Of Birth
               </label>
@@ -212,6 +213,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="dateOfBirth"
                 id="dateOfBirth"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                 }}
@@ -230,7 +232,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="country"
-                className={`${countryInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${countryInputClicked && formStyles.input_clicked}`}
               >
                 Country
               </label>
@@ -239,6 +241,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="country"
                 id="country"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setCountryInputClick(true)
@@ -258,7 +261,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="phoneNumber"
-                className={`${phoneNumberInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${phoneNumberInputClicked && formStyles.input_clicked}`}
               >
                 Phone Number
               </label>
@@ -267,6 +270,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="phoneNumber"
                 id="phoneNumber"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setPhoneNumberInputClick(true)
@@ -286,7 +290,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="email"
-                className={`${emailInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${emailInputClicked && formStyles.input_clicked}`}
               >
                 Email
               </label>
@@ -295,6 +299,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="email"
                 id="email"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setEmailInputClick(true)
@@ -317,7 +322,7 @@ export default function AddAgent() {
             >
               <label
                 htmlFor="manager"
-                className={`${managersInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${managersInputClicked && formStyles.input_clicked}`}
               >
                 Manager
               </label>
@@ -354,7 +359,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="address"
-                className={`${addressInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${addressInputClicked && formStyles.input_clicked}`}
               >
                 Address
               </label>
@@ -363,6 +368,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="address"
                 id="address"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setAddressInputClick(true)
@@ -382,12 +388,12 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="profile Image"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Profile Image
               </label>
               <input
-                className={`${styles.profile_image_input}`}
+                className={`${formStyles.input} ${styles.profile_image_input}`}
                 type="file"
                 autoComplete="off"
                 name="profileImg"
@@ -407,7 +413,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="password"
-                className={`${passwordInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${passwordInputClicked && formStyles.input_clicked}`}
               >
                 Password
               </label>
@@ -416,6 +422,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="password"
                 id="password"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setPasswordInputClick(true)
@@ -435,7 +442,7 @@ export default function AddAgent() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="confirmPassword"
-                className={`${confirmPasswordInputClicked && formStyles.input_clicked}`}
+                className={`${formStyles.label} ${confirmPasswordInputClicked && formStyles.input_clicked}`}
               >
                 Confirm Password
               </label>
@@ -444,6 +451,7 @@ export default function AddAgent() {
                 autoComplete="off"
                 name="confirmPassword"
                 id="confirmPassword"
+                className={`${formStyles.input}`}
                 onClick={(e) => {
                   e.stopPropagation()
                   setConfirmPasswordInputClick(true)

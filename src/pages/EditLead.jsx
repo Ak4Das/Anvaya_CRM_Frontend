@@ -157,7 +157,10 @@ export default function EditLead() {
           </div>
           <form onSubmit={handleSubmit} className="container">
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="name" className={`${formStyles.input_clicked}`}>
+              <label
+                htmlFor="name"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Name
               </label>
               <input
@@ -165,6 +168,7 @@ export default function EditLead() {
                 autoComplete="off"
                 name="name"
                 id="name"
+                className={`${formStyles.input}`}
                 value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -178,7 +182,7 @@ export default function EditLead() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="source" className={`${formStyles.input_clicked}`}>
+              <label htmlFor="source" className={`${formStyles.label} ${formStyles.input_clicked}`}>
                 Source
               </label>
               <Select
@@ -208,7 +212,7 @@ export default function EditLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="salesAgent"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Sales Agent
               </label>
@@ -240,7 +244,7 @@ export default function EditLead() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="status" className={`${formStyles.input_clicked}`}>
+              <label htmlFor="status" className={`${formStyles.label} ${formStyles.input_clicked}`}>
                 Status
               </label>
               <Select
@@ -269,7 +273,7 @@ export default function EditLead() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="tags" className={`${formStyles.input_clicked}`}>
+              <label htmlFor="tags" className={`${formStyles.label} ${formStyles.input_clicked}`}>
                 Tags
               </label>
               <Select
@@ -298,7 +302,7 @@ export default function EditLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="timeToClose"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Time To Close
               </label>
@@ -307,6 +311,7 @@ export default function EditLead() {
                 autoComplete="off"
                 name="timeToClose"
                 id="timeToClose"
+                className={`${formStyles.input}`}
                 value={values.timeToClose || 0}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -322,7 +327,7 @@ export default function EditLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="priority"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Priority
               </label>
@@ -354,7 +359,7 @@ export default function EditLead() {
             <div className={`${formStyles.input_wrapper}`}>
               <label
                 htmlFor="phoneNumber"
-                className={`${formStyles.input_clicked}`}
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
               >
                 Phone Number
               </label>
@@ -363,6 +368,7 @@ export default function EditLead() {
                 autoComplete="off"
                 name="phoneNumber"
                 id="phoneNumber"
+                className={`${formStyles.input}`}
                 value={values.phoneNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}

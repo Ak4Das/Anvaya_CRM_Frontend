@@ -221,26 +221,32 @@ export default function SideBar(prop) {
                       </div>
                     </li>
                   </Link>
-                  <li className={`${styles.navigation_section_item}`}>
-                    <div className={`${styles.navigation_item_container}`}>
-                      <span
-                        className={`${styles.navigation_item_icon_wrapper}`}
-                      >
+                  <Link
+                    className="text-decoration-none"
+                    to="/calendar"
+                    state={closeMenu}
+                  >
+                    <li className={`${styles.navigation_section_item}`}>
+                      <div className={`${styles.navigation_item_container}`}>
                         <span
-                          className={`${styles.navigation_item_icon_container}`}
+                          className={`${styles.navigation_item_icon_wrapper}`}
                         >
-                          <i className={`bi bi-calendar ${styles.icon}`}></i>
+                          <span
+                            className={`${styles.navigation_item_icon_container}`}
+                          >
+                            <i className={`bi bi-calendar ${styles.icon}`}></i>
+                          </span>
                         </span>
-                      </span>
-                      <span
-                        className={`${styles.navigation_item_content_wrapper}`}
-                      >
-                        <p className={`${styles.navigation_item_content}`}>
-                          Calender
-                        </p>
-                      </span>
-                    </div>
-                  </li>
+                        <span
+                          className={`${styles.navigation_item_content_wrapper}`}
+                        >
+                          <p className={`${styles.navigation_item_content}`}>
+                            Calender
+                          </p>
+                        </span>
+                      </div>
+                    </li>
+                  </Link>
                   <h6 className={`${styles.section_heading}`}>Charts</h6>
                   <Link
                     className="text-decoration-none"
