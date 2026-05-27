@@ -72,7 +72,9 @@ export default function Team() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -87,7 +89,9 @@ export default function Team() {
         setProperties,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -101,7 +105,9 @@ export default function Team() {
         setProperties,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -148,7 +154,9 @@ export default function Team() {
         applySort,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -160,7 +168,9 @@ export default function Team() {
       await getAllManagersData(setManagers, setIsError)
       await getAllAgentsData(setSalesAgents, setIsError)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     } finally {
       setLoading(false)

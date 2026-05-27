@@ -240,7 +240,9 @@ export async function handleClickOnApplyBtnForFilter(obj) {
       setProperties(properties)
     }
   } catch (error) {
-    console.error(error)
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+      console.error(error)
+    }
     setIsError(error.message)
   }
 }
@@ -265,7 +267,9 @@ export async function removePropertyFilterHandler(obj) {
     setFunction(response)
     setProperties(properties)
   } catch (error) {
-    console.error(error)
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+      console.error(error)
+    }
     setIsError(error.message)
   }
 }
@@ -289,7 +293,9 @@ export async function clearAllFiltersHandler(obj) {
     setFunction(response)
     setProperties(properties)
   } catch (error) {
-    console.error(error)
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+      console.error(error)
+    }
     setIsError(error.message)
   }
 }
@@ -387,7 +393,9 @@ export async function unsortData(obj) {
     setFunction(response)
     applySort(false)
   } catch (error) {
-    console.error(error)
+    if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+      console.error(error)
+    }
     setIsError(error.message)
   }
 }

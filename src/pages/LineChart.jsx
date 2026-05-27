@@ -38,7 +38,9 @@ export default function LineChart() {
 
         await getAllAgentsData(setSalesAgent, setIsError)
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     }
@@ -63,7 +65,9 @@ export default function LineChart() {
       })
       setFunction(performanceReport)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -78,7 +82,9 @@ export default function LineChart() {
           })
         }
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       } finally {
         setLoading(false)

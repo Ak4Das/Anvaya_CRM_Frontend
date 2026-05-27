@@ -69,7 +69,9 @@ export default function BarChart() {
       })
       setFunction(performanceReport)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -95,14 +97,18 @@ export default function BarChart() {
               leadsClosedByAgent: leadsClosedByAgent.length,
             }
           } catch (error) {
-            console.error(error)
+            if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+              console.error(error)
+            }
             setIsError(error.message)
           }
         }),
       )
       setLeadsClosedBySalesAgents(data)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -120,7 +126,9 @@ export default function BarChart() {
           await getLeadsClosedBySalesAgents(30)
         }
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       } finally {
         setLoading(false)

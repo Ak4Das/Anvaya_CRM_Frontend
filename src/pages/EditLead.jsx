@@ -56,7 +56,9 @@ export default function EditLead() {
           setLead(response)
         }
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     }
@@ -99,7 +101,9 @@ export default function EditLead() {
           toast("Lead Updated Successfully👍")
         }
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     },

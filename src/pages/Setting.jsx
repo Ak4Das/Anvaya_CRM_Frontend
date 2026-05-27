@@ -72,7 +72,9 @@ export default function Settings() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -88,7 +90,9 @@ export default function Settings() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -103,7 +107,9 @@ export default function Settings() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -151,7 +157,9 @@ export default function Settings() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -162,7 +170,9 @@ export default function Settings() {
         await getAllAgentsData(setSalesAgents, setIsError)
         await getAllManagersData(setManagers, setIsError)
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     }

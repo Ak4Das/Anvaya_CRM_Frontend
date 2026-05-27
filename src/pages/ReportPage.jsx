@@ -88,7 +88,9 @@ export default function ReportPage() {
         lostLeads: lostLeads.length,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -114,14 +116,18 @@ export default function ReportPage() {
               leadsClosedByAgent: leadsClosedByAgent.length,
             }
           } catch (error) {
-            console.error(error)
+            if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+              console.error(error)
+            }
             setIsError(error.message)
           }
         }),
       )
       setLeadsClosedBySalesAgents(data)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -132,7 +138,9 @@ export default function ReportPage() {
         await getNumberOfLeadsClosedAndInPipeline(option ? option : 30)
         await getLeadsClosedBySalesAgents(option ? option : 30)
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     }

@@ -47,7 +47,9 @@ export default function EditAgent() {
         const filtersString = JSON.stringify({ _id: id })
         await filterAgentsByProperties(filtersString, setAgent, setIsError)
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     }
@@ -94,7 +96,9 @@ export default function EditAgent() {
           toast("Agent Edited Successfully👍")
         }
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     },

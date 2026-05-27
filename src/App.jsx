@@ -88,7 +88,9 @@ function App() {
             agent.performanceScore = performanceScore
             return agent
           } catch (error) {
-            console.error(error)
+            if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+              console.error(error)
+            }
             setIsError(error.message)
           }
         }),
@@ -100,7 +102,9 @@ function App() {
         )
       setSortAgentsByPerformanceScore(sortAgentsByPerformanceScore)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -123,7 +127,9 @@ function App() {
       })
       setFunction(performanceReport)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -164,7 +170,9 @@ function App() {
       )
       await getAllAgentsData(setSalesAgent, setIsError)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     } finally {
       setLoading(false)
@@ -194,7 +202,9 @@ function App() {
           })
         }
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       }
     }

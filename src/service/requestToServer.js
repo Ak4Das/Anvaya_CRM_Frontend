@@ -1,5 +1,12 @@
 import axios from "axios"
 
+let url = null
+if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+  url = "http://localhost:3000"
+} else {
+  url = "https://anvaya-crm-backend-delta.vercel.app"
+}
+
 export async function getLeadDataByPropertyInATimeRange(
   properties,
   endDay,
@@ -15,7 +22,7 @@ export async function getLeadDataByPropertyInATimeRange(
   try {
     const propString = JSON.stringify(properties)
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=${endDay}&filters=${propString}`,
+      `${url}/leads?minDay=0&maxDay=${endDay}&filters=${propString}`,
       {
         signal: controller.signal,
       },
@@ -49,12 +56,9 @@ export async function getAllAgentsData(setSalesAgents, setIsError) {
   }, 10000)
 
   try {
-    const response = await axios.get(
-      "https://anvaya-crm-backend-delta.vercel.app/agents/",
-      {
-        signal: controller.signal,
-      },
-    )
+    const response = await axios.get(`${url}/agents/`, {
+      signal: controller.signal,
+    })
 
     clearTimeout(timerId)
 
@@ -87,7 +91,7 @@ export async function getLeadsDataInATimeRange(obj) {
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=${endDay}`,
+      `${url}/leads?minDay=0&maxDay=${endDay}`,
       {
         signal: controller.signal,
       },
@@ -126,7 +130,7 @@ export async function filterAgentsByProperties(
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/prop?filters=${encodeURIComponent(filtersString)}`,
+      `${url}/agents/prop?filters=${encodeURIComponent(filtersString)}`,
       {
         signal: controller.signal,
       },
@@ -165,7 +169,7 @@ export async function filterLeadsByProperties(
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=30&filters=${filtersString}`,
+      `${url}/leads?minDay=0&maxDay=30&filters=${filtersString}`,
       {
         signal: controller.signal,
       },
@@ -200,7 +204,7 @@ export async function getIdByManagerName(name, setIsError) {
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/managers/name/${name}`,
+      `${url}/managers/name/${name}`,
       {
         signal: controller.signal,
       },
@@ -235,7 +239,7 @@ export async function getIdByAgentName(name, setIsError) {
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/name/${name}`,
+      `${url}/agents/name/${name}`,
       {
         signal: controller.signal,
       },
@@ -269,12 +273,9 @@ export async function getAllManagersData(setManagers, setIsError) {
   }, 10000)
 
   try {
-    const response = await axios.get(
-      "https://anvaya-crm-backend-delta.vercel.app/managers",
-      {
-        signal: controller.signal,
-      },
-    )
+    const response = await axios.get(`${url}/managers`, {
+      signal: controller.signal,
+    })
 
     clearTimeout(timerId)
 
@@ -300,7 +301,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
   const filtersToFindLostLeadsInOneYear = { salesAgent: id, status: "Lost" }
   const findLostFilterString = JSON.stringify(filtersToFindLostLeadsInOneYear)
   const lostLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findLostFilterString}`,
+    `${url}/leads?minDay=0&maxDay=360&filters=${findLostFilterString}`,
   )
 
   // Closed leads
@@ -312,14 +313,14 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindClosedLeadsInOneYear,
   )
   const closedLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findClosedFilterString}`,
+    `${url}/leads?minDay=0&maxDay=360&filters=${findClosedFilterString}`,
   )
 
   // New leads
   const filtersToFindNewLeadsInOneYear = { salesAgent: id, status: "New" }
   const findNewFilterString = JSON.stringify(filtersToFindNewLeadsInOneYear)
   const NewLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findNewFilterString}`,
+    `${url}/leads?minDay=0&maxDay=360&filters=${findNewFilterString}`,
   )
 
   // Contacted leads
@@ -331,7 +332,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindContactedLeadsInOneYear,
   )
   const ContactedLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findContactedFilterString}`,
+    `${url}/leads?minDay=0&maxDay=360&filters=${findContactedFilterString}`,
   )
 
   // Qualified leads
@@ -343,7 +344,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindQualifiedLeadsInOneYear,
   )
   const QualifiedLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findQualifiedFilterString}`,
+    `${url}/leads?minDay=0&maxDay=360&filters=${findQualifiedFilterString}`,
   )
 
   // Proposal sent leads
@@ -355,7 +356,7 @@ export async function findOverallPerformanceScoreOfAgent(id) {
     filtersToFindProposalSentLeadsInOneYear,
   )
   const ProposalSentLeadsInOneYear = await axios.get(
-    `https://anvaya-crm-backend-delta.vercel.app/leads?minDay=0&maxDay=360&filters=${findProposalSentFilterString}`,
+    `${url}/leads?minDay=0&maxDay=360&filters=${findProposalSentFilterString}`,
   )
 
   const denominator =
@@ -403,7 +404,7 @@ export async function getSalesDataInATimeRange(obj) {
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/sales/prop?minDay=0&maxDay=${endDay}`,
+      `${url}/sales/prop?minDay=0&maxDay=${endDay}`,
       {
         signal: controller.signal,
       },
@@ -437,7 +438,7 @@ export async function createAgent(body, setIsError) {
 
   try {
     const response = await axios.post(
-      "https://anvaya-crm-backend-delta.vercel.app/agents/addAgent",
+      `${url}/agents/addAgent`,
       body,
       {
         signal: controller.signal,
@@ -472,7 +473,7 @@ export async function createLead(body, setIsError) {
 
   try {
     const response = await axios.post(
-      "https://anvaya-crm-backend-delta.vercel.app/leads/addLead",
+      `${url}/leads/addLead`,
       body,
       {
         signal: controller.signal,
@@ -509,7 +510,7 @@ export async function updateLeadById(obj) {
 
   try {
     const response = await axios.patch(
-      `https://anvaya-crm-backend-delta.vercel.app/leads/update/${id}`,
+      `${url}/leads/update/${id}`,
       body,
       {
         signal: controller.signal,
@@ -546,7 +547,7 @@ export async function updateAgentById(obj) {
 
   try {
     const response = await axios.patch(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/update/${id}`,
+      `${url}/agents/update/${id}`,
       body,
       {
         signal: controller.signal,
@@ -583,7 +584,7 @@ export async function postAgentComment(obj) {
 
   try {
     const response = await axios.post(
-      `https://anvaya-crm-backend-delta.vercel.app/agentComment/leads/${leadId}/comments`,
+      `${url}/agentComment/leads/${leadId}/comments`,
       body,
       {
         signal: controller.signal,
@@ -620,7 +621,7 @@ export async function getAgentCommentsOnALead(obj) {
 
   try {
     const response = await axios.get(
-      `https://anvaya-crm-backend-delta.vercel.app/agentComment/leads/${leadId}/comments`,
+      `${url}/agentComment/leads/${leadId}/comments`,
       {
         signal: controller.signal,
       },
@@ -689,7 +690,7 @@ export async function deleteAgent(agentId, setIsError) {
 
   try {
     const response = await axios.delete(
-      `https://anvaya-crm-backend-delta.vercel.app/agents/delete/${agentId}`,
+      `${url}/agents/delete/${agentId}`,
       {
         signal: controller.signal,
       },

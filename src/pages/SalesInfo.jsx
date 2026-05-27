@@ -66,7 +66,9 @@ export default function SalesInfo() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -82,7 +84,9 @@ export default function SalesInfo() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -97,7 +101,9 @@ export default function SalesInfo() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -151,7 +157,9 @@ export default function SalesInfo() {
         setIsError,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -167,7 +175,9 @@ export default function SalesInfo() {
       })
       await getAllAgentsData(setSalesAgents, setIsError)
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     } finally {
       setLoading(false)

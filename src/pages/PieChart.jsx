@@ -83,7 +83,9 @@ export default function ReportPage() {
         lostLeads: lostLeads.length,
       })
     } catch (error) {
-      console.error(error)
+      if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+        console.error(error)
+      }
       setIsError(error.message)
     }
   }
@@ -95,7 +97,9 @@ export default function ReportPage() {
 
         await getNumberOfLeadsClosedAndInPipeline(30)
       } catch (error) {
-        console.error(error)
+        if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
+          console.error(error)
+        }
         setIsError(error.message)
       } finally {
         setLoading(false)
