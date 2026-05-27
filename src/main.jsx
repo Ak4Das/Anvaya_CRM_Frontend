@@ -22,6 +22,8 @@ import EditAgent from "./pages/EditAgent.jsx"
 import BarChart from "./pages/BarChart.jsx"
 import PieChart from "./pages/PieChart.jsx"
 import LineChart from "./pages/LineChart.jsx"
+import MyCalender from "./pages/Calender.jsx"
+import AddEvent from "./pages/AddEvent.jsx"
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -40,6 +42,8 @@ const router = createBrowserRouter([
   { path: "/barChart", element: <BarChart /> },
   { path: "/pieChart", element: <PieChart /> },
   { path: "/lineChart", element: <LineChart /> },
+  { path: "/calendar", element: <MyCalender /> },
+  { path: "/addEvent", element: <AddEvent /> },
 ])
 
 createRoot(document.getElementById("root")).render(
