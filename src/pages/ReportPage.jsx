@@ -215,24 +215,30 @@ export default function ReportPage() {
       <main className={`content`}>
         <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
         <section className="main_section">
-          <div className={`${styles.heading_container}`}>
-            <div className={`${styles.heading}`}>
+          <div
+            className={`${styles.heading_container} mb-3 mb-sm-0 flex-column flex-sm-row`}
+          >
+            <div
+              className={`${styles.heading} align-self-start align-self-sm-auto`}
+            >
               <h2 className={`${styles.text1}`}>Reports</h2>
               <h5 className={`${styles.text2}`}>
                 Reports Of The Agents Performance
               </h5>
             </div>
-          </div>
-          <div className={`d-flex justify-content-end`}>
-            <Select
-              options={reportOptions}
-              styles={customStylesForReportPage}
-              placeholder="Choose a option"
-              classNamePrefix="custom-select"
-              name="source"
-              id="source"
-              onChange={(selected) => setOption(selected.value)}
-            />
+            <div
+              className={`d-flex justify-content-end align-self-end align-self-sm-auto`}
+            >
+              <Select
+                options={reportOptions}
+                styles={customStylesForReportPage}
+                placeholder="Choose a option"
+                classNamePrefix="custom-select"
+                name="source"
+                id="source"
+                onChange={(selected) => setOption(selected.value)}
+              />
+            </div>
           </div>
           <section
             className={`d-flex flex-column gap-4 ${styles.charts_container}`}
