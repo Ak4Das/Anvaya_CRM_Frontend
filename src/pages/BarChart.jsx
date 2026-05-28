@@ -9,7 +9,7 @@ import {
   thirtyDaysAgentsPerformanceReportBarChart,
 } from "../service/chart.js"
 import {
-  getAllAgentsData,
+  filterAgentsByProperties,
   getLeadDataByPropertyInATimeRange,
   getLeadsDataInATimeRange,
 } from "../service/requestToServer.js"
@@ -43,7 +43,8 @@ export default function BarChart() {
       try {
         setLoading(true)
 
-        await getAllAgentsData(setSalesAgent, setIsError)
+        const filterString = JSON.stringify({ isInTeam: true })
+        await filterAgentsByProperties(filterString, setSalesAgent, setIsError)
       } catch (error) {
         throw error
       }
@@ -78,7 +79,12 @@ export default function BarChart() {
 
   async function getLeadsClosedBySalesAgents(endDay) {
     try {
-      const agents = await getAllAgentsData(undefined, setIsError)
+      const filterString = JSON.stringify({ isInTeam: true })
+      const agents = await filterAgentsByProperties(
+        filterString,
+        undefined,
+        setIsError,
+      )
       const data = await Promise.all(
         agents.map(async (agent) => {
           try {

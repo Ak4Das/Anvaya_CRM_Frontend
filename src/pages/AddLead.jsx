@@ -16,7 +16,10 @@ import {
 import { customStyles } from "../service/reactSelectCustomStyles.js"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { createLead, getAllAgentsData } from "../service/requestToServer.js"
+import {
+  createLead,
+  filterAgentsByProperties,
+} from "../service/requestToServer.js"
 import { getCurrentDate } from "../service/functions.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
 import { useLocation } from "react-router-dom"
@@ -45,7 +48,8 @@ export default function AddLead() {
   }, [])
 
   useEffect(() => {
-    getAllAgentsData(setSalesAgents, setIsError)
+    const filterString = JSON.stringify({ isInTeam: true })
+    filterAgentsByProperties(filterString, setSalesAgents, setIsError)
   }, [])
 
   useEffect(() => {

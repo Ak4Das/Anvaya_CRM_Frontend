@@ -5,7 +5,7 @@ import CompressedSideBar from "../components/CompressedSideBar.jsx"
 import { useLocation } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import {
-  getAllAgentsData,
+  filterAgentsByProperties,
   getLeadsDataInATimeRange,
 } from "../service/requestToServer.js"
 import { getScoreOfAgent } from "../service/functions.js"
@@ -36,7 +36,8 @@ export default function LineChart() {
       try {
         setLoading(true)
 
-        await getAllAgentsData(setSalesAgent, setIsError)
+        const filterString = JSON.stringify({ isInTeam: true })
+        await filterAgentsByProperties(filterString, setSalesAgent, setIsError)
       } catch (error) {
         if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
           console.error(error)

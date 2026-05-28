@@ -14,7 +14,6 @@ import {
 } from "../service/functions.js"
 import {
   filterAgentsByProperties,
-  getAllAgentsData,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
 import { teamContactFilterOptions } from "../service/reactSelectOptions.js"
@@ -125,7 +124,8 @@ export default function TeamContactInfo() {
     try {
       setLoading(true)
 
-      await getAllAgentsData(setSalesAgents, setIsError)
+      const filterString = JSON.stringify({ isInTeam: true })
+      await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(error)

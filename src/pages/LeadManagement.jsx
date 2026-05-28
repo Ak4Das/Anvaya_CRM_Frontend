@@ -13,9 +13,9 @@ import Select from "react-select"
 import { toast } from "react-toastify"
 import {
   filterLeadsByProperties,
-  getAllAgentsData,
   postAgentComment,
   getAgentCommentsOnALead,
+  filterAgentsByProperties,
 } from "../service/requestToServer.js"
 import {
   getDateFromIsoString,
@@ -51,7 +51,8 @@ export default function LeadManagement() {
       try {
         const filtersString = JSON.stringify({ _id: id })
         await filterLeadsByProperties(filtersString, setLead, setIsError)
-        await getAllAgentsData(setSalesAgents, setIsError)
+        const filterString = JSON.stringify({ isInTeam: true })
+        await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
         await getAgentCommentsOnALead({
           leadId: id,
           setFunction: setComments,

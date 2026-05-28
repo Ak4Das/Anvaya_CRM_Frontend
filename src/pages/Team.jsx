@@ -15,7 +15,6 @@ import {
 } from "../service/functions.js"
 import {
   getIdByManagerName,
-  getAllAgentsData,
   getAllManagersData,
   filterAgentsByProperties,
   findOverallPerformanceScoreOfAgent,
@@ -166,7 +165,8 @@ export default function Team() {
       setLoading(true)
 
       await getAllManagersData(setManagers, setIsError)
-      await getAllAgentsData(setSalesAgents, setIsError)
+      const filterString = JSON.stringify({ isInTeam: true })
+      await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(error)

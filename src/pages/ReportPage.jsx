@@ -2,7 +2,7 @@ import styles from "../style_modules/page_modules/Report.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import {
-  getAllAgentsData,
+  filterAgentsByProperties,
   getLeadDataByPropertyInATimeRange,
   getLeadsWithDifferentStatusInATimeRange,
 } from "../service/requestToServer.js"
@@ -97,7 +97,12 @@ export default function ReportPage() {
 
   async function getLeadsClosedBySalesAgents(endDay) {
     try {
-      const agents = await getAllAgentsData(undefined, setIsError)
+      const filterString = JSON.stringify({ isInTeam: true })
+      const agents = await filterAgentsByProperties(
+        filterString,
+        undefined,
+        setIsError,
+      )
       const data = await Promise.all(
         agents.map(async (agent) => {
           try {

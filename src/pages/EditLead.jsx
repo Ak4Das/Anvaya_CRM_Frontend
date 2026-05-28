@@ -20,7 +20,7 @@ import { useLocation, useParams } from "react-router-dom"
 import {
   filterLeadsByProperties,
   updateLeadById,
-  getAllAgentsData,
+  filterAgentsByProperties,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
 import { getCurrentDate } from "../service/functions.js"
@@ -45,7 +45,8 @@ export default function EditLead() {
   useEffect(() => {
     async function fetch() {
       try {
-        await getAllAgentsData(setSalesAgents, setIsError)
+        const filterString = JSON.stringify({ isInTeam: true })
+        await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
         const filtersString = JSON.stringify({ _id: id })
         const response = await filterLeadsByProperties(
           filtersString,
@@ -182,7 +183,10 @@ export default function EditLead() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="source" className={`${formStyles.label} ${formStyles.input_clicked}`}>
+              <label
+                htmlFor="source"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Source
               </label>
               <Select
@@ -244,7 +248,10 @@ export default function EditLead() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="status" className={`${formStyles.label} ${formStyles.input_clicked}`}>
+              <label
+                htmlFor="status"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Status
               </label>
               <Select
@@ -273,7 +280,10 @@ export default function EditLead() {
               ) : null}
             </div>
             <div className={`${formStyles.input_wrapper}`}>
-              <label htmlFor="tags" className={`${formStyles.label} ${formStyles.input_clicked}`}>
+              <label
+                htmlFor="tags"
+                className={`${formStyles.label} ${formStyles.input_clicked}`}
+              >
                 Tags
               </label>
               <Select

@@ -17,7 +17,6 @@ import {
 
 import {
   filterAgentsByProperties,
-  getAllAgentsData,
   getSalesDataInATimeRange,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
@@ -173,7 +172,8 @@ export default function SalesInfo() {
         endDay: 30,
         setIsError,
       })
-      await getAllAgentsData(setSalesAgents, setIsError)
+      const filterString = JSON.stringify({ isInTeam: true })
+      await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(error)

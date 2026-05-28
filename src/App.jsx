@@ -18,8 +18,8 @@ import {
 } from "./service/functions.js"
 import {
   getLeadDataByPropertyInATimeRange,
-  getAllAgentsData,
   getLeadsDataInATimeRange,
+  filterAgentsByProperties,
 } from "./service/requestToServer.js"
 import CompressedSideBar from "./components/CompressedSideBar.jsx"
 import { useLocation } from "react-router-dom"
@@ -168,7 +168,8 @@ function App() {
         setClosedLeadsData,
         setIsError,
       )
-      await getAllAgentsData(setSalesAgent, setIsError)
+      const filterString = JSON.stringify({ isInTeam: true })
+      await filterAgentsByProperties(filterString, setSalesAgent, setIsError)
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(error)

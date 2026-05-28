@@ -2,7 +2,6 @@ import styles from "../style_modules/page_modules/Report.module.css"
 import SideBar from "../components/SideBar.jsx"
 import NavBar from "../components/NavBar.jsx"
 import {
-  getAllAgentsData,
   getLeadDataByPropertyInATimeRange,
   getLeadsWithDifferentStatusInATimeRange,
 } from "../service/requestToServer.js"
