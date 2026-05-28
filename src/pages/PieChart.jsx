@@ -149,82 +149,77 @@ export default function ReportPage() {
 
   return (
     <>
-      {loading ? (
-        <div
-          className="d-flex flex-column align-items-center justify-content-center gap-3 bg-dark-subtle text-dark fw-bold fs-1"
-          style={{ width: "100vw", height: "100vh" }}
-        >
-          Loading
+      <div className={`app ${styles.app}`}>
+        <div className={`${styles.sidebar_container_1}`}>
+          {!closeMenu ? (
+            <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
+          ) : (
+            <CompressedSideBar
+              closeMenu={closeMenu}
+              setCloseMenu={setCloseMenu}
+            />
+          )}
         </div>
-      ) : (
-        <div className={`app ${styles.app}`}>
-          <div className={`${styles.sidebar_container_1}`}>
-            {!closeMenu ? (
-              <SideBar closeMenu={closeMenu} setCloseMenu={setCloseMenu} />
-            ) : (
-              <CompressedSideBar
-                closeMenu={closeMenu}
-                setCloseMenu={setCloseMenu}
-              />
-            )}
-          </div>
-          <div className={`${styles.sidebar_container_2}`}>
-            {isMenuBtnClicked && (
-              <SideBar
-                closeMenu={closeMenu}
-                setCloseMenu={setCloseMenu}
-                setIsMenuBtnClicked={setIsMenuBtnClicked}
-              />
-            )}
-          </div>
-          <button
-            className={`${styles.menu_button}`}
-            title="Menu"
-            onClick={() => setIsMenuBtnClicked(true)}
-          >
-            <i className="bi bi-list"></i>
-          </button>
-          <main className={`content`}>
-            <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
-            <section className="main_section">
-              <div className={`${styles.heading_container}`}>
-                <div className={`${styles.heading}`}>
-                  <h2 className={`${styles.text1}`}>Pie Charts</h2>
-                  <h5 className={`${styles.text2}`}>
-                    30 days Data Visualization
-                  </h5>
-                </div>
+        <div className={`${styles.sidebar_container_2}`}>
+          {isMenuBtnClicked && (
+            <SideBar
+              closeMenu={closeMenu}
+              setCloseMenu={setCloseMenu}
+              setIsMenuBtnClicked={setIsMenuBtnClicked}
+            />
+          )}
+        </div>
+        <button
+          className={`${styles.menu_button}`}
+          title="Menu"
+          onClick={() => setIsMenuBtnClicked(true)}
+        >
+          <i className="bi bi-list"></i>
+        </button>
+        <main className={`content`}>
+          <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
+          <section className="main_section">
+            <div className={`${styles.heading_container}`}>
+              <div className={`${styles.heading}`}>
+                <h2 className={`${styles.text1}`}>Pie Charts</h2>
+                <h5 className={`${styles.text2}`}>
+                  30 days Data Visualization
+                </h5>
               </div>
-              <section
-                className={`d-flex flex-column gap-4 ${styles.charts_container}`}
-              >
-                <div className="row row-gap-4">
-                  <div className={`col-xl-12 col-xxl-6 ${styles.first_box}`}>
-                    <div className={`card ${styles.card}`}>
+            </div>
+            <section
+              className={`d-flex flex-column gap-4 ${styles.charts_container}`}
+            >
+              <div className="row row-gap-4">
+                <div className={`col-xl-12 col-xxl-6 ${styles.first_box}`}>
+                  <div className={`card ${styles.card}`}>
+                    {loading || (
                       <div className="card-body">
                         <canvas
                           id="leadsClosedAndInPipeline"
                           ref={leadsClosedAndInPipelinePieChartRef}
                         ></canvas>
                       </div>
-                    </div>
+                    )}
                   </div>
-                  <div className={`col-xl-12 col-xxl-6 ${styles.second_box}`}>
-                    <div className={`card ${styles.card}`}>
+                </div>
+                <div className={`col-xl-12 col-xxl-6 ${styles.second_box}`}>
+                  <div className={`card ${styles.card}`}>
+                    {loading || (
                       <div className="card-body">
                         <canvas
                           id="leadStatusDistribution"
                           ref={leadStatusDistributionPieChartRef}
                         ></canvas>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
-              </section>
+              </div>
             </section>
-          </main>
-        </div>
-      )}
+          </section>
+        </main>
+      </div>
     </>
   )
 }
