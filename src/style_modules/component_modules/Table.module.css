@@ -159,3 +159,8 @@
     width: 260px;
   }
 }
+@media (max-width: 350px) {
+  .filter {
+    left:0px
+  }
+}

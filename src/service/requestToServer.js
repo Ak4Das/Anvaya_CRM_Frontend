@@ -747,37 +747,3 @@ export async function getLeadsWithDifferentStatusInATimeRange(endDay) {
     lostLeads,
   }
 }
-
-export async function deleteAgent(agentId, setIsError) {
-  const controller = new AbortController()
-
-  const timerId = setTimeout(() => {
-    controller.abort()
-  }, 10000)
-
-  try {
-    const response = await axios.delete(
-      `${url}/agents/delete/${agentId}`,
-      {
-        signal: controller.signal,
-      },
-    )
-
-    clearTimeout(timerId)
-
-    return response.data
-  } catch (error) {
-    clearTimeout(timerId)
-
-    if (error.name === "CanceledError") {
-      setIsError && setIsError("Request timeout")
-      return
-    }
-
-    if (error.response) {
-      throw new Error("Request failed")
-    }
-
-    throw error
-  }
-}

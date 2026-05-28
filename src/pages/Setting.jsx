@@ -15,12 +15,11 @@ import {
 } from "../service/functions.js"
 import {
   getIdByManagerName,
-  getAllAgentsData,
   getAllManagersData,
   filterAgentsByProperties,
   findOverallPerformanceScoreOfAgent,
   getOverallPerformanceScores,
-  deleteAgent,
+  updateAgentById,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
 import { teamFilterOptions } from "../service/reactSelectOptions.js"
@@ -167,7 +166,8 @@ export default function Settings() {
   useEffect(() => {
     async function fetch() {
       try {
-        await getAllAgentsData(setSalesAgents, setIsError)
+        const filterString = JSON.stringify({ isInTeam: true })
+        await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
         await getAllManagersData(setManagers, setIsError)
       } catch (error) {
         if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
@@ -189,6 +189,15 @@ export default function Settings() {
       addManagerNameInAgentsData(salesAgents)
     }
   }, [managers, salesAgents])
+
+  async function removeAgent(e) {
+    const id = e.target.value
+    const body = { isInTeam: false }
+    await updateAgentById({ id, body, setIsError })
+    const filterString = JSON.stringify({ isInTeam: true })
+    await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
+    toast("Agent Removed Successfully👍")
+  }
 
   return (
     <div>
@@ -222,94 +231,106 @@ export default function Settings() {
         <main className={`content`}>
           <NavBar setIsMenuBtnClicked={setIsMenuBtnClicked} />
           <section className={`main_section`}>
-            <div className={`${styles.heading_container}`}>
-              <div className={`${styles.heading}`}>
+            <div
+              className={`${styles.heading_container} mb-3 mb-sm-0 flex-column flex-sm-row`}
+            >
+              <div
+                className={`${styles.heading} align-self-start align-self-sm-auto`}
+              >
                 <h2 className={`${styles.text1}`}>Settings</h2>
                 <h5 className={`${styles.text2}`}>Remove Agent</h5>
               </div>
-              <div className="d-flex gap-3">
-                {sortApplied && (
-                  <div
-                    className={`btn btn-outline-danger ${styles.unsort_btn_1}`}
-                    onClick={unsortAgentsData}
-                  >
-                    Unsort
-                  </div>
-                )}
-                {Object.keys(properties).length !== 0 && (
-                  <button
-                    className={`btn btn-outline-danger ${styles.clear_filter_btn_1}`}
-                    onClick={clearAllFilters}
-                  >
-                    Clear All Filters
-                  </button>
-                )}
-              </div>
-            </div>
-            <div
-              className={`d-flex text-align-center justify-content-end position-relative ${styles.select}`}
-            >
-              <Select
-                options={teamFilterOptions}
-                styles={customStylesForReportPage}
-                placeholder="Filter options"
-                classNamePrefix="custom-select"
-                name="source"
-                id="source"
-                onChange={(selected) => setSelectedFilterOption(selected.value)}
-              />
-              <div
-                className="filter_dropdown_menu_container"
-                onClick={() => setSelectedFilterOption("")}
-              >
-                {selectedFilterOption && (
-                  <div
-                    className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
-                  >
+              <div className="d-flex gap-sm-3 align-self-end align-self-sm-auto align-items-sm-center">
+                <div className="d-flex gap-3 align-self-end mb-1">
+                  {sortApplied && (
                     <div
-                      className={`btn ${tableStyles.button}`}
-                      onClick={() => {
-                        sortAgentsDataInAscOrderByProp(selectedFilterOption)
-                        applySort(true)
-                      }}
+                      className={`btn btn-outline-danger ${styles.unsort_btn_1}`}
+                      onClick={unsortAgentsData}
                     >
-                      Sort by ASC
+                      Unsort
                     </div>
-                    <div
-                      className={`btn ${tableStyles.button}`}
-                      onClick={() => {
-                        sortAgentsDataInDescOrderByProp(selectedFilterOption)
-                        applySort(true)
-                      }}
+                  )}
+                  {Object.keys(properties).length !== 0 && (
+                    <button
+                      className={`btn btn-outline-danger ${styles.clear_filter_btn_1}`}
+                      onClick={clearAllFilters}
                     >
-                      Sort by DESC
-                    </div>
-                    {selectedFilterOption !== "agentCode" &&
-                    selectedFilterOption !== "performanceScore" ? (
+                      Clear All Filters
+                    </button>
+                  )}
+                </div>
+                <div
+                  className={`d-flex text-align-center justify-content-end position-relative align-self-end align-self-sm-auto ${styles.select}`}
+                >
+                  <Select
+                    options={teamFilterOptions}
+                    styles={customStylesForReportPage}
+                    placeholder="Filter options"
+                    classNamePrefix="custom-select"
+                    name="source"
+                    id="source"
+                    onChange={(selected) =>
+                      setSelectedFilterOption(selected.value)
+                    }
+                  />
+                  <div
+                    className="filter_dropdown_menu_container"
+                    onClick={() => setSelectedFilterOption("")}
+                  >
+                    {selectedFilterOption && (
                       <div
-                        className={`btn ${tableStyles.button}`}
-                        onClick={() => setOpenFilterInput(selectedFilterOption)}
+                        className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
                       >
-                        Filter
+                        <div
+                          className={`btn ${tableStyles.button}`}
+                          onClick={() => {
+                            sortAgentsDataInAscOrderByProp(selectedFilterOption)
+                            applySort(true)
+                          }}
+                        >
+                          Sort by ASC
+                        </div>
+                        <div
+                          className={`btn ${tableStyles.button}`}
+                          onClick={() => {
+                            sortAgentsDataInDescOrderByProp(
+                              selectedFilterOption,
+                            )
+                            applySort(true)
+                          }}
+                        >
+                          Sort by DESC
+                        </div>
+                        {selectedFilterOption !== "agentCode" &&
+                        selectedFilterOption !== "performanceScore" ? (
+                          <div
+                            className={`btn ${tableStyles.button}`}
+                            onClick={() =>
+                              setOpenFilterInput(selectedFilterOption)
+                            }
+                          >
+                            Filter
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                        {selectedFilterOption !== "agentCode" &&
+                        selectedFilterOption !== "performanceScore" ? (
+                          <div
+                            className={`btn text-danger ${tableStyles.button}`}
+                            onClick={() =>
+                              removePropertyFilter(selectedFilterOption)
+                            }
+                          >
+                            Remove Filter
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
-                    ) : (
-                      ""
-                    )}
-                    {selectedFilterOption !== "agentCode" &&
-                    selectedFilterOption !== "performanceScore" ? (
-                      <div
-                        className={`btn text-danger ${tableStyles.button}`}
-                        onClick={() =>
-                          removePropertyFilter(selectedFilterOption)
-                        }
-                      >
-                        Remove Filter
-                      </div>
-                    ) : (
-                      ""
                     )}
                   </div>
-                )}
+                </div>
               </div>
             </div>
             {salesAgents.length === 0 ? (
@@ -871,11 +892,8 @@ export default function Settings() {
                               <td>
                                 <button
                                   className="btn btn-outline-danger btn-sm"
-                                  onClick={async () => {
-                                    // await deleteAgent(agent._id,setIsError)
-                                    // await getAllAgentsData(setSalesAgents,setIsError)
-                                    toast("Agent Removed Successfully👍")
-                                  }}
+                                  value={agent._id}
+                                  onClick={removeAgent}
                                 >
                                   Remove
                                 </button>
@@ -973,11 +991,8 @@ export default function Settings() {
                                     <p className="mb-0 p-2">
                                       <button
                                         className="btn btn-danger btn-sm"
-                                        onClick={async () => {
-                                          // await deleteAgent(agent._id,setIsError)
-                                          // await getAllAgentsData(setSalesAgents,setIsError)
-                                          toast("Agent Removed Successfully👍")
-                                        }}
+                                        value={agent._id}
+                                        onClick={removeAgent}
                                       >
                                         Remove
                                       </button>
