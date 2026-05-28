@@ -355,97 +355,105 @@ export default function SalesAgent() {
             </div>
           </section>
           <section className={`${styles.child_section_three}`}>
-            <div className={`${styles.heading_container}`}>
-              <div className={`${styles.heading}`}>
+            <div
+              className={`${styles.heading_container} mb-3 flex-column flex-sm-row`}
+            >
+              <div
+                className={`${styles.heading} align-self-start align-self-sm-auto`}
+              >
                 <h6 style={{ color: "#44C9BD" }}>
                   Leads Handle By Agent In Between 30 days
                 </h6>
               </div>
-              <div className="d-flex gap-3">
-                {sortApplied && (
-                  <div
-                    className="btn btn-outline-danger"
-                    onClick={unsortLeadsData}
-                  >
-                    Unsort
-                  </div>
-                )}
-                {Object.keys(properties).length !== 0 && (
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={clearAllFilters}
-                  >
-                    Clear All Filters
-                  </button>
-                )}
-              </div>
-            </div>
-            <div
-              className={`d-flex text-align-center justify-content-end position-relative ${styles.select}`}
-            >
-              <Select
-                options={leadsHandledBySalesAgentFilterOptions}
-                styles={customStylesForReportPage}
-                placeholder="Filter options"
-                classNamePrefix="custom-select"
-                name="source"
-                id="source"
-                onChange={(selected) => {
-                  setSelectedFilterOption(selected.value)
-                  setOpenFilterDropdownMenu(true)
-                }}
-                onMenuOpen={() => setOpenFilterDropdownMenu(false)}
-              />
-              <div
-                className="filter_dropdown_menu_container"
-                onClick={() => setSelectedFilterOption("")}
-              >
-                {selectedFilterOption && openFilterDropdownMenu && (
-                  <div
-                    className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
-                  >
+              <div className="d-flex gap-sm-3 align-self-end align-self-sm-auto align-items-sm-center">
+                <div className="d-flex gap-3 align-self-end mb-1">
+                  {sortApplied && (
                     <div
-                      className={`btn ${tableStyles.button}`}
-                      onClick={() => {
-                        sortLeadsDataInAscOrderByProp(selectedFilterOption)
-                        applySort(true)
-                      }}
+                      className={`btn btn-outline-danger ${styles.unsort_btn_1}`}
+                      onClick={unsortLeadsData}
                     >
-                      Sort by ASC
+                      Unsort
                     </div>
-                    <div
-                      className={`btn ${tableStyles.button}`}
-                      onClick={() => {
-                        sortLeadsDataInDescOrderByProp(selectedFilterOption)
-                        applySort(true)
-                      }}
+                  )}
+                  {Object.keys(properties).length !== 0 && (
+                    <button
+                      className={`btn btn-outline-danger ${styles.clear_filter_btn_1}`}
+                      onClick={clearAllFilters}
                     >
-                      Sort by DESC
-                    </div>
-                    {selectedFilterOption !== "leadCode" ? (
+                      Clear All Filters
+                    </button>
+                  )}
+                </div>
+                <div
+                  className={`d-flex text-align-center justify-content-end position-relative align-self-end align-self-sm-auto ${styles.select}`}
+                >
+                  <Select
+                    options={leadsHandledBySalesAgentFilterOptions}
+                    styles={customStylesForReportPage}
+                    placeholder="Filter options"
+                    classNamePrefix="custom-select"
+                    name="source"
+                    id="source"
+                    onChange={(selected) => {
+                      setSelectedFilterOption(selected.value)
+                      setOpenFilterDropdownMenu(true)
+                    }}
+                    onMenuOpen={() => setOpenFilterDropdownMenu(false)}
+                  />
+                  <div
+                    className="filter_dropdown_menu_container"
+                    onClick={() => setSelectedFilterOption("")}
+                  >
+                    {selectedFilterOption && openFilterDropdownMenu && (
                       <div
-                        className={`btn ${tableStyles.button}`}
-                        onClick={() => setOpenFilterInput(selectedFilterOption)}
+                        className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
                       >
-                        Filter
+                        <div
+                          className={`btn ${tableStyles.button}`}
+                          onClick={() => {
+                            sortLeadsDataInAscOrderByProp(selectedFilterOption)
+                            applySort(true)
+                          }}
+                        >
+                          Sort by ASC
+                        </div>
+                        <div
+                          className={`btn ${tableStyles.button}`}
+                          onClick={() => {
+                            sortLeadsDataInDescOrderByProp(selectedFilterOption)
+                            applySort(true)
+                          }}
+                        >
+                          Sort by DESC
+                        </div>
+                        {selectedFilterOption !== "leadCode" ? (
+                          <div
+                            className={`btn ${tableStyles.button}`}
+                            onClick={() =>
+                              setOpenFilterInput(selectedFilterOption)
+                            }
+                          >
+                            Filter
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                        {selectedFilterOption !== "leadCode" ? (
+                          <div
+                            className={`btn text-danger ${tableStyles.button}`}
+                            onClick={() =>
+                              removePropertyFilter(selectedFilterOption)
+                            }
+                          >
+                            Remove Filter
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
-                    ) : (
-                      ""
-                    )}
-                    {selectedFilterOption !== "leadCode" ? (
-                      <div
-                        className={`btn text-danger ${tableStyles.button}`}
-                        onClick={() =>
-                          removePropertyFilter(selectedFilterOption)
-                        }
-                      >
-                        Remove Filter
-                      </div>
-                    ) : (
-                      ""
                     )}
                   </div>
-                )}
+                </div>
               </div>
             </div>
             {updatedLeadsData.length === 0 ? (
@@ -944,7 +952,26 @@ export default function SalesAgent() {
                     </tbody>
                   </table>
                   <div className={`${styles.card_wrapper}`}>
-                    <div className={`${styles.head}`}></div>
+                    <div
+                      className={`d-flex align-items-center px-2 justify-content-end gap-3 ${styles.head}`}
+                    >
+                      {sortApplied && (
+                        <div
+                          className="btn btn-outline-danger"
+                          onClick={unsortLeadsData}
+                        >
+                          Unsort
+                        </div>
+                      )}
+                      {Object.keys(properties).length !== 0 && (
+                        <button
+                          className="btn btn-outline-danger"
+                          onClick={clearAllFilters}
+                        >
+                          Clear All Filters
+                        </button>
+                      )}
+                    </div>
                     <div className={`${styles.card_container}`}>
                       <div className="row">
                         {updatedLeadsData &&

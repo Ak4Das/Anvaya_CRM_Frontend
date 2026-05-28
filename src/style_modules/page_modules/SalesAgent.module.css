@@ -111,7 +111,13 @@
   }
 }
 @media (max-width: 1599px) {
+  .unsort_btn_1 {
+    display: none;
+  }
   .table {
+    display: none;
+  }
+  .clear_filter_btn_1 {
     display: none;
   }
 }
@@ -129,9 +135,6 @@
   }
 }
 @media (max-width: 575px) {
-  .heading {
-    display: none;
-  }
   .heading_container {
     justify-content: flex-end;
   }
