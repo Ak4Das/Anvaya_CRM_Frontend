@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom"
 import { useFormik } from "formik"
 import { addEventSchema } from "../schema/AddEvent.schema.js"
 import { toast } from "react-toastify"
+import { createEvent } from "../service/requestToServer.js"
 
 export default function AddEvent() {
   const [closeMenu, setCloseMenu] = useState(false)
@@ -67,9 +68,11 @@ export default function AddEvent() {
     onSubmit: async (values, actions) => {
       try {
         const eventObj = createEventObject(values)
-        console.log(eventObj)
+        const response = await createEvent(eventObj, setIsError)
         actions.resetForm()
-        toast("Event Added successfully👍")
+        if (response && Object.keys(response).length) {
+          toast("Event Added successfully👍")
+        }
       } catch (error) {
         if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
           console.error(error)

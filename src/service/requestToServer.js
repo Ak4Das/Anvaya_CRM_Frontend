@@ -499,6 +499,41 @@ export async function createLead(body, setIsError) {
   }
 }
 
+export async function createEvent(body, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
+  try {
+    const response = await axios.post(
+      `${url}/event/addEvent`,
+      body,
+      {
+        signal: controller.signal,
+      },
+    )
+
+    clearTimeout(timerId)
+
+    return response.data
+  } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
+    throw error
+  }
+}
+
 export async function updateLeadById(obj) {
   const { id, body, setIsError } = obj
 
