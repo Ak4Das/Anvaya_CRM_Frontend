@@ -43,8 +43,13 @@
 
 .add_btn_form_wrapper {
   padding: 50px;
-  background-color: #1F2A40;
+  background-color: #1f2a40;
   border-radius: 10px;
+}
+
+.show_validation_error {
+  font-size: 12px;
+  position: absolute;
 }
 
 @media (min-width: 1200px) {
