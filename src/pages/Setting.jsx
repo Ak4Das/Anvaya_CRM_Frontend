@@ -12,6 +12,7 @@ import {
   sortDataInAscendingOrderByProperty,
   sortDataInDescendingOrderByProperty,
   unsortData,
+  leadsHandleByAgentAccordingToStatus,
 } from "../service/functions.js"
 import {
   getIdByManagerName,
@@ -20,6 +21,8 @@ import {
   findOverallPerformanceScoreOfAgent,
   getOverallPerformanceScores,
   updateAgentById,
+  getLeadsDataInATimeRange,
+  updateLeadById,
 } from "../service/requestToServer.js"
 import CompressedSideBar from "../components/CompressedSideBar.jsx"
 import { teamFilterOptions } from "../service/reactSelectOptions.js"
@@ -191,9 +194,52 @@ export default function Settings() {
   }, [managers, salesAgents])
 
   async function removeAgent(e) {
-    const id = e.target.value
+    const agentId = e.target.value
+    // const leadsData = await getLeadsDataInATimeRange({ endDay: 30, setIsError })
+    // const leadsHandleByAgent = leadsHandleByAgentAccordingToStatus({
+    //   leadsData,
+    //   agentId,
+    // })
+    // const filteredAgents = salesAgents.filter((agent) => agent._id !== agentId)
+    // const filteredAgentsIds = filteredAgents.map((agent) => agent._id)
+    // await Promise.all(
+    //   leadsHandleByAgent.newLeads.map((lead) => {
+    //     lead.salesAgent =
+    //       filteredAgentsIds[
+    //         Math.floor(Math.random() * filteredAgentsIds.length)
+    //       ]
+    //     return updateLeadById({ id: lead._id, body: lead, setIsError })
+    //   }),
+    // )
+    // await Promise.all(
+    //   leadsHandleByAgent.contactedLeads.map((lead) => {
+    //     lead.salesAgent =
+    //       filteredAgentsIds[
+    //         Math.floor(Math.random() * filteredAgentsIds.length)
+    //       ]
+    //     return updateLeadById({ id: lead._id, body: lead, setIsError })
+    //   }),
+    // )
+    // await Promise.all(
+    //   leadsHandleByAgent.qualifiedLeads.map((lead) => {
+    //     lead.salesAgent =
+    //       filteredAgentsIds[
+    //         Math.floor(Math.random() * filteredAgentsIds.length)
+    //       ]
+    //     return updateLeadById({ id: lead._id, body: lead, setIsError })
+    //   }),
+    // )
+    // await Promise.all(
+    //   leadsHandleByAgent.proposalSentLeads.map((lead) => {
+    //     lead.salesAgent =
+    //       filteredAgentsIds[
+    //         Math.floor(Math.random() * filteredAgentsIds.length)
+    //       ]
+    //     return updateLeadById({ id: lead._id, body: lead, setIsError })
+    //   }),
+    // )
     const body = { isInTeam: false }
-    await updateAgentById({ id, body, setIsError })
+    await updateAgentById({ id: agentId, body, setIsError })
     const filterString = JSON.stringify({ isInTeam: true })
     await filterAgentsByProperties(filterString, setSalesAgents, setIsError)
     toast("Agent Removed Successfully👍")
