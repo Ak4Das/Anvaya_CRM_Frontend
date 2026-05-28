@@ -80,6 +80,38 @@ export async function getAllAgentsData(setSalesAgents, setIsError) {
   }
 }
 
+export async function getAllEvents(setFunction, setIsError) {
+  const controller = new AbortController()
+
+  const timerId = setTimeout(() => {
+    controller.abort()
+  }, 10000)
+
+  try {
+    const response = await axios.get(`${url}/event/`, {
+      signal: controller.signal,
+    })
+
+    clearTimeout(timerId)
+
+    setFunction && setFunction(response.data)
+    return response.data
+  } catch (error) {
+    clearTimeout(timerId)
+
+    if (error.name === "CanceledError") {
+      setIsError && setIsError("Request timeout")
+      return
+    }
+
+    if (error.response) {
+      throw new Error("Request failed")
+    }
+
+    throw error
+  }
+}
+
 export async function getLeadsDataInATimeRange(obj) {
   const { setFunction, endDay, setIsError } = obj
 

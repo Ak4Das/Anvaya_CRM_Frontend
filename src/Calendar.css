@@ -30,7 +30,8 @@
   background-color: crimson !important;
   border-radius: 6px;
   border: none !important;
-  padding: 4px;
+  font-size: 15px;
+  padding: 2px 4px;
 }
 
 .rbc-today {
@@ -42,4 +43,12 @@
   font-weight: bold;
   background-color: rgb(201, 196, 196);
   color: black;
+}
+
+.rbc-timeslot-group {
+  min-height: 70px;
+}
+
+.rbc-event-content {
+  white-space: normal !important;
 }

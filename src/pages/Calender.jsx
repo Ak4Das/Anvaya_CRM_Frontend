@@ -10,15 +10,30 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 import "../Calendar.css"
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
+import { getAllEvents } from "../service/requestToServer.js"
 
 export default function MyCalendar() {
   const [closeMenu, setCloseMenu] = useState(false)
   const [isMenuBtnClicked, setIsMenuBtnClicked] = useState(false)
+  const [isError, setIsError] = useState("")
 
   const { state } = useLocation()
 
   const localizer = momentLocalizer(moment)
   const [events, setEvents] = useState([])
+
+  const formattedEvents = events.map((event) => ({
+    ...event,
+    start: new Date(event.start),
+    end: new Date(event.end),
+  }))
+
+  useEffect(() => {
+    async function fetchData() {
+      await getAllEvents(setEvents, setIsError)
+    }
+    fetchData()
+  }, [])
 
   useEffect(() => {
     if (state !== null) {
@@ -76,7 +91,7 @@ export default function MyCalendar() {
           <div>
             <Calendar
               localizer={localizer}
-              events={events}
+              events={formattedEvents}
               startAccessor="start"
               endAccessor="end"
               style={{ height: "90vh" }}
