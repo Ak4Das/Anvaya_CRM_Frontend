@@ -18,15 +18,15 @@ export default function navBar(prop) {
           <i className="bi bi-list"></i>
         </button>
         <div className={`${styles.nav_items}`}>
-          <button className={`${styles.nav_btn}`}>
+          {/* <button className={`${styles.nav_btn}`}>
             <i className={`bi bi-moon-fill ${styles.icon}`}></i>
-          </button>
-          <button className={`${styles.nav_btn}`}>
+          </button> */}
+          {/* <button className={`${styles.nav_btn}`}>
             <i className={`bi bi-gear ${styles.icon}`}></i>
-          </button>
-          <button className={`${styles.nav_btn}`}>
+          </button> */}
+          {/* <button className={`${styles.nav_btn}`}>
             <i className={`bi bi-person-fill ${styles.icon}`}></i>
-          </button>
+          </button> */}
         </div>
       </div>
     </>
