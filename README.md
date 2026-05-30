@@ -1,7 +1,7 @@
 
-# Anvaya_CRM_Frontend
+# Anvaya_CRM
 
-Anavaya_CRM Frontend is a modern and responsive Customer Relationship Management (CRM) web application built to streamline lead management, sales tracking, and business operations. The project focuses on delivering a smooth user experience with efficient state management, dynamic data visualization, advanced filtering, and scalable frontend architecture.
+Anvaya_CRM Frontend is a modern and responsive Customer Relationship Management (CRM) web application built to streamline lead management, sales tracking, and business operations. The project focuses on delivering a smooth user experience with efficient state management, dynamic data visualization, advanced filtering, and scalable frontend architecture.
 
 Built using modern frontend technologies, the project follows component-based architecture and clean coding practices to ensure scalability and easy maintenance. The frontend communicates seamlessly with backend APIs while handling loading states, request cancellation, retries, and error management efficiently.
 
@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-## Technologies
+## Tech Stack
 #### These are the main technologies used to build the application:
 #### _Frontend_
 - **JavaScript (ES6+)**
@@ -70,63 +70,86 @@ Watch a walkthrough (15 - 16 minutes) of all major features of this app:
 The application includes features such as lead management, sales analytics, chart-based insights, form validation, filtering & sorting, asynchronous data handling, and optimized API communication. It is designed with performance, maintainability, and user experience in mind.
 
 **Dashboard**
-- Displays number of leads are in pipeline with different status
-- Contains Agent overall performance using charts and table
+- Displays the number of leads in the pipeline grouped by status.
+- Displays overall agent performance through charts and tabular reports.
+![Dashboard](./screenshots/Dashboard.png)
 
 **Team Page**
-- Contains list of all team members with their details in table format
+- Displays list of all team members with their details in table format
 - You can sort data in ascending and descending order and filter using search by category
 - This page contains Add New Agent btn 
+![Team](./screenshots/TeamPage.png)
 
 **Team Contact Info Page**
-- Contains contact info of team members in table format
+- Displays contact info of team members in table format
 - You can sort data in ascending and descending order and filter using search by category
+![Dashboard](./screenshots/TeamContact.png)
 
 **Sales Page**
 - Displays sales data with agent id, email, name in table format
 - You can sort data in ascending and descending order and filter using search by category
+![Dashboard](./screenshots/SalesPage.png)
 
 **Lead Page**
-- Contains a list of all leads currently in the pipeline with necessary details in table format
+- Displays a list of all leads currently in the pipeline with necessary details in table format
 - You can sort data in ascending and descending order and filter using search by category
 - This page contains Add New lead btn
+![Dashboard](./screenshots/LeadsPage.png)
 
 **Sales Agent Page**
-- Contains a particular agent related data
+- Displays a particular agent related data
 - Contains leads data handled by the agent in table format
 - You can sort data in ascending and descending order and filter using search by category
 - It contains Edit Agent btn
+![Dashboard](./screenshots/SalesAgentPage1.png)
+![Dashboard](./screenshots/SalesAgentPage2.png)
 
 **Manage lead Page**
-- Contains a particular lead related data
+- Displays a particular lead related data
 - Contains comment section with two subsection previous comment section and add comment section
 - You can add new comment here and see the previous comments also 
 - It contains Edit Lead Details btn
+![Dashboard](./screenshots/LeadManagementPage1.png)
+![Dashboard](./screenshots/LeadManagementPage2.png)
 
 **Add New Agent Form**
 - Here you can add new agent 
 - Form is handled by formik and validate by yup
+![Dashboard](./screenshots/AddNewAgentForm.png)
 
 **Add New Lead Form**
 - Here you can create new lead
 - Form is handled by formik and validate by yup
+![Dashboard](./screenshots/AddNewLeadForm.png)
 
 **Edit Lead Form**
 - Here you can edit existing lead
 - Form is handled by formik and validate by yup
+![Dashboard](./screenshots/EditLeadForm.png)
 
 **Edit Agent Form**
 - Here you can edit existing agent 
 - Form is handled by formik and validate by yup
+![Dashboard](./screenshots/EditAgentForm.png)
 
 **Reports Page**
-- Contains reports of the agents and leads
+- Displays reports of the agents and leads
 - From dropdown you can select time frame to see reports in the selected time frame
+![Dashboard](./screenshots/ReportsPage.png)
 
 **Settings Page**
 - From this page you can delete a particular agent
-- This page Contains list of all team members with their details in table format
+- This page displays list of all team members with their details in table format
 - You can sort data in ascending and descending order and filter using search by category
+![Dashboard](./screenshots/SettingsPage.png)
+
+**Calendar Page**
+- This page displays calendar to show past, present and future events and add event button
+![Dashboard](./screenshots/CalendarPage.png)
+
+**Add Event Page**
+- This page contains add event form 
+![Dashboard](./screenshots/AddEventForm.png)
 
 **Request Optimization**
 - Optimize request with AbortController
