@@ -5,21 +5,30 @@ Anvaya_CRM Frontend is a modern and responsive Customer Relationship Management 
 
 Built using modern frontend technologies, the project follows component-based architecture and clean coding practices to ensure scalability and easy maintenance. The frontend communicates seamlessly with backend APIs while handling loading states, request cancellation, retries, and error management efficiently.
 
----
-
 ## Demo Link
 
 Project deployed **[Live Demo](https://anvaya-crm-frontend-phi.vercel.app/)**
 
----
-
-## Quick Start
+## Frontend Setup
 
 ```
 git clone https://github.com/Ak4Das/Anvaya_CRM_Frontend.git
 cd Anvaya_CRM_Frontend
 npm install
+touch .env
+put 'VITE_MODE = DEVELOPMENT' in your .env file
 npm run dev
+```
+
+## Backend Setup
+
+```
+git clone https://github.com/Ak4Das/Anvaya_CRM_Backend.git
+cd Anvaya_CRM_Backend
+npm install
+touch .env
+put 'MONGODB = <your mongodbUri>' in your .env file
+node index.js
 ```
 
 ## Tech Stack
@@ -56,7 +65,7 @@ Watch a walkthrough (15 - 16 minutes) of all major features of this app:
 
 ## Key Features
 - Responsive and modern UI (Responsive till 350px)
-- Agent, Lead and sales data management
+- Manage agents, leads, and sales data
 - Reports in different time frame like previous 1 month, 6 month and 1 year
 - Dynamic charts and analytics dashboard
 - Advanced filtering and sorting
@@ -83,73 +92,73 @@ The application includes features such as lead management, sales analytics, char
 **Team Contact Info Page**
 - Displays contact info of team members in table format
 - You can sort data in ascending and descending order and filter using search by category
-![Dashboard](./screenshots/TeamContact.png)
+![Team Contact](./screenshots/TeamContact.png)
 
 **Sales Page**
 - Displays sales data with agent id, email, name in table format
 - You can sort data in ascending and descending order and filter using search by category
-![Dashboard](./screenshots/SalesPage.png)
+![Sales](./screenshots/SalesPage.png)
 
 **Lead Page**
 - Displays a list of all leads currently in the pipeline with necessary details in table format
 - You can sort data in ascending and descending order and filter using search by category
 - This page contains Add New lead btn
-![Dashboard](./screenshots/LeadsPage.png)
+![Leads](./screenshots/LeadsPage.png)
 
 **Sales Agent Page**
 - Displays a particular agent related data
 - Contains leads data handled by the agent in table format
 - You can sort data in ascending and descending order and filter using search by category
 - It contains Edit Agent btn
-![Dashboard](./screenshots/SalesAgentPage1.png)
-![Dashboard](./screenshots/SalesAgentPage2.png)
+![Sales Agents](./screenshots/SalesAgentPage1.png)
+![Sales Agents](./screenshots/SalesAgentPage2.png)
 
 **Manage lead Page**
 - Displays a particular lead related data
 - Contains comment section with two subsection previous comment section and add comment section
 - You can add new comment here and see the previous comments also 
 - It contains Edit Lead Details btn
-![Dashboard](./screenshots/LeadManagementPage1.png)
-![Dashboard](./screenshots/LeadManagementPage2.png)
+![Lead Management](./screenshots/LeadManagementPage1.png)
+![Lead Management](./screenshots/LeadManagementPage2.png)
 
 **Add New Agent Form**
 - Here you can add new agent 
 - Form is handled by formik and validate by yup
-![Dashboard](./screenshots/AddNewAgentForm.png)
+![Add Agent Form](./screenshots/AddNewAgentForm.png)
 
 **Add New Lead Form**
 - Here you can create new lead
 - Form is handled by formik and validate by yup
-![Dashboard](./screenshots/AddNewLeadForm.png)
+![Add Lead Form](./screenshots/AddNewLeadForm.png)
 
 **Edit Lead Form**
 - Here you can edit existing lead
 - Form is handled by formik and validate by yup
-![Dashboard](./screenshots/EditLeadForm.png)
+![Edit Lead Form](./screenshots/EditLeadForm.png)
 
 **Edit Agent Form**
 - Here you can edit existing agent 
 - Form is handled by formik and validate by yup
-![Dashboard](./screenshots/EditAgentForm.png)
+![Edit Agent Form](./screenshots/EditAgentForm.png)
 
 **Reports Page**
 - Displays reports of the agents and leads
 - From dropdown you can select time frame to see reports in the selected time frame
-![Dashboard](./screenshots/ReportsPage.png)
+![Reports](./screenshots/ReportsPage.png)
 
 **Settings Page**
 - From this page you can delete a particular agent
 - This page displays list of all team members with their details in table format
 - You can sort data in ascending and descending order and filter using search by category
-![Dashboard](./screenshots/SettingsPage.png)
+![Settings](./screenshots/SettingsPage.png)
 
 **Calendar Page**
 - This page displays calendar to show past, present and future events and add event button
-![Dashboard](./screenshots/CalendarPage.png)
+![Calendar](./screenshots/CalendarPage.png)
 
 **Add Event Page**
 - This page contains add event form 
-![Dashboard](./screenshots/AddEventForm.png)
+![Add Event Form](./screenshots/AddEventForm.png)
 
 **Request Optimization**
 - Optimize request with AbortController
@@ -161,13 +170,36 @@ The application includes features such as lead management, sales analytics, char
 **Code Structure**
 - Clean, Scalable, maintainable and easy to understand code structure
 
-## Performance Optimizations
+**Responsiveness**
+- App is responsive till 350px
+- **Tab view**
+![Tab View](./screenshots/TabView.png)
+- **Mobile view**
+![Mobile View](./screenshots/MobileView.png)
 
-- Request cancellation using AbortController
-- Retry mechanism for failed requests
-- Optimized API handling for slow servers
-- Prevention of unnecessary request stacking
-- Improved user experience during loading/error states
+## Architecture Highlights
+
+- Component-based React architecture
+- Modular API service layer
+- Centralized error handling
+- Feature-based folder structure
+- Component based Style Modules
+- Reusable functions
+- Reusable charts
+- Reusable custom styles
+- Reusable request to server functions
+
+## Engineering Highlights
+
+- **Request cancellation** using AbortController
+- **Retry mechanism** for failed requests
+- **Optimized API handling** for slow servers
+- Prevention of unnecessary **request stacking**
+- **Improved user experience** during loading/error states
+- **Dynamic report** generation
+- Reusable chart components
+- Responsive design down to 350px
+- **Form validation** using Formik and Yup
 
 ## API Reference
 

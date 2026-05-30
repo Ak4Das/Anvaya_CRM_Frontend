@@ -20,7 +20,7 @@ export default function navBar(prop) {
           </h5>
         </div>
         </div>
-        <div className={`${styles.nav_items} mb-2 mb-sm-0 mt-0 mt-sm-2`}>
+        <div className={`${styles.nav_items} mb-2 mb-sm-0`}>
           {/* <button className={`${styles.nav_btn}`}>
             <i className={`bi bi-moon-fill ${styles.icon}`}></i>
           </button> */}
