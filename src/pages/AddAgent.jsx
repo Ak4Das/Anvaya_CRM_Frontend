@@ -78,6 +78,7 @@ export default function AddAgent() {
         values.agentCode = generateAgentId()
         values.joinedDate = getCurrentDate()
         values.phoneNumberNormalized = normalizePhoneNumber(values.phoneNumber)
+        values.isInTeam = true
         const response = await createAgent(values, setIsError)
         if (response && Object.keys(response).length) {
           toast("Agent Created Successfully👍")

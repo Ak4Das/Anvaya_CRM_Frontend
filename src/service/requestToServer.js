@@ -30,8 +30,8 @@ export async function getLeadDataByPropertyInATimeRange(
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
-    return response.data
+    setFunction && setFunction(response.data.respondedData)
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -62,8 +62,8 @@ export async function getAllAgentsData(setSalesAgents, setIsError) {
 
     clearTimeout(timerId)
 
-    setSalesAgents && setSalesAgents(response.data)
-    return response.data
+    setSalesAgents && setSalesAgents(response.data.respondedData)
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -94,8 +94,8 @@ export async function getAllEvents(setFunction, setIsError) {
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
-    return response.data
+    setFunction && setFunction(response.data.respondedData)
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -131,8 +131,8 @@ export async function getLeadsDataInATimeRange(obj) {
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
-    return response.data
+    setFunction && setFunction(response.data.respondedData)
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -170,8 +170,8 @@ export async function filterAgentsByProperties(
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
-    return response.data
+    setFunction && setFunction(response.data.respondedData)
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -209,8 +209,8 @@ export async function filterLeadsByProperties(
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
-    return response.data
+    setFunction && setFunction(response.data.respondedData)
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -244,7 +244,7 @@ export async function getIdByManagerName(name, setIsError) {
 
     clearTimeout(timerId)
 
-    const arrayOfId = response.data.map((agent) => agent._id)
+    const arrayOfId = response.data.respondedData.map((agent) => agent._id)
     return arrayOfId
   } catch (error) {
     clearTimeout(timerId)
@@ -279,7 +279,7 @@ export async function getIdByAgentName(name, setIsError) {
 
     clearTimeout(timerId)
 
-    const arrayOfId = response.data.map((agent) => agent._id)
+    const arrayOfId = response.data.respondedData.map((agent) => agent._id)
     return arrayOfId
   } catch (error) {
     clearTimeout(timerId)
@@ -311,7 +311,7 @@ export async function getAllManagersData(setManagers, setIsError) {
 
     clearTimeout(timerId)
 
-    setManagers && setManagers(response.data)
+    setManagers && setManagers(response.data.respondedData)
   } catch (error) {
     clearTimeout(timerId)
 
@@ -392,14 +392,14 @@ export async function findOverallPerformanceScoreOfAgent(id) {
   )
 
   const denominator =
-    NewLeadsInOneYear.data.length +
-    ContactedLeadsInOneYear.data.length +
-    QualifiedLeadsInOneYear.data.length +
-    ProposalSentLeadsInOneYear.data.length +
-    lostLeadsInOneYear.data.length +
-    closedLeadsInOneYear.data.length
+    NewLeadsInOneYear.data.respondedData.length +
+    ContactedLeadsInOneYear.data.respondedData.length +
+    QualifiedLeadsInOneYear.data.respondedData.length +
+    ProposalSentLeadsInOneYear.data.respondedData.length +
+    lostLeadsInOneYear.data.respondedData.length +
+    closedLeadsInOneYear.data.respondedData.length
 
-  const numerator = closedLeadsInOneYear.data.length
+  const numerator = closedLeadsInOneYear.data.respondedData.length
 
   return (numerator / denominator) * 10
 }
@@ -444,7 +444,7 @@ export async function getSalesDataInATimeRange(obj) {
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
+    setFunction && setFunction(response.data.respondedData)
   } catch (error) {
     clearTimeout(timerId)
 
@@ -479,7 +479,7 @@ export async function createAgent(body, setIsError) {
 
     clearTimeout(timerId)
 
-    return response.data
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -514,7 +514,7 @@ export async function createLead(body, setIsError) {
 
     clearTimeout(timerId)
 
-    return response.data
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -549,7 +549,7 @@ export async function createEvent(body, setIsError) {
 
     clearTimeout(timerId)
 
-    return response.data
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -586,7 +586,7 @@ export async function updateLeadById(obj) {
 
     clearTimeout(timerId)
 
-    return response.data
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -623,7 +623,7 @@ export async function updateAgentById(obj) {
 
     clearTimeout(timerId)
 
-    return response.data
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -660,7 +660,7 @@ export async function postAgentComment(obj) {
 
     clearTimeout(timerId)
 
-    return response.data
+    return response.data.respondedData
   } catch (error) {
     clearTimeout(timerId)
 
@@ -696,7 +696,7 @@ export async function getAgentCommentsOnALead(obj) {
 
     clearTimeout(timerId)
 
-    setFunction && setFunction(response.data)
+    setFunction && setFunction(response.data.respondedData)
   } catch (error) {
     clearTimeout(timerId)
 
