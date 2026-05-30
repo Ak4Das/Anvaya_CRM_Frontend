@@ -9,7 +9,7 @@ Built using modern frontend technologies, the project follows component-based ar
 
 ## Demo Link
 
-**[Live Demo](https://anvaya-crm-frontend-phi.vercel.app/)**
+Project deployed **[Live Demo](https://anvaya-crm-frontend-phi.vercel.app/)**
 
 ---
 
@@ -23,20 +23,32 @@ npm run dev
 ```
 
 ## Technologies
-- React JS
-- JavaScript (ES6+)
-- Chart.js
-- React Router
-- React Select
-- Formik
-- Yup Validation
-- Node.js
-- Express
-- MongoDB
-- Axios
-- Bootstrap
-- CSS
-- React Toast
+#### These are the main technologies used to build the application:
+#### _Frontend_
+- **JavaScript (ES6+)**
+- **React.js**
+- **HTML5**
+- **CSS3**
+- **Bootstrap**
+
+#### _Backend_
+- **Node.js**
+- **Express.js**
+
+#### _Database_
+- **MongoDB**
+
+## Libraries & Tools
+#### These help implement specific features:
+- **React Router** (_routing_)
+- **Axios** (_HTTP client_)
+- **Formik** (_form management_)
+- **Yup** (_schema validation_)
+- **Chart.js** (_data visualization_)
+- **React Select** (_enhanced select component_)
+- **React Toastify** (_notifications_)
+- **React Big Calendar** (_calendar_)
+- **Bootstrap Icons** (_Icons_)
 
 ## Demo Video
 Watch a walkthrough (15 - 16 minutes) of all major features of this app:
@@ -136,61 +148,43 @@ The application includes features such as lead management, sales analytics, char
 
 ## API Reference
 
-### **GET	/agents** (List all agents)
+#### **GET	/agents** (List all agents)
 Sample Response:
 
-```
+```javascript
 [{ _id, agentCode, name, ... },...]
 ```
 
-### **GET	/leads?minDay=0&maxDay=30** (Get all leads created in between 30 days)
+#### **GET	/leads?minDay=0&maxDay=30** (Get all leads created in between 30 days)
 Sample Response:
 
-```
+```javascript
 [{ _id, leadCode, name, status, ... },...]
 ```
 
-### **POST	/agents/addAgent** (Create a new agent)
+#### **POST	/agents/addAgent** (Create a new agent)
 Sample Response:
 
-```
+```javascript
 { agentCode, name, dateOfBirth, country, ... }
 ```
 
-### **PATCH	/leads/update/:id** (Update lead by id)
+#### **PATCH	/leads/update/:id** (Update lead by id)
 Sample Response:
 
-```
+```javascript
 { _id, leadCode, name, status, ... }
 ```
 
-### **DELETE	/agents/delete/:id** (Delete agent by id)
+#### **DELETE	/agents/delete/:id** (Delete agent by id)
 Sample Response:
 
-```
+```javascript
 { _id, agentCode, name, dateOfBirth, country, ... }
 ```
-
-## Folder Structure
-
-src/
-
-|__ assets/
-
-|__ components/
-
-|__ pages/
-
-|__ schema/
-
-|__ service/
-
-|__ shimmer_effects/
-
-|__ style_modules/
 
 ## Goal of the Project
 The goal of this project is to build a production-ready CRM frontend that demonstrates modern frontend engineering practices, efficient API handling, clean UI/UX, and scalable application structure suitable for real-world business applications.
 
 ## Contact
-For bugs or feature requests, please reach out to akashdas02052@gmail.com
+For bugs or feature requests, please reach out to **akashdas02052@gmail.com**
