@@ -5,8 +5,8 @@ export const addLeadSchema = yup.object({
     .string()
     .required("Name is required")
     .matches(
-      /^[A-Z][a-z]+(?:\s[A-Z][a-z]+)+$/,
-      "Enter name in format like 'John Doe'",
+      /^[A-Z][a-z]*$/,
+      "Enter name in format like 'John'",
     ),
   source: yup
     .string()

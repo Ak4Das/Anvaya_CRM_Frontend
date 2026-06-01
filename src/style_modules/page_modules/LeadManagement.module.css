@@ -40,7 +40,8 @@
 }
 
 .leadDetailsContainer {
-  text-align: center;
+  /* text-align: center; */
+  text-align: start;
   margin-top: 50px;
 }
 
