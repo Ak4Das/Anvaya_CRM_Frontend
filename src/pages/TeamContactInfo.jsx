@@ -697,60 +697,81 @@ export default function TeamContactInfo() {
                                 className="col-12 col-lg-6"
                                 key={agent.agentCode}
                               >
-                                <div className={`card mb-3 ${styles.card}`}>
-                                  <div className="card-body d-flex gap-2 justify-content-between">
-                                    <div
-                                      className={`${styles.agent_description}`}
-                                    >
-                                      <p>
-                                        <b>Code:</b> {agent.agentCode}
-                                      </p>
-                                      <p>
-                                        <b>Name:</b> {agent.name}
-                                      </p>
-                                      <p>
-                                        <b>Date Of Birth:</b>{" "}
-                                        {agent.dateOfBirth}
-                                      </p>
-                                      <p>
-                                        <b>Country:</b> {agent.country}
-                                      </p>
-                                      <p>
-                                        <b>Email:</b>{" "}
-                                        <span style={{ color: "#70d89d" }}>
-                                          {agent.email}
-                                        </span>
-                                      </p>
-                                      <p>
-                                        <b>Phone Number:</b> {agent.phoneNumber}
-                                      </p>
-                                      <p className="d-block d-sm-none">
-                                        <b>Status:</b>{" "}
-                                        <span style={{ color: "#70d89d" }}>
-                                          {agent.status}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <p>
-                                        <span
-                                          className={`badge ${styles.badge} d-none d-sm-block ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
-                                        >
-                                          {agent.status}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className={`${styles.card_footer}`}>
-                                    <p className="mb-0 p-2">
-                                      <Link
-                                        to={`/salesAgent/${agent._id}`}
-                                        className="btn btn-success btn-sm"
-                                        state={closeMenu}
+                                <div
+                                  className={`mb-3`}
+                                  style={{
+                                    height: "95px",
+                                    overflow: "hidden",
+                                    cursor: "pointer",
+                                  }}
+                                  id={agent.agentCode}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    const element = document.querySelector(
+                                      `#${agent.agentCode}`,
+                                    )
+                                    element.style.height =
+                                      element.style.height === "95px"
+                                        ? "auto"
+                                        : "95px"
+                                  }}
+                                >
+                                  <div className={`card mb-3 ${styles.card}`}>
+                                    <div className="card-body d-flex gap-2 justify-content-between">
+                                      <div
+                                        className={`${styles.agent_description}`}
                                       >
-                                        View Profile
-                                      </Link>
-                                    </p>
+                                        <p>
+                                          <b>Code:</b> {agent.agentCode}
+                                        </p>
+                                        <p>
+                                          <b>Name:</b> {agent.name}
+                                        </p>
+                                        <p>
+                                          <b>Date Of Birth:</b>{" "}
+                                          {agent.dateOfBirth}
+                                        </p>
+                                        <p>
+                                          <b>Country:</b> {agent.country}
+                                        </p>
+                                        <p>
+                                          <b>Email:</b>{" "}
+                                          <span style={{ color: "#70d89d" }}>
+                                            {agent.email}
+                                          </span>
+                                        </p>
+                                        <p>
+                                          <b>Phone Number:</b>{" "}
+                                          {agent.phoneNumber}
+                                        </p>
+                                        <p className="d-block d-sm-none">
+                                          <b>Status:</b>{" "}
+                                          <span style={{ color: "#70d89d" }}>
+                                            {agent.status}
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p>
+                                          <span
+                                            className={`badge ${styles.badge} d-none d-sm-block ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
+                                          >
+                                            {agent.status}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className={`${styles.card_footer}`}>
+                                      <p className="mb-0 p-2">
+                                        <Link
+                                          to={`/salesAgent/${agent._id}`}
+                                          className="btn btn-success btn-sm"
+                                          state={closeMenu}
+                                        >
+                                          View Profile
+                                        </Link>
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

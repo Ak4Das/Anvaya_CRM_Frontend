@@ -119,7 +119,7 @@ export async function getLeadsDataInATimeRange(obj) {
 
   const timerId = setTimeout(() => {
     controller.abort()
-  }, 10000)
+  }, 100000)
 
   try {
     const response = await axios.get(

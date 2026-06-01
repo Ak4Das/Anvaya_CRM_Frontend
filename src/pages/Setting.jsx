@@ -979,70 +979,90 @@ export default function Settings() {
                                 className="col-12 col-lg-6"
                                 key={agent.agentCode}
                               >
-                                <div className={`card mb-3 ${styles.card}`}>
-                                  <div className="card-body d-flex gap-2 justify-content-between">
-                                    <div
-                                      className={`${styles.agent_description}`}
-                                    >
-                                      <p>
-                                        <b>Code:</b> {agent.agentCode}
-                                      </p>
-                                      <p>
-                                        <b>Name:</b> {agent.name}
-                                      </p>
-                                      <p>
-                                        <b>Role:</b> {agent.role}
-                                      </p>
-                                      <p className="d-block d-sm-none">
-                                        <b>Status:</b>{" "}
-                                        <span style={{ color: "#70d89d" }}>
-                                          {agent.status}
-                                        </span>
-                                      </p>
-                                      <p>
-                                        <b>Joined Date:</b> {agent.joinedDate}
-                                      </p>
-                                      <p>
-                                        <b>Department:</b> {agent.department}
-                                      </p>
-                                      <p>
-                                        <b>Manager:</b>{" "}
-                                        {getManagerNameById(agent.manager)}
-                                      </p>
-                                      <p>
-                                        <b>Location:</b> {agent.location}
-                                      </p>
-                                      <p className="mb-0">
-                                        <b>Performance Score:</b>{" "}
-                                        <span style={{ color: "#70d89d" }}>
-                                          {overallPerformanceScores.length &&
-                                            getPerformanceScoreByAgentId(
-                                              agent._id,
-                                            )}{" "}
-                                          / 10
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <p>
-                                        <span
-                                          className={`badge d-none d-sm-block ${styles.badge} ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
-                                        >
-                                          {agent.status}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <div className={`${styles.card_footer}`}>
-                                    <p className="mb-0 p-2">
-                                      <button
-                                        className="btn btn-danger btn-sm"
-                                        value={agent._id}
-                                        onClick={removeAgent}
+                                <div
+                                  className={`mb-3`}
+                                  style={{
+                                    height: "95px",
+                                    overflow: "hidden",
+                                    cursor: "pointer",
+                                  }}
+                                  id={agent.agentCode}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    const element = document.querySelector(
+                                      `#${agent.agentCode}`,
+                                    )
+                                    element.style.height =
+                                      element.style.height === "95px"
+                                        ? "auto"
+                                        : "95px"
+                                  }}
+                                >
+                                  <div className={`card mb-3 ${styles.card}`}>
+                                    <div className="card-body d-flex gap-2 justify-content-between">
+                                      <div
+                                        className={`${styles.agent_description}`}
                                       >
-                                        Remove
-                                      </button>
-                                    </p>
+                                        <p>
+                                          <b>Code:</b> {agent.agentCode}
+                                        </p>
+                                        <p>
+                                          <b>Name:</b> {agent.name}
+                                        </p>
+                                        <p>
+                                          <b>Role:</b> {agent.role}
+                                        </p>
+                                        <p className="d-block d-sm-none">
+                                          <b>Status:</b>{" "}
+                                          <span style={{ color: "#70d89d" }}>
+                                            {agent.status}
+                                          </span>
+                                        </p>
+                                        <p>
+                                          <b>Joined Date:</b> {agent.joinedDate}
+                                        </p>
+                                        <p>
+                                          <b>Department:</b> {agent.department}
+                                        </p>
+                                        <p>
+                                          <b>Manager:</b>{" "}
+                                          {getManagerNameById(agent.manager)}
+                                        </p>
+                                        <p>
+                                          <b>Location:</b> {agent.location}
+                                        </p>
+                                        <p className="mb-0">
+                                          <b>Performance Score:</b>{" "}
+                                          <span style={{ color: "#70d89d" }}>
+                                            {overallPerformanceScores.length &&
+                                              getPerformanceScoreByAgentId(
+                                                agent._id,
+                                              )}{" "}
+                                            / 10
+                                          </span>
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p>
+                                          <span
+                                            className={`badge d-none d-sm-block ${styles.badge} ${agent.status === "Active" ? "text-bg-success" : "text-bg-danger"}`}
+                                          >
+                                            {agent.status}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className={`${styles.card_footer}`}>
+                                      <p className="mb-0 p-2">
+                                        <button
+                                          className="btn btn-danger btn-sm"
+                                          value={agent._id}
+                                          onClick={removeAgent}
+                                        >
+                                          Remove
+                                        </button>
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
