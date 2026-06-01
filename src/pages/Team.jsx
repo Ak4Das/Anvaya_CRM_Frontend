@@ -280,24 +280,33 @@ export default function Team() {
                   <div
                     className={`${tableStyles.filter_dropdown_menu} ${tableStyles.filter_btn_container}`}
                   >
-                    <div
-                      className={`btn ${tableStyles.button}`}
-                      onClick={() => {
-                        sortAgentsDataInAscOrderByProp(selectedFilterOption)
-                        applySort(true)
-                      }}
-                    >
-                      Sort by ASC
-                    </div>
-                    <div
-                      className={`btn ${tableStyles.button}`}
-                      onClick={() => {
-                        sortAgentsDataInDescOrderByProp(selectedFilterOption)
-                        applySort(true)
-                      }}
-                    >
-                      Sort by DESC
-                    </div>
+                    {selectedFilterOption !== "status" ? (
+                      <div
+                        className={`btn ${tableStyles.button}`}
+                        onClick={() => {
+                          sortAgentsDataInAscOrderByProp(selectedFilterOption)
+                          applySort(true)
+                        }}
+                      >
+                        Sort by ASC
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {selectedFilterOption !== "status" ? (
+                      <div
+                        className={`btn ${tableStyles.button}`}
+                        onClick={() => {
+                          sortAgentsDataInDescOrderByProp(selectedFilterOption)
+                          applySort(true)
+                        }}
+                      >
+                        Sort by DESC
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
                     {selectedFilterOption !== "agentCode" &&
                     selectedFilterOption !== "performanceScore" ? (
                       <div
@@ -539,24 +548,6 @@ export default function Team() {
                               <div
                                 className={`${tableStyles.filter_btn_container}`}
                               >
-                                <div
-                                  className={`btn ${tableStyles.button}`}
-                                  onClick={() => {
-                                    sortAgentsDataInAscOrderByProp("status")
-                                    applySort(true)
-                                  }}
-                                >
-                                  Sort by ASC
-                                </div>
-                                <div
-                                  className={`btn ${tableStyles.button}`}
-                                  onClick={() => {
-                                    sortAgentsDataInDescOrderByProp("status")
-                                    applySort(true)
-                                  }}
-                                >
-                                  Sort by DESC
-                                </div>
                                 <div
                                   className={`btn ${tableStyles.button}`}
                                   onClick={() => setOpenFilterInput("status")}
