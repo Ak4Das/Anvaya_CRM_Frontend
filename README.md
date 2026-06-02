@@ -67,7 +67,7 @@ node index.js
 
 ## Demo Video
 
-Watch a walkthrough (5 - 7 minutes) of all major features of this app: **[Loom Video Link]()**
+Watch a walkthrough (7 - 8 minutes) of all major features of this app: **[Loom Video Link](https://drive.google.com/file/d/1fbfX9GoFOpgO81jOeBe6e-lQoaUSvUvc/view?usp=sharing)**
 
 ## Key Features
 
@@ -90,6 +90,7 @@ The application includes features such as lead management, sales analytics, char
 
 * Displays the number of leads in the pipeline grouped by status.
 * Displays overall agent performance through charts and tabular reports.
+
   ![Dashboard](./screenshots/Dashboard.png)
 
 **Team Page**
@@ -97,18 +98,21 @@ The application includes features such as lead management, sales analytics, char
 * Displays list of all team members with their details in table format
 * You can sort data in ascending and descending order and filter using search by category
 * This page contains Add New Agent btn
+
   ![Team](./screenshots/TeamPage.png)
 
 **Team Contact Info Page**
 
 * Displays contact info of team members in table format
 * You can sort data in ascending and descending order and filter using search by category
+
   ![Team Contact](./screenshots/TeamContact.png)
 
 **Sales Page**
 
 * Displays sales data with agent id, email, name in table format
 * You can sort data in ascending and descending order and filter using search by category
+
   ![Sales](./screenshots/SalesPage.png)
 
 **Lead Page**
@@ -116,6 +120,7 @@ The application includes features such as lead management, sales analytics, char
 * Displays a list of all leads currently in the pipeline with necessary details in table format
 * You can sort data in ascending and descending order and filter using search by category
 * This page contains Add New lead btn
+
   ![Leads](./screenshots/LeadsPage.png)
 
 **Sales Agent Page**
@@ -124,6 +129,7 @@ The application includes features such as lead management, sales analytics, char
 * Contains leads data handled by the agent in table format
 * You can sort data in ascending and descending order and filter using search by category
 * It contains Edit Agent btn
+
   ![Sales Agents](./screenshots/SalesAgentPage1.png)
   ![Sales Agents](./screenshots/SalesAgentPage2.png)
 
@@ -133,6 +139,7 @@ The application includes features such as lead management, sales analytics, char
 * Contains comment section with two subsection previous comment section and add comment section
 * You can add new comment here and see the previous comments also
 * It contains Edit Lead Details btn
+
   ![Lead Management](./screenshots/LeadManagementPage1.png)
   ![Lead Management](./screenshots/LeadManagementPage2.png)
 
@@ -140,30 +147,35 @@ The application includes features such as lead management, sales analytics, char
 
 * Here you can add new agent
 * Form is handled by formik and validate by yup
+
   ![Add Agent Form](./screenshots/AddNewAgentForm.png)
 
 **Add New Lead Form**
 
 * Here you can create new lead
 * Form is handled by formik and validate by yup
+
   ![Add Lead Form](./screenshots/AddNewLeadForm.png)
 
 **Edit Lead Form**
 
 * Here you can edit existing lead
 * Form is handled by formik and validate by yup
+
   ![Edit Lead Form](./screenshots/EditLeadForm.png)
 
 **Edit Agent Form**
 
 * Here you can edit existing agent
 * Form is handled by formik and validate by yup
+
   ![Edit Agent Form](./screenshots/EditAgentForm.png)
 
 **Reports Page**
 
 * Displays reports of the agents and leads
 * From dropdown you can select time frame to see reports in the selected time frame
+
   ![Reports](./screenshots/ReportsPage.png)
 
 **Settings Page**
@@ -171,16 +183,19 @@ The application includes features such as lead management, sales analytics, char
 * From this page you can delete a particular agent
 * This page displays list of all team members with their details in table format
 * You can sort data in ascending and descending order and filter using search by category
+
   ![Settings](./screenshots/SettingsPage.png)
 
 **Calendar Page**
 
 * This page displays calendar to show past, present and future events and add event button
+
   ![Calendar](./screenshots/CalendarPage.png)
 
 **Add Event Page**
 
 * This page contains add event form
+
   ![Add Event Form](./screenshots/AddEventForm.png)
 
 **Request Optimization**
@@ -200,8 +215,11 @@ The application includes features such as lead management, sales analytics, char
 
 * App is responsive till **350px**
 * **Tab view**
+
   ![Tab View](./screenshots/TabView.png)
+  
 * **Mobile view**
+
   ![Mobile View](./screenshots/MobileView.png)
 
 ## Architecture Highlights
