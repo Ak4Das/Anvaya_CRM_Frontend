@@ -23,9 +23,10 @@ export default function MyCalendar() {
   const [events, setEvents] = useState([])
 
   const formattedEvents = events.map((event) => ({
-    ...event,
-    start: new Date(event.start),
-    end: new Date(event.end),
+    id: event._id,
+    title: event.title,
+    start: event.start,
+    end: event.end,
   }))
 
   useEffect(() => {
