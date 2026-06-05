@@ -14,7 +14,7 @@ export default function navBar(prop) {
           <i className="bi bi-list"></i>
         </button>
         <div className={`${styles.name_container}`}>
-          <h2 className={`${styles.name}`}>Anvaya CRM</h2>
+          <h2 className={`${styles.name}`}>PulseCRM</h2>
           <h5 className={`${styles.name_description}`}>
             Agent Performance Monitor
           </h5>
