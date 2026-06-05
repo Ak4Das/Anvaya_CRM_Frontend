@@ -1,6 +1,6 @@
-# Anvaya_CRM
+# PulseCRM
 
-Anvaya_CRM Frontend is a modern and responsive Customer Relationship Management (CRM) web application built to streamline lead management, sales tracking, and business operations. The project focuses on delivering a smooth user experience with efficient state management, dynamic data visualization, advanced filtering, and scalable frontend architecture.
+PulseCRM Frontend is a modern and responsive Customer Relationship Management (CRM) web application built to streamline lead management, sales tracking, and business operations. The project focuses on delivering a smooth user experience with efficient state management, dynamic data visualization, advanced filtering, and scalable frontend architecture.
 
 Built using modern frontend technologies, the project follows component-based architecture and clean coding practices to ensure scalability and easy maintenance. The frontend communicates seamlessly with backend APIs while handling loading states, request cancellation, retries, and error management efficiently.
 
@@ -11,8 +11,8 @@ Deployed project **[Live Demo](https://anvaya-crm-frontend-phi.vercel.app/)**
 ## Frontend Setup
 
 ```bash
-git clone https://github.com/Ak4Das/Anvaya_CRM_Frontend.git
-cd Anvaya_CRM_Frontend
+git clone https://github.com/Ak4Das/PulseCRM_Frontend.git
+cd PulseCRM_Frontend
 npm install
 touch .env
 put 'VITE_MODE = DEVELOPMENT' in your .env file
@@ -22,8 +22,8 @@ npm run dev
 ## Backend Setup
 
 ```bash
-git clone https://github.com/Ak4Das/Anvaya_CRM_Backend.git
-cd Anvaya_CRM_Backend
+git clone https://github.com/Ak4Das/PulseCRM_Backend.git
+cd PulseCRM_Backend
 npm install
 touch .env
 put 'MONGODB = <your mongodbUri>' in your .env file
