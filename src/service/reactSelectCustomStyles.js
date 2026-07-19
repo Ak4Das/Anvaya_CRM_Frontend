@@ -1,5 +1,5 @@
   export const customStyles = {
-    control: (provided, state) => ({
+    control: (provided) => ({
       ...provided,
       backgroundColor: "transparent",
       color: "#ffffff",
@@ -34,7 +34,7 @@
   }
 
   export const customStylesForReportPage = {
-    control: (provided, state) => ({
+    control: (provided) => ({
       ...provided,
       backgroundColor: "purple",
       color: "#ffffff",
