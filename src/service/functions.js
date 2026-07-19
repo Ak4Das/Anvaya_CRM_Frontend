@@ -2,164 +2,94 @@ export function sortArrayOfObjectsInAscendingOrderByPropertyContainingString(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      const firstCharacterOfI = arr[i][prop][0].toLowerCase()
-      const firstCharacterOfJ = arr[j][prop][0].toLowerCase()
-      if (firstCharacterOfI > firstCharacterOfJ) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => {
+    const firstCharA = (a[prop]?.[0] || "").toLowerCase()
+    const firstCharB = (b[prop]?.[0] || "").toLowerCase()
+    return firstCharA.localeCompare(firstCharB)
+  })
 }
 
 export function sortArrayOfObjectsInDescendingOrderByPropertyContainingString(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      const firstCharacterOfI = arr[i][prop][0].toLowerCase()
-      const firstCharacterOfJ = arr[j][prop][0].toLowerCase()
-      if (firstCharacterOfI < firstCharacterOfJ) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => {
+    const firstCharA = (a[prop]?.[0] || "").toLowerCase()
+    const firstCharB = (b[prop]?.[0] || "").toLowerCase()
+    return firstCharB.localeCompare(firstCharA)
+  })
 }
 
 export function sortArrayOfObjectsInAscendingOrderByPropertyContainingCodeNumber(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
-      const numberOfJ = Number(arr[j][prop].replace(/.*-/, ""))
-      if (numberOfI > numberOfJ) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => {
+    const numA = Number((a[prop] || "").replace(/.*-/, ""))
+    const numB = Number((b[prop] || "").replace(/.*-/, ""))
+    return numA - numB
+  })
 }
 
 export function sortArrayOfObjectsInDescendingOrderByPropertyContainingCodeNumber(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      const numberOfI = Number(arr[i][prop].replace(/.*-/, ""))
-      const numberOfJ = Number(arr[j][prop].replace(/.*-/, ""))
-      if (numberOfI < numberOfJ) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => {
+    const numA = Number((a[prop] || "").replace(/.*-/, ""))
+    const numB = Number((b[prop] || "").replace(/.*-/, ""))
+    return numB - numA
+  })
 }
 
 export function sortArrayOfObjectsInAscendingOrderByPropertyContainingNumber(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i][prop] > arr[j][prop]) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => a[prop] - b[prop])
 }
 
 export function sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i][prop] < arr[j][prop]) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => b[prop] - a[prop])
 }
 
 export function sortArrayOfObjectsInAscendingOrderByPropertyContainingDate(
   arr,
   prop,
 ) {
-  arr.sort((a, b) => new Date(a[prop] || 0) - new Date(b[prop] || 0))
-  return arr
+  return arr.sort((a, b) => new Date(a[prop] || 0) - new Date(b[prop] || 0))
 }
 
 export function sortArrayOfObjectsInDescendingOrderByPropertyContainingDate(
   arr,
   prop,
 ) {
-  arr.sort((a, b) => new Date(b[prop] || 0) - new Date(a[prop] || 0))
-  return arr
+  return arr.sort((a, b) => new Date(b[prop] || 0) - new Date(a[prop] || 0))
 }
 
 export function sortArrayOfObjectsInAscendingOrderByPropertyContainingPhoneNumber(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
-      const secondNumber = Number(arr[j][prop].replace(/^\(\+\d+\)/, ""))
-      if (firstNumber > secondNumber) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => {
+    const numA = Number((a[prop] || "").replace(/^\(\+\d+\)/, ""))
+    const numB = Number((b[prop] || "").replace(/^\(\+\d+\)/, ""))
+    return numA - numB
+  })
 }
 
 export function sortArrayOfObjectsInDescendingOrderByPropertyContainingPhoneNumber(
   arr,
   prop,
 ) {
-  for (let i = 0; i < arr.length; ) {
-    for (let j = i + 1; j < arr.length; j++) {
-      const firstNumber = Number(arr[i][prop].replace(/^\(\+\d+\)/, ""))
-      const secondNumber = Number(arr[j][prop].replace(/^\(\+\d+\)/, ""))
-      if (firstNumber < secondNumber) {
-        const a = arr[i]
-        arr[i] = arr[j]
-        arr[j] = a
-      }
-    }
-    i++
-  }
-  return arr
+  return arr.sort((a, b) => {
+    const numA = Number((a[prop] || "").replace(/^\(\+\d+\)/, ""))
+    const numB = Number((b[prop] || "").replace(/^\(\+\d+\)/, ""))
+    return numB - numA
+  })
 }
 
 export function capitalizeFirstLetter(string) {
