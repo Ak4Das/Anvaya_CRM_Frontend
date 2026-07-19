@@ -196,7 +196,6 @@ export async function oneYearAgentsPerformanceReportPieChart(obj) {
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  const label = context.label
                   const value = context.raw
 
                   const id = context.dataset.ids[context.dataIndex]
@@ -453,7 +452,6 @@ export async function leadsClosedBySalesAgentsBarChart(obj) {
           },
         },
         data: {
-          labels: data.map((row) => row.name),
           datasets: [
             {
               data: data.map((row) => ({
