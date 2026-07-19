@@ -66,41 +66,48 @@ function App() {
       const updatedData = await Promise.all(
         salesAgent.map(async (agent) => {
           try {
-            const assignedLead = await getLeadDataByPropertyInATimeRange(
-              { salesAgent: agent._id },
-              360,
-              undefined,
-              setIsError,
-            )
-            const closedLead = await getLeadDataByPropertyInATimeRange(
-              { salesAgent: agent._id, status: "Closed" },
-              360,
-              undefined,
-              setIsError,
-            )
-            agent.assignedLead = assignedLead.length
-            agent.closedLead = closedLead.length
-            const performanceScore = assignedLead.length
-              ? Number(
-                  ((agent.closedLead / agent.assignedLead) * 10).toFixed(1),
-                )
+            const [assignedLead, closedLead] = await Promise.all([
+              getLeadDataByPropertyInATimeRange(
+                { salesAgent: agent._id },
+                360,
+                undefined,
+                setIsError,
+              ),
+              getLeadDataByPropertyInATimeRange(
+                { salesAgent: agent._id, status: "Closed" },
+                360,
+                undefined,
+                setIsError,
+              ),
+            ])
+
+            const assignedCount = assignedLead.length
+            const closedCount = closedLead.length
+            const performanceScore = assignedCount
+              ? Number(((closedCount / assignedCount) * 10).toFixed(1))
               : 0
-            agent.performanceScore = performanceScore
-            return agent
+
+            return {
+              ...agent,
+              assignedLead: assignedCount,
+              closedLead: closedCount,
+              performanceScore,
+            }
           } catch (error) {
             if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
               console.error(error)
             }
             setIsError(error.message)
+            return agent
           }
         }),
       )
-      const sortAgentsByPerformanceScore =
+      const sortedAgents =
         sortArrayOfObjectsInDescendingOrderByPropertyContainingNumber(
           updatedData,
           "performanceScore",
         )
-      setSortAgentsByPerformanceScore(sortAgentsByPerformanceScore)
+      setSortAgentsByPerformanceScore(sortedAgents)
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(error)
@@ -137,39 +144,41 @@ function App() {
   async function fetchData(setLoading, setIsError) {
     try {
       setLoading(true)
-
-      await getLeadDataByPropertyInATimeRange(
-        { status: "New" },
-        30,
-        setNewLeadsData,
-        setIsError,
-      )
-      await getLeadDataByPropertyInATimeRange(
-        { status: "Contacted" },
-        30,
-        setContactedLeadsData,
-        setIsError,
-      )
-      await getLeadDataByPropertyInATimeRange(
-        { status: "Qualified" },
-        30,
-        setQualifiedLeadsData,
-        setIsError,
-      )
-      await getLeadDataByPropertyInATimeRange(
-        { status: "Proposal Sent" },
-        30,
-        setProposalSentLeadsData,
-        setIsError,
-      )
-      await getLeadDataByPropertyInATimeRange(
-        { status: "Closed" },
-        30,
-        setClosedLeadsData,
-        setIsError,
-      )
       const filterString = JSON.stringify({ isInTeam: true })
-      await filterAgentsByProperties(filterString, setSalesAgent, setIsError)
+
+      await Promise.all([
+        getLeadDataByPropertyInATimeRange(
+          { status: "New" },
+          30,
+          setNewLeadsData,
+          setIsError,
+        ),
+        getLeadDataByPropertyInATimeRange(
+          { status: "Contacted" },
+          30,
+          setContactedLeadsData,
+          setIsError,
+        ),
+        getLeadDataByPropertyInATimeRange(
+          { status: "Qualified" },
+          30,
+          setQualifiedLeadsData,
+          setIsError,
+        ),
+        getLeadDataByPropertyInATimeRange(
+          { status: "Proposal Sent" },
+          30,
+          setProposalSentLeadsData,
+          setIsError,
+        ),
+        getLeadDataByPropertyInATimeRange(
+          { status: "Closed" },
+          30,
+          setClosedLeadsData,
+          setIsError,
+        ),
+        filterAgentsByProperties(filterString, setSalesAgent, setIsError),
+      ])
     } catch (error) {
       if (import.meta.env.VITE_MODE === "DEVELOPMENT") {
         console.error(error)
