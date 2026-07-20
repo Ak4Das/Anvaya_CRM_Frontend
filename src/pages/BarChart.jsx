@@ -79,14 +79,8 @@ export default function BarChart() {
 
   async function getLeadsClosedBySalesAgents(endDay) {
     try {
-      const filterString = JSON.stringify({ isInTeam: true })
-      const agents = await filterAgentsByProperties(
-        filterString,
-        undefined,
-        setIsError,
-      )
       const data = await Promise.all(
-        agents.map(async (agent) => {
+        salesAgent.map(async (agent) => {
           try {
             const leadsClosedByAgent = await getLeadDataByPropertyInATimeRange(
               {
@@ -145,7 +139,7 @@ export default function BarChart() {
   }, [salesAgent])
 
   useEffect(() => {
-    if (getThirtyDaysPerformanceReport.length && !loading) {
+    if (getThirtyDaysPerformanceReport.length) {
       getThirtyDaysPerformanceReportChartInstance.current?.destroy()
       getThirtyDaysPerformanceReportChartInstance.current = null
       thirtyDaysAgentsPerformanceReportBarChart({
@@ -154,7 +148,7 @@ export default function BarChart() {
         chartInstance: getThirtyDaysPerformanceReportChartInstance,
       })
     }
-  }, [getThirtyDaysPerformanceReport, loading])
+  }, [getThirtyDaysPerformanceReport])
 
   useEffect(() => {
     if (leadsClosedBySalesAgents.length) {

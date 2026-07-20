@@ -59,7 +59,10 @@ export async function thirtyDaysAgentsPerformanceReportBarChart(obj) {
           responsive: true,
           maintainAspectRatio: false,
           devicePixelRatio: window.devicePixelRatio,
-          animation: false,
+          animation: {
+            duration: 500,
+            easing: "easeInOutCubic",
+          },
         },
         data: {
           datasets: [
