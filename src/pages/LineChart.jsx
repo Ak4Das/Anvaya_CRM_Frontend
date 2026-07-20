@@ -96,8 +96,6 @@ export default function LineChart() {
 
   useEffect(() => {
     if (getSixMonthsPerformanceReport.length) {
-      getSixMonthsPerformanceReportChartInstance.current?.destroy()
-      getSixMonthsPerformanceReportChartInstance.current = null
       sixMonthsAgentsPerformanceReportLineChart({
         data: getSixMonthsPerformanceReport,
         chartRef: getSixMonthsPerformanceReportChartRef,
