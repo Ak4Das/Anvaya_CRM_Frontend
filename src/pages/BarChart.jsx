@@ -140,8 +140,6 @@ export default function BarChart() {
 
   useEffect(() => {
     if (getThirtyDaysPerformanceReport.length) {
-      getThirtyDaysPerformanceReportChartInstance.current?.destroy()
-      getThirtyDaysPerformanceReportChartInstance.current = null
       thirtyDaysAgentsPerformanceReportBarChart({
         data: getThirtyDaysPerformanceReport,
         chartRef: getThirtyDaysPerformanceReportChartRef,
@@ -152,8 +150,6 @@ export default function BarChart() {
 
   useEffect(() => {
     if (leadsClosedBySalesAgents.length) {
-      leadsClosedBySalesAgentsBarChartInstance.current?.destroy()
-      leadsClosedBySalesAgentsBarChartInstance.current = null
       leadsClosedBySalesAgentsBarChart({
         data: leadsClosedBySalesAgents,
         chartRef: leadsClosedBySalesAgentsBarChartRef,
